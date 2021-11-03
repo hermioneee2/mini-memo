@@ -7,7 +7,14 @@ const AddMemoPresenter = () => {
   return (
     <Affix offsetBottom={30}>
       <PlusCircleFilled
-        style={{ fontSize: 60, color: "#F0BF39", cursor: "pointer" }}
+        style={{
+          fontSize: 60,
+          color: "#F0BF39",
+          cursor: "pointer",
+          position: "absolute",
+          bottom: '55px',
+          right: '55px',
+        }}
       />
     </Affix>
   );
