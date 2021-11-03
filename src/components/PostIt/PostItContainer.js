@@ -1,9 +1,7 @@
 import PostItPresenter from "./PostItPresenter";
 
 const PostItContainer = () => {
-    return (
-        <PostItPresenter/>
-    );
+  return <PostItPresenter />;
 };
 
 export default PostItContainer;

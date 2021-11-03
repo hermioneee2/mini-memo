@@ -1,38 +1,43 @@
-
 import {
-    BarsOutlined,
-    AppstoreOutlined,
-    DeleteOutlined,
-    SettingOutlined,
+  BarsOutlined,
+  AppstoreOutlined,
+  DeleteOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { Affix, Button, Dropdown } from "antd";
 import React from "react";
 import styled from "styled-components";
 
 const HeaderPresenter = () => {
-    return (
+  return (
     <Affix offsetTop={0}>
-        <Header>
-            <span
-                style={{
-                color: "#F0BF39",
-                fontFamily: "Open Sans",
-                fontSize: 30,
-                fontWeight: 800,
-                marginLeft: 20,
-                }}
-            >
-                Mini Memo
-            </span>
-            <HeaderButtonWrapper>
-                <BarsOutlined style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }} />
-                <DeleteOutlined style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }} />
-                <SettingOutlined style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }} />
-            </HeaderButtonWrapper>
-        </Header>
-        <HeaderBottomOutline></HeaderBottomOutline>
+      <Header>
+        <span
+          style={{
+            color: "#F0BF39",
+            fontFamily: "Open Sans",
+            fontSize: 30,
+            fontWeight: 800,
+            marginLeft: 20,
+          }}
+        >
+          Mini Memo
+        </span>
+        <HeaderButtonWrapper>
+          <BarsOutlined
+            style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
+          />
+          <DeleteOutlined
+            style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
+          />
+          <SettingOutlined
+            style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
+          />
+        </HeaderButtonWrapper>
+      </Header>
+      <HeaderBottomOutline></HeaderBottomOutline>
     </Affix>
-    );
+  );
 };
 
 const Header = styled.div`

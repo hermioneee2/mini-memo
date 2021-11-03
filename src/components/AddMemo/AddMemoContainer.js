@@ -1,9 +1,7 @@
 import AddMemoPresenter from "./AddMemoPresenter";
 
 const AddMemoContainer = () => {
-    return (
-        <AddMemoPresenter/>
-    );
+  return <AddMemoPresenter />;
 };
 
 export default AddMemoContainer;

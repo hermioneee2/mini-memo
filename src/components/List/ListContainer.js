@@ -1,9 +1,7 @@
 import ListPresenter from "./ListPresenter";
 
 const ListContainer = () => {
-    return (
-        <ListPresenter/>
-    );
+  return <ListPresenter />;
 };
 
 export default ListContainer;
