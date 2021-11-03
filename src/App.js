@@ -1,13 +1,16 @@
 import Header from "./components/Header";
+import PostIt from "./components/PostIt";
+import List from "./components/List";
+import AddMemo from "./components/AddMemo";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <Header />
-      </header>
+      <Header />
+      <AddMemo />
+      <PostIt />
     </div>
   );
-}
+};
 
 export default App;
