@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 const AddMemoContainer = ({ setter }) => {
   const onClickShow = () => {
-    console.log(setter);
     setter();
   };
 
