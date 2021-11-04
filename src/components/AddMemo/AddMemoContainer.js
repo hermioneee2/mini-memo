@@ -6,10 +6,10 @@ const AddMemoContainer = ({ setter }) => {
     console.log(setter);
     setter();
   };
+
   return (
-    <div>
-      <button onClick={onClickShow}>onClickTestButton</button>
-      <AddMemoPresenter onClick={onClickShow}>asdf</AddMemoPresenter>
+    <div onClick={onClickShow}>
+      <AddMemoPresenter>asdf</AddMemoPresenter>
     </div>
   );
 };
