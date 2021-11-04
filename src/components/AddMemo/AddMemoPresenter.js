@@ -1,5 +1,6 @@
 import { PlusCircleFilled } from "@ant-design/icons";
 import React from "react";
+import Editor from "../Editor";
 import { Affix } from "antd";
 import styled from "styled-components";
 
@@ -12,8 +13,8 @@ const AddMemoPresenter = () => {
           color: "#F0BF39",
           cursor: "pointer",
           position: "absolute",
-          bottom: '55px',
-          right: '55px',
+          bottom: "55px",
+          right: "55px",
         }}
       />
     </Affix>

@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 
-const EditorPresenter = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+const EditorPresenter = ({open, setter}) => {
   return (
     <div>
-      <h1>Editor</h1>
-      <button onClick={()=> setModalOpen(true)}>Modal Open</button>
-      <Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
+      <Modal isOpen={open} onRequestClose={() => setter(false)}>
         hello
       </Modal>
     </div>
