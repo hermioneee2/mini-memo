@@ -12,7 +12,7 @@ const style = {
 const ListItemPresenter = ({ title, content }) => {
   return (
     <div style={style}>
-      <FileOutlined /> {title} {content}
+      <FileOutlined /> <strong>{title}</strong> {content}
     </div>
   );
 };
