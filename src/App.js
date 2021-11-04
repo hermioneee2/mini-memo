@@ -4,6 +4,7 @@ import AddMemo from "./components/AddMemo";
 import Editor from "./components/Editor";
 import { useState } from "react";
 import "antd/dist/antd.css";
+import { storeMemo, loadMemoList } from "./memo-storage/memo-localstorage";
 
 const App = () => {
   const [showEditor, setShowEditor] = useState(false);
@@ -16,12 +17,22 @@ const App = () => {
     setShowEditor(false);
   };
 
+  const uidTest = () => {
+    storeMemo("title", "adsf")
+  };
+
+  const listTest = () => {
+    console.log(loadMemoList());
+  }
+
   return (
     <div className="App">
       <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
       <Header />
       <List />
       <AddMemo setter={setShowEditorTrue} />
+      <button onClick={uidTest}>uidTest</button>
+      <button onClick={listTest}>listTest</button>
     </div>
   );
 };
