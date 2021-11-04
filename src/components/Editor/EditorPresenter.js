@@ -12,7 +12,11 @@ const style = {
 const EditorPresenter = ({ isOpen, atSave, atCancel }) => {
   return (
     <div>
-      <Modal isOpen={isOpen} onRequestClose={() => atCancel(false)} style={style}>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => atCancel(false)}
+        style={style}
+      >
         <Input placeholder="Title" />
         <Divider />
         <TextArea rows={10} />

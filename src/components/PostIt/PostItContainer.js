@@ -6,14 +6,14 @@ const PostItContainer = () => {
   const [content, setContent] = useState("wowowow");
 
   const onChangeTitle = (e) => {
-    setTitle(e)
-  }
+    setTitle(e);
+  };
 
   const onChangeContent = (e) => {
-    setContent(e)
-  }
+    setContent(e);
+  };
 
-  return <PostItPresenter title={title} content={content}/>;
+  return <PostItPresenter title={title} content={content} />;
 };
 
 export default PostItContainer;

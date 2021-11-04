@@ -7,21 +7,21 @@ import "antd/dist/antd.css";
 
 const App = () => {
   const [showEditor, setShowEditor] = useState(false);
-  
+
   const setShowEditorTrue = () => {
     setShowEditor(true);
-  }
+  };
 
   const setShowEditorFalse = () => {
     setShowEditor(false);
-  }
+  };
 
   return (
     <div className="App">
-      <Editor isOpen={showEditor} modalClose={setShowEditorFalse}/>
+      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
       <Header />
       <List />
-      <AddMemo setter={setShowEditorTrue}/>
+      <AddMemo setter={setShowEditorTrue} />
     </div>
   );
 };
