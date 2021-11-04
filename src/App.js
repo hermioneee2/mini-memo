@@ -18,7 +18,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Editor open={showEditor} setter={setShowEditorFalse}/>
+      <Editor isOpen={showEditor} modalClose={setShowEditorFalse}/>
       <Header />
       <List />
       <AddMemo setter={setShowEditorTrue}/>

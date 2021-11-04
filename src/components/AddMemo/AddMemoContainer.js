@@ -8,7 +8,7 @@ const AddMemoContainer = ({ setter }) => {
 
   return (
     <div onClick={onClickShow}>
-      <AddMemoPresenter>asdf</AddMemoPresenter>
+      <AddMemoPresenter />
     </div>
   );
 };
