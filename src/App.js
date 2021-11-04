@@ -31,8 +31,6 @@ const App = () => {
       <Header />
       <List />
       <AddMemo setter={setShowEditorTrue} />
-      <button onClick={uidTest}>uidTest</button>
-      <button onClick={listTest}>listTest</button>
     </div>
   );
 };

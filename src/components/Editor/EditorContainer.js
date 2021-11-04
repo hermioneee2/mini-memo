@@ -1,15 +1,15 @@
 import EditorPresenter from "./EditorPresenter";
 import React, { useState } from "react";
+import { storeMemo } from "../../memo-storage/memo-localstorage";
 
 const EditorContainer = ({ isOpen, modalClose }) => {
-  const atSave = () => {
-    console.log("save"); //TODO implement save
+  const atSave = (memoObj) => {
+    storeMemo(memoObj.title, memoObj.content);
     modalClose(false);
   };
 
   const atCancel = () => {
-    console.log("cancel");
-    modalClose(false); //TODO implement cancel
+    modalClose(false);
   };
 
   return (

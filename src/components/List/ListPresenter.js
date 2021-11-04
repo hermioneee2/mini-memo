@@ -1,18 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import ListItem from "../ListItem";
 import { List } from "antd";
-
-const data = [
-  { title: "title1", content: "content1" },
-  { title: "title2", content: "content2" },
-  { title: "title3", content: "content3" },
-  { title: "title4", content: "content4" },
-];
+import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
 const ListPresenter = () => {
+  const [data, setData] = React.useState([]);
   return (
     <List
-      dataSource={data}
+      dataSource={loadMemoList()}
       renderItem={(item) => (
         <List.Item>
           <ListItem title={item.title} content={item.content} />
