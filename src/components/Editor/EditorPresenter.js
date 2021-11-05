@@ -47,9 +47,7 @@ const EditorPresenter = ({ isOpen, atSave, atCancel }) => {
       <Modal isOpen={isOpen} onRequestClose={atCancel} style={style}>
         <Input placeholder="Title" onChange={setMemoObjTitle}/>
         <Divider />
-        
         <EditorComponent value = {memoObj} onChange={setMemoObjContent} />
-        
         <div style={{ marginRight: "10px" }}>
           <Button type="primary" style={{ marginTop: "10px" }} onClick={onSave}>
             Save
