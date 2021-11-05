@@ -22,7 +22,7 @@ class EditorComponent extends Component{
       ]
 
     render(){
-        const { value, onChange } = this.props;
+        const {value, onChange } = this.props;
         return(
             <div style={{height: "350px"}}>
                 <ReactQuill 
@@ -31,7 +31,8 @@ class EditorComponent extends Component{
                     modules={this.modules} 
                     formats={this.formats} 
                     value={value || ''} 
-                    onChange={(content, delta, source, editor) => onChange(editor.getHTML())} />
+                    onChange={(content, delta, source, editor) => onChange(editor.getHTML())} 
+                />
             </div>
         )
     }

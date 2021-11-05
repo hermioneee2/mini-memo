@@ -1,7 +1,7 @@
 import React, { memo, useState } from "react";
 import Modal from "react-modal";
 import { Input, Divider, Button } from "antd";
-import EditorComponent from "../Quill/Quill";
+import EditorComponent from "../Editor/Quill";
 
 const { TextArea } = Input;
 
@@ -18,13 +18,15 @@ const EditorPresenter = ({ isOpen, atSave, atCancel }) => {
 
   const setMemoObjTitle = (e) => {
     let newObj = memoObj
+    //console.log(e)
     newObj.title = e.target.value
     setMemoObj(newObj)
   };
 
   const setMemoObjContent = (e) => {
     let newObj = memoObj
-    newObj.content = e.target.value
+    //console.log(e)
+    newObj.content = e
     setMemoObj(newObj)
   };
 
@@ -38,20 +40,15 @@ const EditorPresenter = ({ isOpen, atSave, atCancel }) => {
     }
   };
   
-  const [desc, setDesc] = useState('');
-  function onEditorChange(value) {
-    setDesc(value)
-}
+  
 
   return (
     <div>
       <Modal isOpen={isOpen} onRequestClose={atCancel} style={style}>
         <Input placeholder="Title" onChange={setMemoObjTitle}/>
         <Divider />
-        {/*
-        <TextArea placeholder="Content" rows={10} onChange={setMemoObjContent} />
-        */}
-        <EditorComponent value ={desc} onChange={setMemoObjContent} />
+        
+        <EditorComponent value = {memoObj} onChange={setMemoObjContent} />
         
         <div style={{ marginRight: "10px" }}>
           <Button type="primary" style={{ marginTop: "10px" }} onClick={onSave}>
