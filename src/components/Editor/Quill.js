@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+const CustomToolbar = () =>(
+    <div id = "toolbar">
+        <button class="ql-bold"></button>
+        <button class="ql-italic"></button>
+        <button class="ql-underline"></button>
+    </div>
+)
+
+
 class EditorComponent extends Component{
     constructor(props){
         super(props);
     }
 
     modules = {
-        toolbar: [
-          ['bold', 'italic', 'underline'],
-          ['link', 'image'],
-        ],
+        toolbar: '#toolbar'
       }
     
       formats = [
@@ -32,8 +38,8 @@ class EditorComponent extends Component{
                     formats={this.formats} 
                     value={value || ''} 
                     onChange={(content, delta, source, editor) => onChange(editor.getHTML())} //can extract only text by getText
-                    
                 />
+                <CustomToolbar/>
             </div>
         )
     }
