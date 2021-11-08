@@ -8,6 +8,23 @@ const CustomToolbar = () =>(
         <button class="ql-italic"></button>
         <button class="ql-underline"></button>
         <button class="ql-link"></button>
+        <select class="ql-color">
+            <option value="rgb(0, 0, 0)" />
+            <option value="rgb(230, 0, 0)" />
+            <option value="rgb(255, 153, 0)" />
+            <option value="rgb(255, 255, 0)" />
+            <option value="rgb(0, 138, 0)" />
+            <option value="rgb(0, 102, 204)" />
+            <option value="rgb(153, 51, 255)" />
+            <option value="rgb(255, 255, 255)" />
+            <option value="rgb(250, 204, 204)" />
+            <option value="rgb(255, 235, 204)" />
+            <option value="rgb(204, 224, 245)" />
+            <option value="rgb(235, 214, 255)" />
+            <option value="rgb(187, 187, 187)" />
+            <option value="rgb(102, 185, 102)" />
+	    </select>
+
     </div>
 )
 
