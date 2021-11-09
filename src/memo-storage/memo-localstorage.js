@@ -21,6 +21,12 @@ export const loadMemo = () => {
   }
 };
 
+export const deleteMemo = (id) =>{
+  const memoList = loadMemo();
+  memoList.filter(item => item.id !== id);
+  localStorage.setItem("memoList", JSON.stringify(memoList));
+}
+
 export const storeMemo = (tile, content) => {
   const memoObj = makeMemoObj(getNextMemoUid(), tile, content);
   const memoList = loadMemo();
