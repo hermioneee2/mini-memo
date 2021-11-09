@@ -22,9 +22,17 @@ export const loadMemo = () => {
 };
 
 export const deleteMemo = (id) =>{
-  const memoList = loadMemo();
-  memoList.filter(item => item.id !== id);
-  localStorage.setItem("memoList", JSON.stringify(memoList));
+  const list = [];
+  const memoList = loadMemoList();
+  memoList.forEach((e) => {
+    if(e.uid !== id)
+      list.push(e);
+  });
+  console.log(localStorage.memoList);
+  localStorage.removeItem("memoList");
+  localStorage.setItem("memoList", JSON.stringify(list));
+  console.log(localStorage.memoList);
+  window.location.reload();
 }
 
 export const storeMemo = (tile, content) => {

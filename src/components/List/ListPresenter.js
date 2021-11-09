@@ -1,7 +1,7 @@
-import {React, useState, useCallback, dataLists} from "react";
+import {React, useState, setState} from "react";
 import ListItem from "../ListItem";
 import { List } from "antd";
-import { loadMemoList,deleteMemo } from "../../memo-storage/memo-localstorage";
+import { loadMemoList, deleteMemo } from "../../memo-storage/memo-localstorage";
 
 const ListPresenter = ({click_num}) => {
   const [delItems, setDelItems] = useState(new Set());
@@ -13,10 +13,9 @@ const ListPresenter = ({click_num}) => {
   };
 
   const delMemo = () => {
-    for(let i = 0; i < delItems.length; i++){
-      deleteMemo(delItems[i]);
-      console.log(delItems[i]);
-    }
+    delItems.forEach((e) => {
+      deleteMemo(e);
+    });
   };
   const deleteButton = () =>{
     if(click_num === 1){
