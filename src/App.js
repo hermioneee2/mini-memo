@@ -1,4 +1,4 @@
-import Header from "./components/Header";
+import MainApp from "./components/MainApp";
 // import List from "./components/List";
 // import AddMemo from "./components/AddMemo";
 // import Editor from "./components/Editor";
@@ -28,7 +28,7 @@ const App = () => {
   return (
     <div className="App">
       {/* <Editor isOpen={showEditor} modalClose={setShowEditorFalse} /> */}
-      <Header />
+      <MainApp />
       {/* <List />
       <AddMemo setter={setShowEditorTrue} /> */}
     </div>
