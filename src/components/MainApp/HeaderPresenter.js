@@ -5,15 +5,12 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { Affix, Button, Dropdown } from "antd";
-import {React, useState} from "react";
+import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 import { storeMemo, loadMemoList } from "../../memo-storage/memo-localstorage";
-
-
-
 
 const HeaderPresenter = () => {
   const [del_click_num, setNumber] = useState(0);
@@ -26,17 +23,19 @@ const HeaderPresenter = () => {
   const setShowEditorFalse = () => {
     setShowEditor(false);
   };
+
   const handleClick = () => {
     setNumber(del_click_num + 1);
-  }
+  };
+
   const clickNum = () => {
-    if (del_click_num % 2 === 1)
-      return 1;
+    if (del_click_num % 2 === 1) return 1;
     return 0;
-  }
+  };
+
   return (
     <div>
-      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />    
+      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
       <Affix offsetTop={0}>
         <Header>
           <span
@@ -55,7 +54,9 @@ const HeaderPresenter = () => {
               style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
             />
             <DeleteOutlined
-              onClick = {() => {handleClick()}}
+              onClick={() => {
+                handleClick();
+              }}
               style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
             />
             <SettingOutlined
@@ -63,10 +64,10 @@ const HeaderPresenter = () => {
             />
           </HeaderButtonWrapper>
         </Header>
-        <HeaderBottomOutline></HeaderBottomOutline>
+        <HeaderBottomOutline />
       </Affix>
-      <List click_num = {clickNum()}/>
       <AddMemo setter={setShowEditorTrue} />
+      <List click_num={clickNum()} />
     </div>
   );
 };
@@ -86,7 +87,7 @@ const HeaderButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   padding-right: 40px;
-  width: 130px;
+  width: 160px;
   justify-content: space-between;
 `;
 
