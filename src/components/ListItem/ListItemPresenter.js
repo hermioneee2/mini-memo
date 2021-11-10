@@ -1,5 +1,6 @@
-import react from "react";
+import React from "react";
 import { FileOutlined } from "@ant-design/icons";
+
 
 const style = {
   height: "63px",
@@ -9,10 +10,11 @@ const style = {
   fontSize: "large",
 };
 
-const ListItemPresenter = ({ title, content }) => {
+const ListItemPresenter = ({ title, content}) => {
   return (
     <div style={style}>
-      <FileOutlined /> <strong>{title}</strong> {content}
+      <FileOutlined />
+      <strong>{title}</strong> {content}
     </div>
   );
 };

@@ -21,6 +21,20 @@ export const loadMemo = () => {
   }
 };
 
+export const deleteMemo = (id) =>{
+  const list = [];
+  const memoList = loadMemoList();
+  memoList.forEach((e) => {
+    if(e.uid !== id)
+      list.push(e);
+  });
+  console.log(localStorage.memoList);
+  localStorage.removeItem("memoList");
+  localStorage.setItem("memoList", JSON.stringify(list));
+  console.log(localStorage.memoList);
+  window.location.reload();
+}
+
 export const storeMemo = (tile, content) => {
   const memoObj = makeMemoObj(getNextMemoUid(), tile, content);
   const memoList = loadMemo();
