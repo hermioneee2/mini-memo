@@ -5,7 +5,6 @@ const ListItemContainer = ({
   title,
   content,
   uid,
-  // click_num,
   checkbox,
   delItems,
   setDelItems,

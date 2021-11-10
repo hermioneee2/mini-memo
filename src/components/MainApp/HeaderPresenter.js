@@ -8,17 +8,23 @@ import { Affix, Button, Dropdown, Menu } from "antd";
 import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
+import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 // import { storeMemo, loadMemoList } from "../../memo-storage/memo-localstorage";
 import { loadMemoList, deleteMemo } from "../../memo-storage/memo-localstorage";
 
 const HeaderPresenter = () => {
-  // const [del_click_num, setNumber] = useState(0);
+  const DISP = {
+    LIST: "list",
+    POSTIT: "postit",
+  };
+
   const [showEditor, setShowEditor] = useState(false);
-  const [showCheckbox, setShowCheckbox] = useState(false);
-  const [delItems, setDelItems] = useState(new Set());
-  const [visible, setVisible] = useState(false);
+  const [showCheckbox, setShowCheckbox] = useState(false); // for delete
+  const [delItems, setDelItems] = useState(new Set()); // for delete
+  const [visible, setVisible] = useState(false); // for delete
+  const [display, setDisplay] = useState(DISP.LIST);
 
   const setShowEditorTrue = () => {
     setShowEditor(true);
@@ -44,6 +50,14 @@ const HeaderPresenter = () => {
     setShowCheckbox(false);
   };
 
+  const handleDispChange = () => {
+    if (display == DISP.POSTIT) {
+      setDisplay(DISP.LIST);
+    } else {
+      setDisplay(DISP.POSTIT);
+    }
+  };
+
   const deleteButton = (
     <Menu>
       <Menu.Item
@@ -60,7 +74,7 @@ const HeaderPresenter = () => {
   );
 
   return (
-    <div>
+    <Wrapper>
       <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
       <Affix offsetTop={0}>
         <Header>
@@ -76,9 +90,18 @@ const HeaderPresenter = () => {
             Mini Memo
           </span>
           <HeaderButtonWrapper>
-            <BarsOutlined
-              style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-            />
+            {display == DISP.POSTIT && (
+              <BarsOutlined
+                onClick={handleDispChange}
+                style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
+              />
+            )}
+            {display == DISP.LIST && (
+              <AppstoreOutlined
+                onClick={handleDispChange}
+                style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
+              />
+            )}
             <Dropdown
               overlay={deleteButton}
               trigger={["click"]}
@@ -99,14 +122,21 @@ const HeaderPresenter = () => {
         <HeaderBottomOutline />
       </Affix>
       <AddMemo setter={setShowEditorTrue} />
-      <List
-        checkbox={showCheckbox}
-        delItems={delItems}
-        setDelItems={setDelItems}
-      />
-    </div>
+      {display == DISP.LIST && (
+        <List
+          checkbox={showCheckbox}
+          delItems={delItems}
+          setDelItems={setDelItems}
+        />
+      )}
+      {display == DISP.POSTIT && <PostIt />}
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  background-color: #f0f0f0;
+`;
 
 const Header = styled.div`
   background-color: #f0f0f0;
