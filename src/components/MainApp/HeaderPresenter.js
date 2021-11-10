@@ -4,17 +4,21 @@ import {
   DeleteOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Affix, Button, Dropdown } from "antd";
+import { Affix, Button, Dropdown, Menu } from "antd";
 import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
-import { storeMemo, loadMemoList } from "../../memo-storage/memo-localstorage";
+// import { storeMemo, loadMemoList } from "../../memo-storage/memo-localstorage";
+import { loadMemoList, deleteMemo } from "../../memo-storage/memo-localstorage";
 
 const HeaderPresenter = () => {
-  const [del_click_num, setNumber] = useState(0);
+  // const [del_click_num, setNumber] = useState(0);
   const [showEditor, setShowEditor] = useState(false);
+  const [showCheckbox, setShowCheckbox] = useState(false);
+  const [delItems, setDelItems] = useState(new Set());
+  const [visible, setVisible] = useState(false);
 
   const setShowEditorTrue = () => {
     setShowEditor(true);
@@ -24,14 +28,36 @@ const HeaderPresenter = () => {
     setShowEditor(false);
   };
 
-  const handleClick = () => {
-    setNumber(del_click_num + 1);
+  const delMemo = () => {
+    delItems.forEach((e) => {
+      deleteMemo(e);
+    });
   };
 
-  const clickNum = () => {
-    if (del_click_num % 2 === 1) return 1;
-    return 0;
+  const handleButtonClick = () => {
+    setVisible(!visible);
+    setShowCheckbox(!visible);
   };
+
+  const handleVisibleChange = () => {
+    setVisible(false);
+    setShowCheckbox(false);
+  };
+
+  const deleteButton = (
+    <Menu>
+      <Menu.Item
+        key="0"
+        style={{ color: "red" }}
+        onClick={() => {
+          delMemo();
+          handleVisibleChange();
+        }}
+      >
+        Delete Selections
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div>
@@ -53,12 +79,18 @@ const HeaderPresenter = () => {
             <BarsOutlined
               style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
             />
-            <DeleteOutlined
-              onClick={() => {
-                handleClick();
-              }}
-              style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-            />
+            <Dropdown
+              overlay={deleteButton}
+              trigger={["click"]}
+              placement="bottomCenter"
+              arrow
+              onClick={handleButtonClick}
+              visible={visible}
+            >
+              <DeleteOutlined
+                style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
+              />
+            </Dropdown>
             <SettingOutlined
               style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
             />
@@ -67,7 +99,11 @@ const HeaderPresenter = () => {
         <HeaderBottomOutline />
       </Affix>
       <AddMemo setter={setShowEditorTrue} />
-      <List click_num={clickNum()} />
+      <List
+        checkbox={showCheckbox}
+        delItems={delItems}
+        setDelItems={setDelItems}
+      />
     </div>
   );
 };

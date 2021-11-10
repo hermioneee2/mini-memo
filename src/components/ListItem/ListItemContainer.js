@@ -1,7 +1,15 @@
 import ListItemPresenter from "./ListItemPresenter";
-import {useState} from "react";
+import { useState } from "react";
 
-const ListItemContainer = ({title, content, uid, click_num, delItems, getData}) => {
+const ListItemContainer = ({
+  title,
+  content,
+  uid,
+  // click_num,
+  checkbox,
+  delItems,
+  setDelItems,
+}) => {
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [bChecked, setChecked] = useState(false);
 
@@ -10,13 +18,12 @@ const ListItemContainer = ({title, content, uid, click_num, delItems, getData}) 
       checkedItems.add(id);
       delItems.add(id);
       setCheckedItems(checkedItems);
-    } 
-    else if (!isChecked && checkedItems.has(id)) {
+    } else if (!isChecked && checkedItems.has(id)) {
       checkedItems.delete(id);
       delItems.delete(id);
       setCheckedItems(checkedItems);
     }
-    getData(delItems);
+    setDelItems(delItems);
     // console.log(checkedItems);
     // console.log(delItems);
   };
@@ -26,14 +33,22 @@ const ListItemContainer = ({title, content, uid, click_num, delItems, getData}) 
     checkedItemHandler(uid, target.checked);
   };
 
-  const showCheckbox = () =>{
-    if(click_num === 1)
-      return <input type="checkbox" id = {uid} checked={bChecked} onChange={(e) => checkHandler(e)}/>
+  const showCheckbox = () => {
+    if (checkbox)
+      return (
+        <input
+          type="checkbox"
+          id={uid}
+          checked={bChecked}
+          onChange={(e) => checkHandler(e)}
+        />
+      );
   };
+
   return (
     <div>
       {showCheckbox()}
-      <ListItemPresenter title={title} content={content} uid = {uid} />
+      <ListItemPresenter title={title} content={content} uid={uid} />
     </div>
   );
 };
