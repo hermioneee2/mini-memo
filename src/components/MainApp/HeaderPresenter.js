@@ -53,7 +53,7 @@ const HeaderPresenter = () => {
   };
 
   const handleDispIconClick = () => {
-    if (display == DISP.POSTIT) {
+    if (display === DISP.POSTIT) {
       setDisplay(DISP.LIST);
     } else {
       setDisplay(DISP.POSTIT);
@@ -82,10 +82,10 @@ const HeaderPresenter = () => {
         <Header>
           <span style={headerStyle}>Mini Memo</span>
           <HeaderButtonWrapper>
-            {display == DISP.POSTIT && (
+            {display === DISP.POSTIT && (
               <BarsOutlined onClick={handleDispIconClick} style={iconStyle} />
             )}
-            {display == DISP.LIST && (
+            {display === DISP.LIST && (
               <AppstoreOutlined
                 onClick={handleDispIconClick}
                 style={iconStyle}
@@ -107,13 +107,13 @@ const HeaderPresenter = () => {
         <HeaderBottomOutline />
       </Affix>
       <AddMemo setter={setShowEditorTrue} />
-      {display == DISP.LIST && (
+      {display === DISP.LIST && (
         <List
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}
         />
       )}
-      {display == DISP.POSTIT && (
+      {display === DISP.POSTIT && (
         <PostIt
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}

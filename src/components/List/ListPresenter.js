@@ -1,4 +1,4 @@
-import { React, useState, setState } from "react";
+import { React } from "react";
 import ListItem from "../ListItem";
 import { List } from "antd";
 import { loadMemoList } from "../../memo-storage/memo-localstorage";

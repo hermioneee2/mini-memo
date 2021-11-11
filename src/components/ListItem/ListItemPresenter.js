@@ -1,14 +1,6 @@
 import React from "react";
 import { FileOutlined } from "@ant-design/icons";
 
-const style = {
-  height: "63px",
-  width: "1578px",
-  left: "0.015869140625px",
-  top: "0px",
-  fontSize: "large",
-};
-
 const ListItemPresenter = ({
   title,
   content,
@@ -17,7 +9,7 @@ const ListItemPresenter = ({
   checkHandler,
 }) => {
   return (
-    <div style={style}>
+    <div style={listItemStyle}>
       {showCheckbox && (
         <input type="checkbox" checked={bchecked} onChange={checkHandler} />
       )}
@@ -25,6 +17,11 @@ const ListItemPresenter = ({
       <strong>{title}</strong> {content}
     </div>
   );
+};
+
+const listItemStyle = {
+  height: "63px",
+  fontSize: "large",
 };
 
 export default ListItemPresenter;
