@@ -130,7 +130,12 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
         />
       )}
-      {display == DISP.POSTIT && <PostIt />}
+      {display == DISP.POSTIT && (
+        <PostIt
+          showCheckbox={showCheckbox}
+          checkedItemHandler={checkedItemHandler}
+        />
+      )}
     </Wrapper>
   );
 };

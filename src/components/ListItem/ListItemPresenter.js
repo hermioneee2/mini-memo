@@ -12,7 +12,6 @@ const style = {
 const ListItemPresenter = ({
   title,
   content,
-  uid,
   showCheckbox,
   bchecked,
   checkHandler,
@@ -20,12 +19,7 @@ const ListItemPresenter = ({
   return (
     <div style={style}>
       {showCheckbox && (
-        <input
-          type="checkbox"
-          id={uid}
-          checked={bchecked}
-          onChange={checkHandler}
-        />
+        <input type="checkbox" checked={bchecked} onChange={checkHandler} />
       )}
       <FileOutlined />
       <strong>{title}</strong> {content}

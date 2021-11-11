@@ -20,7 +20,6 @@ const ListItemContainer = ({
       <ListItemPresenter
         title={title}
         content={content}
-        uid={uid}
         showCheckbox={showCheckbox}
         bChecked={bChecked}
         checkHandler={checkHandler}

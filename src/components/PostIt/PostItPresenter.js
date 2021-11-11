@@ -1,25 +1,24 @@
 import React from "react";
-import { Card } from "antd";
+import PostItItem from "../PostItItem";
 import { List } from "antd";
 import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
 import styled from "styled-components";
 
-const PostItPresenter = ({ title, content }) => {
-  const style = {
-    width: "400px",
-    margin: "10px",
-  };
-
+const PostItPresenter = ({ showCheckbox, checkedItemHandler }) => {
   return (
-    <div style={style}>
+    <div>
       <List
         dataSource={loadMemoList()}
         renderItem={(item) => (
           <List.Item>
-            <Card title={item.title} style={style}>
-              {item.content}
-            </Card>
+            <PostItItem
+              title={item.title}
+              content={item.content}
+              uid={item.uid}
+              showCheckbox={showCheckbox}
+              checkedItemHandler={checkedItemHandler}
+            />
           </List.Item>
         )}
       />
