@@ -1,11 +1,10 @@
 import ListPresenter from "./ListPresenter";
 
-const ListContainer = ({ showCheckbox, delItems, setDelItems }) => {
+const ListContainer = ({ showCheckbox, checkedItemHandler }) => {
   return (
     <ListPresenter
       showCheckbox={showCheckbox}
-      delItems={delItems}
-      setDelItems={setDelItems}
+      checkedItemHandler={checkedItemHandler}
     />
   );
 };

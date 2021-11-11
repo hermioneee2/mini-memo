@@ -6,24 +6,13 @@ const ListItemContainer = ({
   content,
   uid,
   showCheckbox,
-  delItems,
-  setDelItems,
+  checkedItemHandler,
 }) => {
   const [bChecked, setChecked] = useState(false);
 
-  const checkedItemHandler = (id, isChecked) => {
-    if (isChecked) {
-      delItems.add(id);
-    } else if (!isChecked) {
-      delItems.delete(id);
-    }
-    setDelItems(delItems);
-    // console.log(delItems);
-  };
-
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
-    checkedItemHandler(uid, target.checked);
+    checkedItemHandler(uid, target.checked); //reflect change on del item list
   };
 
   return (

@@ -11,8 +11,7 @@ import List from "../List";
 import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
-// import { storeMemo, loadMemoList } from "../../memo-storage/memo-localstorage";
-import { loadMemoList, deleteMemo } from "../../memo-storage/memo-localstorage";
+import { deleteMemo } from "../../memo-storage/memo-localstorage";
 
 const HeaderPresenter = () => {
   const DISP = {
@@ -41,6 +40,16 @@ const HeaderPresenter = () => {
 
   const handleDeleteIconClick = () => {
     setShowCheckbox(!showCheckbox);
+  };
+
+  const checkedItemHandler = (id, isChecked) => {
+    //reflect change on del item list
+    if (isChecked) {
+      delItems.add(id);
+    } else if (!isChecked) {
+      delItems.delete(id);
+    }
+    setDelItems(delItems);
   };
 
   const handleDispIconClick = () => {
@@ -118,8 +127,7 @@ const HeaderPresenter = () => {
       {display == DISP.LIST && (
         <List
           showCheckbox={showCheckbox}
-          delItems={delItems}
-          setDelItems={setDelItems}
+          checkedItemHandler={checkedItemHandler}
         />
       )}
       {display == DISP.POSTIT && <PostIt />}
