@@ -23,7 +23,6 @@ const HeaderPresenter = () => {
   const [showEditor, setShowEditor] = useState(false);
   const [showCheckbox, setShowCheckbox] = useState(false); // for delete
   const [delItems, setDelItems] = useState(new Set()); // for delete
-  const [visible, setVisible] = useState(false); // for delete
   const [display, setDisplay] = useState(DISP.LIST);
 
   const setShowEditorTrue = () => {
@@ -40,17 +39,11 @@ const HeaderPresenter = () => {
     });
   };
 
-  const handleButtonClick = () => {
-    setVisible(!visible);
-    setShowCheckbox(!visible);
+  const handleDeleteIconClick = () => {
+    setShowCheckbox(!showCheckbox);
   };
 
-  const handleVisibleChange = () => {
-    setVisible(false);
-    setShowCheckbox(false);
-  };
-
-  const handleDispChange = () => {
+  const handleDispIconClick = () => {
     if (display == DISP.POSTIT) {
       setDisplay(DISP.LIST);
     } else {
@@ -58,14 +51,14 @@ const HeaderPresenter = () => {
     }
   };
 
-  const deleteButton = (
+  const deleteDropdown = (
     <Menu>
       <Menu.Item
         key="0"
         style={{ color: "red" }}
         onClick={() => {
           delMemo();
-          handleVisibleChange();
+          setShowCheckbox(false);
         }}
       >
         Delete Selections
@@ -92,23 +85,23 @@ const HeaderPresenter = () => {
           <HeaderButtonWrapper>
             {display == DISP.POSTIT && (
               <BarsOutlined
-                onClick={handleDispChange}
+                onClick={handleDispIconClick}
                 style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
               />
             )}
             {display == DISP.LIST && (
               <AppstoreOutlined
-                onClick={handleDispChange}
+                onClick={handleDispIconClick}
                 style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
               />
             )}
             <Dropdown
-              overlay={deleteButton}
+              overlay={deleteDropdown}
               trigger={["click"]}
               placement="bottomCenter"
               arrow
-              onClick={handleButtonClick}
-              visible={visible}
+              onClick={handleDeleteIconClick}
+              visible={showCheckbox}
             >
               <DeleteOutlined
                 style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
@@ -124,7 +117,7 @@ const HeaderPresenter = () => {
       <AddMemo setter={setShowEditorTrue} />
       {display == DISP.LIST && (
         <List
-          checkbox={showCheckbox}
+          showCheckbox={showCheckbox}
           delItems={delItems}
           setDelItems={setDelItems}
         />

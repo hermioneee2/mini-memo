@@ -5,7 +5,7 @@ const ListItemContainer = ({
   title,
   content,
   uid,
-  checkbox,
+  showCheckbox,
   delItems,
   setDelItems,
 }) => {
@@ -26,22 +26,16 @@ const ListItemContainer = ({
     checkedItemHandler(uid, target.checked);
   };
 
-  const showCheckbox = () => {
-    if (checkbox)
-      return (
-        <input
-          type="checkbox"
-          id={uid}
-          checked={bChecked}
-          onChange={(e) => checkHandler(e)}
-        />
-      );
-  };
-
   return (
     <div>
-      {showCheckbox()}
-      <ListItemPresenter title={title} content={content} uid={uid} />
+      <ListItemPresenter
+        title={title}
+        content={content}
+        uid={uid}
+        showCheckbox={showCheckbox}
+        bChecked={bChecked}
+        checkHandler={checkHandler}
+      />
     </div>
   );
 };

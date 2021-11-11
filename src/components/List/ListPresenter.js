@@ -3,7 +3,7 @@ import ListItem from "../ListItem";
 import { List } from "antd";
 import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
-const ListPresenter = ({ checkbox, delItems, setDelItems }) => {
+const ListPresenter = ({ showCheckbox, delItems, setDelItems }) => {
   return (
     <div>
       <List
@@ -14,7 +14,7 @@ const ListPresenter = ({ checkbox, delItems, setDelItems }) => {
               title={item.title}
               content={item.content}
               uid={item.uid}
-              checkbox={checkbox}
+              showCheckbox={showCheckbox}
               delItems={delItems}
               setDelItems={setDelItems}
             />

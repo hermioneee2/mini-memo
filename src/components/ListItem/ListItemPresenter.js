@@ -9,9 +9,24 @@ const style = {
   fontSize: "large",
 };
 
-const ListItemPresenter = ({ title, content }) => {
+const ListItemPresenter = ({
+  title,
+  content,
+  uid,
+  showCheckbox,
+  bchecked,
+  checkHandler,
+}) => {
   return (
     <div style={style}>
+      {showCheckbox && (
+        <input
+          type="checkbox"
+          id={uid}
+          checked={bchecked}
+          onChange={checkHandler}
+        />
+      )}
       <FileOutlined />
       <strong>{title}</strong> {content}
     </div>
