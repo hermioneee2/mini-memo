@@ -9,21 +9,15 @@ const ListItemContainer = ({
   delItems,
   setDelItems,
 }) => {
-  const [checkedItems, setCheckedItems] = useState(new Set());
   const [bChecked, setChecked] = useState(false);
 
   const checkedItemHandler = (id, isChecked) => {
     if (isChecked) {
-      checkedItems.add(id);
       delItems.add(id);
-      setCheckedItems(checkedItems);
-    } else if (!isChecked && checkedItems.has(id)) {
-      checkedItems.delete(id);
+    } else if (!isChecked) {
       delItems.delete(id);
-      setCheckedItems(checkedItems);
     }
     setDelItems(delItems);
-    // console.log(checkedItems);
     // console.log(delItems);
   };
 

@@ -1,0 +1,4 @@
+[0m2021.11.11 17:33:29 INFO  Started: Metals version 0.10.9 in workspace 'C:\Users\hermi\OneDrive\¹®¼­\GitHub\cs492-mini-memo' for client Visual Studio Code 1.62.0.[0m
+[0m2021.11.11 17:33:30 INFO  time: initialize in 0.82s[0m
+[0m2021.11.11 17:33:31 WARN  Build server is not auto-connectable.[0m
+[0m2021.11.11 17:33:31 WARN  no build tool detected in workspace 'C:\Users\hermi\OneDrive\¹®¼­\GitHub\cs492-mini-memo'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
