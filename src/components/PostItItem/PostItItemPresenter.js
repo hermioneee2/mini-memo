@@ -2,11 +2,6 @@ import React from "react";
 // import { FileOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 
-const style = {
-  width: "400px",
-  margin: "10px",
-};
-
 const PostItItemPresenter = ({
   title,
   content,
@@ -16,7 +11,7 @@ const PostItItemPresenter = ({
 }) => {
   return (
     <div>
-      <Card title={title} style={style}>
+      <Card title={title} style={cardStyle}>
         {content}
         {showCheckbox && (
           <input type="checkbox" checked={bchecked} onChange={checkHandler} />
@@ -24,6 +19,11 @@ const PostItItemPresenter = ({
       </Card>
     </div>
   );
+};
+
+const cardStyle = {
+  width: "310px",
+  margin: "10px",
 };
 
 export default PostItItemPresenter;

@@ -4,7 +4,7 @@ import {
   DeleteOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Affix, Button, Dropdown, Menu } from "antd";
+import { Affix, Dropdown, Menu } from "antd";
 import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
@@ -80,28 +80,15 @@ const HeaderPresenter = () => {
       <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
       <Affix offsetTop={0}>
         <Header>
-          <span
-            style={{
-              color: "#F0BF39",
-              fontFamily: "Open Sans",
-              fontSize: 30,
-              fontWeight: 800,
-              marginLeft: 20,
-            }}
-          >
-            Mini Memo
-          </span>
+          <span style={headerStyle}>Mini Memo</span>
           <HeaderButtonWrapper>
             {display == DISP.POSTIT && (
-              <BarsOutlined
-                onClick={handleDispIconClick}
-                style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-              />
+              <BarsOutlined onClick={handleDispIconClick} style={iconStyle} />
             )}
             {display == DISP.LIST && (
               <AppstoreOutlined
                 onClick={handleDispIconClick}
-                style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
+                style={iconStyle}
               />
             )}
             <Dropdown
@@ -112,13 +99,9 @@ const HeaderPresenter = () => {
               onClick={handleDeleteIconClick}
               visible={showCheckbox}
             >
-              <DeleteOutlined
-                style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-              />
+              <DeleteOutlined style={iconStyle} />
             </Dropdown>
-            <SettingOutlined
-              style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-            />
+            <SettingOutlined style={iconStyle} />
           </HeaderButtonWrapper>
         </Header>
         <HeaderBottomOutline />
@@ -138,6 +121,20 @@ const HeaderPresenter = () => {
       )}
     </Wrapper>
   );
+};
+
+const headerStyle = {
+  color: "#F0BF39",
+  fontFamily: "Open Sans",
+  fontSize: 30,
+  fontWeight: 800,
+  marginLeft: 20,
+};
+
+const iconStyle = {
+  fontSize: 28,
+  color: "#F0BF39",
+  cursor: "pointer",
 };
 
 const Wrapper = styled.div`

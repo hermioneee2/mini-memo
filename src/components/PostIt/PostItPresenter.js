@@ -3,13 +3,13 @@ import PostItItem from "../PostItItem";
 import { List } from "antd";
 import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
-import styled from "styled-components";
-
 const PostItPresenter = ({ showCheckbox, checkedItemHandler }) => {
   return (
     <div>
       <List
         dataSource={loadMemoList()}
+        style={listWrapperStyle}
+        grid={{ gutter: 16, column: 4 }}
         renderItem={(item) => (
           <List.Item>
             <PostItItem
@@ -24,6 +24,12 @@ const PostItPresenter = ({ showCheckbox, checkedItemHandler }) => {
       />
     </div>
   );
+};
+
+const listWrapperStyle = {
+  width: "90%",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
 
 export default PostItPresenter;

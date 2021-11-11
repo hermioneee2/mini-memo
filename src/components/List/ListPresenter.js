@@ -8,6 +8,7 @@ const ListPresenter = ({ showCheckbox, checkedItemHandler }) => {
     <div>
       <List
         dataSource={loadMemoList()}
+        style={listWrapperStyle}
         renderItem={(item) => (
           <List.Item>
             <ListItem
@@ -22,6 +23,12 @@ const ListPresenter = ({ showCheckbox, checkedItemHandler }) => {
       />
     </div>
   );
+};
+
+const listWrapperStyle = {
+  width: "90%",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
 
 export default ListPresenter;
