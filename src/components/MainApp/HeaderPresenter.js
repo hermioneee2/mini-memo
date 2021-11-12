@@ -17,14 +17,23 @@ import { storeMemo, loadMemoList } from "../../memo-storage/memo-localstorage";
 
 const HeaderPresenter = () => {
   const [del_click_num, setNumber] = useState(0);
+  const [id, setNum] = useState(0);
   const [showEditor, setShowEditor] = useState(false);
 
+  
   const setShowEditorTrue = () => {
+    console.log('set true');
     setShowEditor(true);
   };
 
   const setShowEditorFalse = () => {
     setShowEditor(false);
+  };
+  
+  const setId = (id) => {
+    console.log('id')
+    console.log(id);
+    setNum(id);
   };
   const handleClick = () => {
     setNumber(del_click_num + 1);
@@ -36,7 +45,7 @@ const HeaderPresenter = () => {
   }
   return (
     <div>
-      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />    
+      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} id = {id}/>    
       <Affix offsetTop={0}>
         <Header>
           <span
@@ -65,8 +74,10 @@ const HeaderPresenter = () => {
         </Header>
         <HeaderBottomOutline></HeaderBottomOutline>
       </Affix>
-      <List click_num = {clickNum()}/>
-      <AddMemo setter={setShowEditorTrue} />
+      <List click_num = {clickNum()} setTrue = {setShowEditorTrue} setId = {setId}/>
+      <div onClick = {() => setId(-1)}>
+        <AddMemo setter={setShowEditorTrue}/>
+      </div>
     </div>
   );
 };

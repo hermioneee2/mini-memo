@@ -8,13 +8,14 @@ const style = {
   left: "0.015869140625px",
   top: "0px",
   fontSize: "large",
+  cursor: "pointer",
 };
 
-const ListItemPresenter = ({ title, content}) => {
+const ListItemPresenter = ({ title, content, setTrue}) => {
   return (
-    <div style={style}>
-      <FileOutlined />
-      <strong>{title}</strong> {content}
+    <div style={style} onClick = {setTrue}>
+        <FileOutlined />
+        <strong>{title}</strong> {content}
     </div>
   );
 };
