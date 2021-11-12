@@ -8,7 +8,6 @@ const ListPresenter = ({click_num, setTrue, setId}) => {
 
   const getData = (delItems) => {
     setDelItems(delItems);
-    // console.log('!!!');
     console.log(delItems);
   };
 
@@ -16,7 +15,6 @@ const ListPresenter = ({click_num, setTrue, setId}) => {
     delItems.forEach((e) => {
       deleteMemo(e);
     });
-    // setDelItems(new Set());
     window.location.reload();
   };
   const deleteButton = () =>{
