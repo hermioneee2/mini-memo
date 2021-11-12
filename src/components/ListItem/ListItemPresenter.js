@@ -10,12 +10,14 @@ const ListItemPresenter = ({
   setTrue
 }) => {
   return (
-    <div style={listItemStyle} onClick = {setTrue}>
+    <div>
       {showCheckbox && (
         <input type="checkbox" checked={bchecked} onChange={checkHandler} />
       )}
-      <FileOutlined />
-      <strong>{title}</strong> {content}
+      <div style={listItemStyle} onClick = {setTrue}>
+        <FileOutlined />
+        <strong>{title}</strong> {content}
+      </div>
     </div>
   );
 };
