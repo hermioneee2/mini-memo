@@ -1,10 +1,14 @@
 import ListPresenter from "./ListPresenter";
 import React, { useState } from "react";
 
-const ListContainer = ({click_num, setTrue, setId}) => {
 
+const ListContainer = ({ showCheckbox, checkedItemHandler, setTrue, setId }) => {
   return (
-      <ListPresenter click_num = {click_num} setTrue = {setTrue} setId = {setId}/>
+    <ListPresenter
+      showCheckbox={showCheckbox}
+      checkedItemHandler={checkedItemHandler}
+      setTrue = {setTrue} setId = {setId}
+    />
   );
 };
 
