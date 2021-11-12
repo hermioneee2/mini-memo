@@ -1,41 +1,34 @@
-import {React, useState, setState} from "react";
+import { React } from "react";
 import ListItem from "../ListItem";
 import { List } from "antd";
-import { loadMemoList, deleteMemo } from "../../memo-storage/memo-localstorage";
+import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
-const ListPresenter = ({click_num}) => {
-  const [delItems, setDelItems] = useState(new Set());
-
-  const getData = (delItems) => {
-    setDelItems(delItems);
-    // console.log('!!!');
-    console.log(delItems);
-  };
-
-  const delMemo = () => {
-    delItems.forEach((e) => {
-      deleteMemo(e);
-    });
-  };
-  const deleteButton = () =>{
-    if(click_num === 1){
-      return <button onClick = {() => delMemo()}>삭제</button>
-    }
-  };
-  
+const ListPresenter = ({ showCheckbox, checkedItemHandler }) => {
   return (
     <div>
-      {deleteButton()}
       <List
         dataSource={loadMemoList()}
+        style={listWrapperStyle}
         renderItem={(item) => (
           <List.Item>
-            <ListItem title={item.title} content={item.content} uid = {item.uid} click_num = {click_num} getData={getData} delItems = {delItems}/>
+            <ListItem
+              title={item.title}
+              content={item.content}
+              uid={item.uid}
+              showCheckbox={showCheckbox}
+              checkedItemHandler={checkedItemHandler}
+            />
           </List.Item>
         )}
       />
     </div>
   );
+};
+
+const listWrapperStyle = {
+  width: "90%",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
 
 export default ListPresenter;

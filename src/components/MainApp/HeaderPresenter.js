@@ -4,20 +4,25 @@ import {
   DeleteOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Affix, Button, Dropdown } from "antd";
-import {React, useState} from "react";
+import { Affix, Dropdown, Menu } from "antd";
+import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
+import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
-import { storeMemo, loadMemoList } from "../../memo-storage/memo-localstorage";
-
-
-
+import { deleteMemo } from "../../memo-storage/memo-localstorage";
 
 const HeaderPresenter = () => {
-  const [del_click_num, setNumber] = useState(0);
+  const DISP = {
+    LIST: "list",
+    POSTIT: "postit",
+  };
+
   const [showEditor, setShowEditor] = useState(false);
+  const [showCheckbox, setShowCheckbox] = useState(false); // for delete
+  const [delItems, setDelItems] = useState(new Set()); // for delete
+  const [display, setDisplay] = useState(DISP.LIST);
 
   const setShowEditorTrue = () => {
     setShowEditor(true);
@@ -26,50 +31,115 @@ const HeaderPresenter = () => {
   const setShowEditorFalse = () => {
     setShowEditor(false);
   };
-  const handleClick = () => {
-    setNumber(del_click_num + 1);
-  }
-  const clickNum = () => {
-    if (del_click_num % 2 === 1)
-      return 1;
-    return 0;
-  }
+
+  const delMemo = () => {
+    delItems.forEach((e) => {
+      deleteMemo(e);
+    });
+  };
+
+  const handleDeleteIconClick = () => {
+    setShowCheckbox(!showCheckbox);
+  };
+
+  const checkedItemHandler = (id, isChecked) => {
+    //reflect change on del item list
+    if (isChecked) {
+      delItems.add(id);
+    } else if (!isChecked) {
+      delItems.delete(id);
+    }
+    setDelItems(delItems);
+  };
+
+  const handleDispIconClick = () => {
+    if (display === DISP.POSTIT) {
+      setDisplay(DISP.LIST);
+    } else {
+      setDisplay(DISP.POSTIT);
+    }
+  };
+
+  const deleteDropdown = (
+    <Menu>
+      <Menu.Item
+        key="0"
+        style={{ color: "red" }}
+        onClick={() => {
+          delMemo();
+          setShowCheckbox(false);
+        }}
+      >
+        Delete Selections
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
-    <div>
-      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />    
+    <Wrapper>
+      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
       <Affix offsetTop={0}>
         <Header>
-          <span
-            style={{
-              color: "#F0BF39",
-              fontFamily: "Open Sans",
-              fontSize: 30,
-              fontWeight: 800,
-              marginLeft: 20,
-            }}
-          >
-            Mini Memo
-          </span>
+          <span style={headerStyle}>Mini Memo</span>
           <HeaderButtonWrapper>
-            <BarsOutlined
-              style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-            />
-            <DeleteOutlined
-              onClick = {() => {handleClick()}}
-              style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-            />
-            <SettingOutlined
-              style={{ fontSize: 28, color: "#F0BF39", cursor: "pointer" }}
-            />
+            {display === DISP.POSTIT && (
+              <BarsOutlined onClick={handleDispIconClick} style={iconStyle} />
+            )}
+            {display === DISP.LIST && (
+              <AppstoreOutlined
+                onClick={handleDispIconClick}
+                style={iconStyle}
+              />
+            )}
+            <Dropdown
+              overlay={deleteDropdown}
+              trigger={["click"]}
+              placement="bottomCenter"
+              arrow
+              onClick={handleDeleteIconClick}
+              visible={showCheckbox}
+            >
+              <DeleteOutlined style={iconStyle} />
+            </Dropdown>
+            <SettingOutlined style={iconStyle} />
           </HeaderButtonWrapper>
         </Header>
-        <HeaderBottomOutline></HeaderBottomOutline>
+        <HeaderBottomOutline />
       </Affix>
-      <List click_num = {clickNum()}/>
       <AddMemo setter={setShowEditorTrue} />
-    </div>
+      {display === DISP.LIST && (
+        <List
+          showCheckbox={showCheckbox}
+          checkedItemHandler={checkedItemHandler}
+        />
+      )}
+      {display === DISP.POSTIT && (
+        <PostIt
+          showCheckbox={showCheckbox}
+          checkedItemHandler={checkedItemHandler}
+        />
+      )}
+    </Wrapper>
   );
 };
+
+const headerStyle = {
+  color: "#F0BF39",
+  fontFamily: "Open Sans",
+  fontSize: 30,
+  fontWeight: 800,
+  marginLeft: 20,
+};
+
+const iconStyle = {
+  fontSize: 28,
+  color: "#F0BF39",
+  cursor: "pointer",
+};
+
+const Wrapper = styled.div`
+  background-color: #f0f0f0;
+`;
 
 const Header = styled.div`
   background-color: #f0f0f0;
@@ -86,7 +156,7 @@ const HeaderButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   padding-right: 40px;
-  width: 130px;
+  width: 160px;
   justify-content: space-between;
 `;
 
