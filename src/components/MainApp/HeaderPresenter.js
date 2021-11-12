@@ -14,16 +14,16 @@ import Editor from "../Editor";
 import { deleteMemo } from "../../memo-storage/memo-localstorage";
 
 const HeaderPresenter = () => {
+  const DISP = {
+    LIST: "list",
+    POSTIT: "postit",
+  };
+  
   const [showEditor, setShowEditor] = useState(false);
   const [showCheckbox, setShowCheckbox] = useState(false); // for delete
   const [delItems, setDelItems] = useState(new Set()); // for delete
   const [display, setDisplay] = useState(DISP.LIST);
   const [id, setNum] = useState(0);
-  
-  const DISP = {
-    LIST: "list",
-    POSTIT: "postit",
-  };
   
   const setShowEditorTrue = () => {
     console.log('set true');
@@ -83,7 +83,7 @@ const HeaderPresenter = () => {
   );
   return (
     <Wrapper>
-      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
+      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} id = {id} />
       <Affix offsetTop={0}>
         <Header>
           <span style={headerStyle}>Mini Memo</span>
