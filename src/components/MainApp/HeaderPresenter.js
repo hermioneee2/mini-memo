@@ -14,24 +14,31 @@ import Editor from "../Editor";
 import { deleteMemo } from "../../memo-storage/memo-localstorage";
 
 const HeaderPresenter = () => {
-  const DISP = {
-    LIST: "list",
-    POSTIT: "postit",
-  };
-
   const [showEditor, setShowEditor] = useState(false);
   const [showCheckbox, setShowCheckbox] = useState(false); // for delete
   const [delItems, setDelItems] = useState(new Set()); // for delete
   const [display, setDisplay] = useState(DISP.LIST);
-
+  const [id, setNum] = useState(0);
+  
+  const DISP = {
+    LIST: "list",
+    POSTIT: "postit",
+  };
+  
   const setShowEditorTrue = () => {
+    console.log('set true');
     setShowEditor(true);
   };
 
   const setShowEditorFalse = () => {
     setShowEditor(false);
   };
-
+  
+  const setId = (id) => {
+    console.log('id')
+    console.log(id);
+    setNum(id);
+  };
   const delMemo = () => {
     delItems.forEach((e) => {
       deleteMemo(e);
@@ -74,7 +81,6 @@ const HeaderPresenter = () => {
       </Menu.Item>
     </Menu>
   );
-
   return (
     <Wrapper>
       <Editor isOpen={showEditor} modalClose={setShowEditorFalse} />
@@ -106,11 +112,15 @@ const HeaderPresenter = () => {
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <AddMemo setter={setShowEditorTrue} />
+      <div onClick = {() => setId(-1)}>
+        <AddMemo setter={setShowEditorTrue}/>
+      </div>
       {display === DISP.LIST && (
         <List
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}
+          setTrue = {setShowEditorTrue} 
+          setId = {setId}
         />
       )}
       {display === DISP.POSTIT && (

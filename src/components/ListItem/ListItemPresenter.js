@@ -7,9 +7,10 @@ const ListItemPresenter = ({
   showCheckbox,
   bchecked,
   checkHandler,
+  setTrue
 }) => {
   return (
-    <div style={listItemStyle}>
+    <div style={listItemStyle} onClick = {setTrue}>>
       {showCheckbox && (
         <input type="checkbox" checked={bchecked} onChange={checkHandler} />
       )}

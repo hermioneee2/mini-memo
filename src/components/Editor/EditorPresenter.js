@@ -2,6 +2,7 @@ import React, { memo, useState } from "react";
 import Modal from "react-modal";
 import { Input, Divider, Button } from "antd";
 import EditorComponent from "../Editor/Quill";
+import {existingMemo} from "../../memo-storage/memo-localstorage";
 
 const { TextArea } = Input;
 
@@ -10,7 +11,7 @@ const style = {
   height: "486px",
 };
 
-const EditorPresenter = ({ isOpen, atSave, atCancel }) => {
+const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id}) => {
   const [memoObj, setMemoObj] = useState({
     title: "",
     content: "",
@@ -31,17 +32,19 @@ const EditorPresenter = ({ isOpen, atSave, atCancel }) => {
   };
 
   const onSave = () => {
+    console.log(existingMemo(id));
     if (memoObj.content === "" || memoObj.title === "") {
       alert("제목과 내용을 입력해주세요.");
       return;
     }
-    else {
-      atSave(memoObj);
+    else if(existingMemo(id)){
+      atModify(memoObj, id);
+    }
+    else{
+      atSave(memoObj,);
     }
   };
   
-  
-
   return (
     <div>
       <Modal isOpen={isOpen} onRequestClose={atCancel} style={style}>

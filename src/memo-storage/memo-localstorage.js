@@ -20,17 +20,36 @@ export const loadMemo = () => {
   }
 };
 
+export const existingMemo = (id) => {
+  let bool = false;
+  const memoList = loadMemoList();
+  memoList.forEach((e) => {
+    if(e.uid === id)
+      bool = true;
+  });
+  return bool;
+}
 export const deleteMemo = (id) => {
   const list = [];
   const memoList = loadMemoList();
   memoList.forEach((e) => {
     if (e.uid !== id) list.push(e);
   });
-  console.log(localStorage.memoList);
   localStorage.removeItem("memoList");
   localStorage.setItem("memoList", JSON.stringify(list));
-  console.log(localStorage.memoList);
-};
+}
+
+export const modifyMemo = (memo, id) =>{
+  const memoList = loadMemoList();
+  memoList.forEach((e) => {
+    if(e.uid === id){
+      e.content = memo.content;
+      e.title = memo.title;
+    }
+  });
+  localStorage.removeItem("memoList");
+  localStorage.setItem("memoList", JSON.stringify(memoList));
+} 
 
 export const storeMemo = (tile, content) => {
   const memoObj = makeMemoObj(getNextMemoUid(), tile, content);

@@ -7,30 +7,10 @@ import "antd/dist/antd.css";
 // import { storeMemo, loadMemoList } from "./memo-storage/memo-localstorage";
 
 const App = () => {
-  // const [showEditor, setShowEditor] = useState(false);
-
-  // const setShowEditorTrue = () => {
-  //   setShowEditor(true);
-  // };
-
-  // const setShowEditorFalse = () => {
-  //   setShowEditor(false);
-  // };
-
-  // const uidTest = () => {
-  //   storeMemo("title", "adsf")
-  // };
-
-  // const listTest = () => {
-  //   console.log(loadMemoList());
-  // };
 
   return (
     <div className="App">
-      {/* <Editor isOpen={showEditor} modalClose={setShowEditorFalse} /> */}
       <MainApp />
-      {/* <List />
-      <AddMemo setter={setShowEditorTrue} /> */}
     </div>
   );
 };

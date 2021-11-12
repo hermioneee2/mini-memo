@@ -7,6 +7,8 @@ const ListItemContainer = ({
   uid,
   showCheckbox,
   checkedItemHandler,
+  setTrue, 
+  setId
 }) => {
   const [bChecked, setChecked] = useState(false);
 
@@ -16,13 +18,14 @@ const ListItemContainer = ({
   };
 
   return (
-    <div>
+    <div onClick = {() => setId(uid)}>
       <ListItemPresenter
         title={title}
         content={content}
         showCheckbox={showCheckbox}
         bChecked={bChecked}
         checkHandler={checkHandler}
+        setTrue={setTrue}
       />
     </div>
   );
