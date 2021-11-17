@@ -97,40 +97,40 @@ export const compareObjects = (object1, object2, key) => {
 
 export const nameAscendingSort = (cwd) => {
   const memoList = loadMemoList(cwd);
-  console.log(memoList);
+  // console.log(memoList);
   memoList.sort((memo1, memo2) => {
     return compareObjects(memo1, memo2, "title");
   });
-  console.log(memoList);
+  // console.log(memoList);
   return memoList;
 };
 
 export const nameDescendingSort = (cwd) => {
   const memoList = loadMemoList(cwd);
-  console.log(memoList);
+  // console.log(memoList);
   memoList.sort((memo1, memo2) => {
     return compareObjects(memo2, memo1, "title");
   });
-  console.log(memoList);
+  // console.log(memoList);
   return memoList;
 };
 
 export const timeAscendingSort = (cwd) => {
   const memoList = loadMemoList(cwd);
-  console.log(memoList);
+  // console.log(memoList);
   memoList.sort((memo1, memo2) => {
     return compareObjects(memo1, memo2, "createdAt");
   });
-  console.log(memoList);
+  // console.log(memoList);
   return memoList;
 };
 
 export const timeDescendingSort = (cwd) => {
   const memoList = loadMemoList(cwd);
-  console.log(memoList);
+  // console.log(memoList);
   memoList.sort((memo1, memo2) => {
     return compareObjects(memo2, memo1, "createdAt");
   });
-  console.log(memoList);
+  // console.log(memoList);
   return memoList;
 };

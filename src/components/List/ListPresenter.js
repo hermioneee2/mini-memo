@@ -13,7 +13,6 @@ const ListPresenter = ({
 }) => {
   return (
     <div>
-      <span>Directories</span>
       <List
         dataSource={dirOrderedList()}
         style={listWrapperStyle}
@@ -24,7 +23,6 @@ const ListPresenter = ({
           </List.Item>
         )}
       />
-      <span>Memos</span>
       <List
         dataSource={memoOrderedList()}
         style={listWrapperStyle}

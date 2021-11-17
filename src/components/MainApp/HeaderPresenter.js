@@ -72,7 +72,7 @@ const HeaderPresenter = () => {
   };
 
   const setShowEditorTrue = () => {
-    console.log("set true");
+    // console.log("set true");
     setShowEditor(true);
   };
 
@@ -81,8 +81,8 @@ const HeaderPresenter = () => {
   };
 
   const setId = (id) => {
-    console.log("id");
-    console.log(id);
+    // console.log("id");
+    // console.log(id);
     setNum(id);
   };
 
@@ -138,7 +138,6 @@ const HeaderPresenter = () => {
   const [dirName, setDirName] = useState("");
 
   const handleDirNameChange = (e) => {
-    console.log(e.target.value);
     setDirName(e.target.value);
   }
 
@@ -160,6 +159,7 @@ const HeaderPresenter = () => {
           <Input
             style={{ size: "50%" }}
             placeholder="New Folder Name"
+            value={dirName}
             enterButton="Add"
             onChange={handleDirNameChange}
           />
