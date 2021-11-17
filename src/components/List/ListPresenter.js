@@ -1,7 +1,7 @@
 import { React } from "react";
 import ListItem from "../ListItem";
 import { List } from "antd";
-const ListPresenter = ({ showCheckbox, checkedItemHandler, setTrue, setId, memoOrderedList}) => {
+const ListPresenter = ({ showCheckbox, checkedItemHandler, setTrue, setId, memoOrderedList, cwd}) => {
   
   return (
     <div>

@@ -6,9 +6,14 @@ import * as Fsp from "./fs-pointer";
 /// NOTE: all these functions should get (cwd: fsPointer object) as argument now.
 /// cwd should be managed as state variable in MainApp component.
 
+// the initial cwd pointer: root
+export const initMemoCwd = () => {
+  return Fsp.get_root_pointer();
+}
+
 // load memo list from cwd pointer
 export const loadMemoList = (cwd) => {
-  let memoList = Fsp.get_file_list(cwd).map(p => p.data);
+  let memoList = Fsp.get_file_data_list(cwd);
   return memoList;
 };
 
@@ -25,15 +30,18 @@ export const loadItem = (cwd, uid) => {
   return memoList[0];
 };
 
-// TODO refactor to delete memo from cwd
+// delete memo from cwd
 export const deleteMemo = (cwd, uid) => {
   let resBool = Fsp.delete_file_by_data_predicate(cwd, (m) => m.uid == uid);
   return resBool;
 };
 
-// TODO refactor to modify memo from cwd
+// modify memo from cwd
 export const modifyMemo = (cwd, memoObj, uid) => {
-  let resBool = Fsp.modify_file_data_by_data_predicate(cwd, (m) => m.uid == uid, memoObj);
+  // TODO why memoObj.uid is not set automatically?
+  let newMemoObj = memoObj;
+  newMemoObj.uid = uid;
+  let resBool = Fsp.modify_file_data_by_data_predicate(cwd, (m) => m.uid == uid, newMemoObj);
   return resBool;
 };
 
@@ -43,8 +51,12 @@ export const storeMemo = (cwd, title, content) => {
   Fsp.store_file_in_dir(cwd, title, memoObj);
 };
 
+// reload cwd pointer for force update
+export const reloadCwd = (cwd) => {
+  return Fsp.reload_pointer(cwd);
+}
+
 ////////////////////////////sorters
-/// TODO refactor all sort in cwd
 //Helper function
 export const compareObjects = (object1, object2, key) => {
   const obj1 = object1[key].toUpperCase();

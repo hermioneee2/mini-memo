@@ -2,8 +2,8 @@ import React, { memo, useState } from "react";
 import Modal from "react-modal";
 import { Input, Divider, Button } from "antd";
 import EditorComponent from "../Editor/Quill";
-import {existingMemo} from "../../memo-storage/memo-localstorage";
-import ReactQuill from 'react-quill';
+import { existingMemo } from "../../memo-storage/memo-localstorage";
+import ReactQuill from "react-quill";
 
 const { TextArea } = Input;
 
@@ -12,7 +12,7 @@ const style = {
   height: "486px",
 };
 
-const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id}) => {
+const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id, cwd }) => {
   const [memoObj, setMemoObj] = useState({
     title: "",
     content: "",
@@ -20,38 +20,36 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id}) => {
   });
 
   const setMemoObjTitle = (e) => {
-    let newObj = memoObj
+    let newObj = memoObj;
     //console.log(e)
-    newObj.title = e.target.value
-    setMemoObj(newObj)
+    newObj.title = e.target.value;
+    setMemoObj(newObj);
   };
 
   const setMemoObjContent = (e) => {
-    let newObj = memoObj
+    let newObj = memoObj;
     //console.log(e)
-    newObj.content = e
-    setMemoObj(newObj)
+    newObj.content = e;
+    setMemoObj(newObj);
   };
 
   const setMemoObjCreatedAt = () => {
-    let newObj = memoObj
+    let newObj = memoObj;
     //console.log(e)
-    newObj.createdAt = new Date() 
-    setMemoObj(newObj)
+    newObj.createdAt = new Date();
+    setMemoObj(newObj);
   };
 
   const onSave = () => {
-    console.log(existingMemo(id));
+    console.log(existingMemo(cwd, id));
     if (memoObj.content === "" || memoObj.title === "") {
       alert("제목과 내용을 입력해주세요.");
       return;
-    }
-    else if(existingMemo(id)){
+    } else if (existingMemo(cwd, id)) {
       setMemoObjCreatedAt();
       atModify(memoObj, id);
-    }
-    else{
-      atSave(memoObj,);
+    } else {
+      atSave(memoObj);
     }
   };
 
@@ -60,7 +58,7 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id}) => {
       <Modal isOpen={isOpen} onRequestClose={atCancel} style={style}>
         <Input placeholder="Title" onChange={setMemoObjTitle} />
         <Divider />
-        <EditorComponent value = {memoObj} onChange={setMemoObjContent} />
+        <EditorComponent value={memoObj} onChange={setMemoObjContent} />
         <div style={{ marginRight: "10px" }}>
           <Button type="primary" style={{ marginTop: "10px" }} onClick={onSave}>
             Save

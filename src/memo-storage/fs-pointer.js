@@ -91,6 +91,7 @@ export const error_pointer = (msg) => {
 ////////////////////////////////////////////////////////////////////////////////
 // getters for file list
 export const get_file_list = (fp) => {
+  console.log(fp);
   return fp.files();
 };
 
@@ -254,6 +255,10 @@ export const get_file_data_list_by_data_predicate = (fp, predicate) => {
   return targetFileDatas;
 };
 
+export const get_file_data_list = (fp) => {
+  return get_file_data_list_by_data_predicate(fp, m => true);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // modifiers for file pointers
 export const delete_file_by_data_predicate = (fp, predicate) => {
@@ -275,4 +280,9 @@ export const modify_file_data_by_data_predicate = (fp, predicate, newData) => {
 
 export const store_file_in_dir = (fp, name, data) => {
   add_file_to_pointer(fp, name, data);
+}
+
+export const reload_pointer = (fp) => {
+  let id = fp.id;
+  return fsPointer(id);
 }

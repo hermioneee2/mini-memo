@@ -4,14 +4,22 @@ import {
   DeleteOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Affix, Dropdown, Menu , Button, Cascader} from "antd";
+import { Affix, Dropdown, Menu, Button, Cascader } from "antd";
 import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
 import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
-import { deleteMemo, nameAscendingSort, nameDescendingSort, timeAscendingSort, timeDescendingSort } from "../../memo-storage/memo-localstorage";
+import {
+  deleteMemo,
+  nameAscendingSort,
+  nameDescendingSort,
+  timeAscendingSort,
+  timeDescendingSort,
+} from "../../memo-storage/memo-localstorage";
+import * as MStore from "../../memo-storage/memo-localstorage";
+
 const HeaderPresenter = () => {
   const DISP = {
     LIST: "list",
@@ -20,66 +28,71 @@ const HeaderPresenter = () => {
 
   const options = [
     {
-      label: 'Edited Time',
-      value: 'time',
+      label: "Edited Time",
+      value: "time",
       children: [
         {
-          label: 'Ascending Order',
-          value: 'time_ascend',
+          label: "Ascending Order",
+          value: "time_ascend",
         },
         {
-          label: 'Desceding Order',
-          value: 'time_descend',
+          label: "Desceding Order",
+          value: "time_descend",
         },
       ],
     },
     {
-      label: 'Name',
-      value: 'name',
+      label: "Name",
+      value: "name",
       children: [
         {
-          label: 'Ascending Order',
-          value: 'name_ascend',
+          label: "Ascending Order",
+          value: "name_ascend",
         },
         {
-          label: 'Desceding Order',
-          value: 'name_descend',
+          label: "Desceding Order",
+          value: "name_descend",
         },
       ],
     },
   ];
-  
+
   const [showEditor, setShowEditor] = useState(false);
   const [showCheckbox, setShowCheckbox] = useState(false); // for delete
   const [delItems, setDelItems] = useState(new Set()); // for delete
   const [display, setDisplay] = useState(DISP.LIST);
   const [id, setNum] = useState(0);
-  const [order, setOrder] = useState('');
-  
+  const [order, setOrder] = useState("");
+  const [cwd, setCwd] = useState(MStore.initMemoCwd());
+
+  const forceCwdUpdate = () => {
+    setCwd(MStore.reloadCwd(cwd));
+  };
+
   const setShowEditorTrue = () => {
-    console.log('set true');
+    console.log("set true");
     setShowEditor(true);
   };
 
   const setShowEditorFalse = () => {
     setShowEditor(false);
   };
-  
+
   const setId = (id) => {
-    console.log('id')
+    console.log("id");
     console.log(id);
     setNum(id);
   };
+
   const delMemo = () => {
     delItems.forEach((e) => {
-      deleteMemo(e);
+      deleteMemo(cwd, e);
     });
   };
 
   const handleDeleteIconClick = () => {
     setShowCheckbox(!showCheckbox);
   };
-  
 
   const checkedItemHandler = (id, isChecked) => {
     //reflect change on del item list
@@ -102,8 +115,6 @@ const HeaderPresenter = () => {
   function onChange(value) {
     setOrder(value[1]);
   }
-  
-  
 
   const deleteDropdown = (
     <Menu>
@@ -120,29 +131,36 @@ const HeaderPresenter = () => {
     </Menu>
   );
 
-  const memoOrderedList = () =>{
-    let memoList = nameAscendingSort();
-    if(order == 'name_ascend')
-      return memoList;
-    else if(order == 'name_descend')
-      memoList = nameDescendingSort();
-    else if(order == 'time_ascend')
-      memoList = timeAscendingSort();
-    else if(order == 'time_descend')
-      memoList = timeDescendingSort();
-    else return timeDescendingSort();
+  const memoOrderedList = () => {
+    let memoList = nameAscendingSort(cwd);
+    if (order == "name_ascend") return memoList;
+    else if (order == "name_descend") memoList = nameDescendingSort(cwd);
+    else if (order == "time_ascend") memoList = timeAscendingSort(cwd);
+    else if (order == "time_descend") memoList = timeDescendingSort(cwd);
+    else return timeDescendingSort(cwd);
     return memoList;
   };
 
   return (
     <Wrapper>
-      <Editor isOpen={showEditor} modalClose={setShowEditorFalse} id = {id} />
+      <Editor
+        isOpen={showEditor}
+        modalClose={setShowEditorFalse}
+        id={id}
+        cwd={cwd}
+        forceCwdUpdate={forceCwdUpdate}
+      />
       <Affix offsetTop={0}>
         <Header>
           <span style={headerStyle}>Mini Memo</span>
           <HeaderButtonWrapper>
-            <span style = {sortStyle}>Sort By</span>
-            <Cascader options={options} onChange={onChange} expandTrigger="hover" placeholder="Please select" />
+            <span style={sortStyle}>Sort</span>
+            <Cascader
+              options={options}
+              onChange={onChange}
+              expandTrigger="hover"
+              placeholder="Please select"
+            />
             {display === DISP.POSTIT && (
               <BarsOutlined onClick={handleDispIconClick} style={iconStyle} />
             )}
@@ -167,25 +185,27 @@ const HeaderPresenter = () => {
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <div onClick = {() => setId(-1)}>
-        <AddMemo setter={setShowEditorTrue}/>
+      <div onClick={() => setId(-1)}>
+        <AddMemo setter={setShowEditorTrue} />
       </div>
       {display === DISP.LIST && (
         <List
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}
-          setTrue = {setShowEditorTrue} 
-          setId = {setId}
-          memoOrderedList = {memoOrderedList}
+          setTrue={setShowEditorTrue}
+          setId={setId}
+          memoOrderedList={memoOrderedList}
+          cwd={cwd}
         />
       )}
       {display === DISP.POSTIT && (
         <PostIt
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}
-          setTrue = {setShowEditorTrue} 
-          setId = {setId}
-          memoOrderedList = {memoOrderedList}
+          setTrue={setShowEditorTrue}
+          setId={setId}
+          memoOrderedList={memoOrderedList}
+          cwd={cwd}
         />
       )}
     </Wrapper>
@@ -204,7 +224,7 @@ const sortStyle = {
   color: "#F0BF39",
   fontFamily: "Open Sans",
   fontSize: 20,
-  fontWeight: 600
+  fontWeight: 600,
 };
 
 // const cascadeStyle = {
@@ -218,7 +238,7 @@ const iconStyle = {
   fontSize: 28,
   color: "#F0BF39",
   cursor: "pointer",
-  padding: 3
+  padding: 3,
 };
 
 const Wrapper = styled.div`
@@ -252,4 +272,3 @@ const HeaderBottomOutline = styled.div`
 `;
 
 export default HeaderPresenter;
-
