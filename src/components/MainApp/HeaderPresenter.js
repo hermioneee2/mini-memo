@@ -11,8 +11,7 @@ import List from "../List";
 import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
-import { deleteMemo } from "../../memo-storage/memo-localstorage";
-
+import { deleteMemo, nameAscendingSort, nameDescendingSort, timeAscendingSort, timeDescendingSort } from "../../memo-storage/memo-localstorage";
 const HeaderPresenter = () => {
   const DISP = {
     LIST: "list",
@@ -120,6 +119,21 @@ const HeaderPresenter = () => {
       </Menu.Item>
     </Menu>
   );
+
+  const memoOrderedList = () =>{
+    let memoList = nameAscendingSort();
+    if(order == 'name_ascend')
+      return memoList;
+    else if(order == 'name_descend')
+      memoList = nameDescendingSort();
+    else if(order == 'time_ascend')
+      memoList = timeAscendingSort();
+    else if(order == 'time_descend')
+      memoList = timeDescendingSort();
+    else return timeDescendingSort();
+    return memoList;
+  };
+
   return (
     <Wrapper>
       <Editor isOpen={showEditor} modalClose={setShowEditorFalse} id = {id} />
@@ -162,7 +176,7 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
           setTrue = {setShowEditorTrue} 
           setId = {setId}
-          order = {order}
+          memoOrderedList = {memoOrderedList}
         />
       )}
       {display === DISP.POSTIT && (
@@ -171,7 +185,7 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
           setTrue = {setShowEditorTrue} 
           setId = {setId}
-          order = {order}
+          memoOrderedList = {memoOrderedList}
         />
       )}
     </Wrapper>
