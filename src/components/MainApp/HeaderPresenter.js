@@ -3,8 +3,9 @@ import {
   AppstoreOutlined,
   DeleteOutlined,
   SettingOutlined,
+  FolderAddOutlined,
 } from "@ant-design/icons";
-import { Affix, Dropdown, Menu, Button, Cascader } from "antd";
+import { Affix, Dropdown, Menu, Button, Cascader, Input } from "antd";
 import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
@@ -64,6 +65,7 @@ const HeaderPresenter = () => {
   const [id, setNum] = useState(0);
   const [order, setOrder] = useState("");
   const [cwd, setCwd] = useState(MStore.initMemoCwd());
+
 
   const forceCwdUpdate = () => {
     setCwd(MStore.reloadCwd(cwd));
@@ -131,6 +133,47 @@ const HeaderPresenter = () => {
     </Menu>
   );
 
+  // dir add related
+  const [showDirInput, setShowDirInput] = useState(false); // for dir add
+  const [dirName, setDirName] = useState("");
+
+  const handleDirNameChange = (e) => {
+    console.log(e.target.value);
+    setDirName(e.target.value);
+  }
+
+  const handleDirAddIconClick = () => {
+    setShowDirInput(!showDirInput);
+  };
+
+  const handleDirAddButtonclick = (name) => {
+    MStore.storeDir(cwd, name);
+    setDirName("");
+    setShowDirInput(false);
+    forceCwdUpdate();
+  }
+
+  const dirAddDropdown = (
+    <Menu>
+      <Menu.Item>
+        <Input.Group compact>
+          <Input
+            style={{ size: "50%" }}
+            placeholder="New Folder Name"
+            enterButton="Add"
+            onChange={handleDirNameChange}
+          />
+          <Button 
+            type="primary"
+            onClick={() => handleDirAddButtonclick(dirName)}
+          >Add</Button>
+        </Input.Group>
+      </Menu.Item>
+    </Menu>
+  );
+
+
+  // sort and displaying related
   const memoOrderedList = () => {
     let memoList = nameAscendingSort(cwd);
     if (order == "name_ascend") return memoList;
@@ -139,6 +182,12 @@ const HeaderPresenter = () => {
     else if (order == "time_descend") memoList = timeDescendingSort(cwd);
     else return timeDescendingSort(cwd);
     return memoList;
+  };
+
+  const dirOrderedList = () => {
+    let dirList = MStore.loadDirList(cwd);
+    // TODO add order
+    return dirList; // list of strings
   };
 
   return (
@@ -170,6 +219,7 @@ const HeaderPresenter = () => {
                 style={iconStyle}
               />
             )}
+
             <Dropdown
               overlay={deleteDropdown}
               trigger={["click"]}
@@ -180,6 +230,18 @@ const HeaderPresenter = () => {
             >
               <DeleteOutlined style={iconStyle} />
             </Dropdown>
+
+            <Dropdown
+              overlay={dirAddDropdown}
+              trigger={["click"]}
+              placement="bottomRight"
+              arrow
+              onClick={handleDirAddIconClick}
+              visible={showDirInput}
+            >
+              <FolderAddOutlined style={iconStyle} />
+            </Dropdown>
+
             <SettingOutlined style={iconStyle} />
           </HeaderButtonWrapper>
         </Header>
@@ -195,6 +257,7 @@ const HeaderPresenter = () => {
           setTrue={setShowEditorTrue}
           setId={setId}
           memoOrderedList={memoOrderedList}
+          dirOrderedList={dirOrderedList}
           cwd={cwd}
         />
       )}

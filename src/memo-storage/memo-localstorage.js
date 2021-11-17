@@ -6,16 +6,26 @@ import * as Fsp from "./fs-pointer";
 /// NOTE: all these functions should get (cwd: fsPointer object) as argument now.
 /// cwd should be managed as state variable in MainApp component.
 
+////////////////////////////////////////////////////////////////////////////////
 // the initial cwd pointer: root
 export const initMemoCwd = () => {
   return Fsp.get_root_pointer();
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// accessing files and dir list
 // load memo list from cwd pointer
 export const loadMemoList = (cwd) => {
   let memoList = Fsp.get_file_data_list(cwd);
   return memoList;
 };
+
+// load dir list from cwd pointer
+export const loadDirList = (cwd) => {
+  let dirList = Fsp.get_dir_name_list(cwd);
+  return dirList;
+}
 
 // check memo with uid exists from cwd
 export const existingMemo = (cwd, uid) => {
@@ -23,13 +33,10 @@ export const existingMemo = (cwd, uid) => {
   return memoList.length > 0;
 };
 
-// load memo by uid from cwd
-// TODO : this is not used... why needed?
-export const loadItem = (cwd, uid) => {
-  let memoList = Fsp.get_file_data_list_by_data_predicate(cwd, (m) => m.uid == uid);
-  return memoList[0];
-};
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Modifiers for files
 // delete memo from cwd
 export const deleteMemo = (cwd, uid) => {
   let resBool = Fsp.delete_file_by_data_predicate(cwd, (m) => m.uid == uid);
@@ -51,10 +58,28 @@ export const storeMemo = (cwd, title, content) => {
   Fsp.store_file_in_dir(cwd, title, memoObj);
 };
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Modifiers for dirs
+
+export const storeDir = (cwd, dirname) => {
+  Fsp.store_dir_in_dir(cwd, dirname);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // reload cwd pointer for force update
 export const reloadCwd = (cwd) => {
   return Fsp.reload_pointer(cwd);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Etc.
+// load memo by uid from cwd
+// TODO : this is not used... why needed?
+export const loadItem = (cwd, uid) => {
+  let memoList = Fsp.get_file_data_list_by_data_predicate(cwd, (m) => m.uid == uid);
+  return memoList[0];
+};
 
 ////////////////////////////sorters
 //Helper function

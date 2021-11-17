@@ -286,3 +286,13 @@ export const reload_pointer = (fp) => {
   let id = fp.id;
   return fsPointer(id);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// directory related
+export const get_dir_name_list = (fp) => {
+  return get_dir_list(fp).map((p) => p.name);
+}
+
+export const store_dir_in_dir = (fp, name) => {
+  add_dir_to_pointer(fp, name);
+}
