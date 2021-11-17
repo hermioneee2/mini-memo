@@ -71,6 +71,7 @@ export const storeMemo = (tile, content) => {
   localStorage.setItem("memoList", JSON.stringify(memoList));
 };
 
+//Helper function
 export const compareObjects = (object1, object2, key) => {
   const obj1 = object1[key].toUpperCase()
   const obj2 = object2[key].toUpperCase()
