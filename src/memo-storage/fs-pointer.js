@@ -109,23 +109,23 @@ export const get_dir_list = (fp) => {
 // only searches direct children
 export const child_file_pointer = (fp, name) => {
   // if given fp is not directory, error
-  if (fp.type != "dir") return error_pointer("not a dir pointer");
+  if (fp.type != "directory") return error_pointer("not a dir pointer");
   // if dir with the name exist, error
-  if (fp.dirs.filter((p) => p.name == name).length > 0)
+  if (fp.dirs().filter((p) => p.name == name).length > 0)
     return error_pointer("given name is dir");
   // assume: only one file with given name exist
-  return fp.files.filter((p) => p.name == name)[0];
+  return fp.files().filter((p) => p.name == name)[0];
 };
 
 // given a pointer, get the dir pointer given name
 export const child_dir_pointer = (fp, name) => {
   // if given fp is not directory, error
-  if (fp.type != "dir") return error_pointer("not a dir pointer");
+  if (fp.type != "directory") return error_pointer("not a dir pointer");
   // if file with the name exist, error
-  if (fp.files.filter((p) => p.name == name).length > 0)
+  if (fp.files().filter((p) => p.name == name).length > 0)
     return error_pointer("given name is file");
   // assume: only one file with given name exist
-  return fp.dirs.filter((p) => p.name == name)[0];
+  return fp.dirs().filter((p) => p.name == name)[0];
 };
 
 // given a pointer, get the parent dir pointer
@@ -295,4 +295,18 @@ export const get_dir_name_list = (fp) => {
 
 export const store_dir_in_dir = (fp, name) => {
   add_dir_to_pointer(fp, name);
+}
+
+export const get_dir_by_name = (fp, name) => {
+  let resPointer = child_dir_pointer(fp, name);
+  // console.log('respointer');
+  // console.log(resPointer);
+  if (resPointer.type != 'directory') return fp
+  else return resPointer;
+}
+
+export const get_parent_dir = (fp) => {
+  let resPointer = parent_dir_pointer(fp);
+  if (resPointer.type != 'directory') return fp;
+  else return resPointer;
 }

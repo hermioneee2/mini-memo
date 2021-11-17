@@ -10,18 +10,27 @@ const ListPresenter = ({
   setId,
   memoOrderedList,
   dirOrderedList,
+  onChangeDir,
+  onParentDir,
   cwd,
 }) => {
   return (
     <div>
       <List
+        dataSource={[".."]}
+        style={listWrapperStyle}
+        renderItem={(name) => (
+          <List.Item>
+            <ListDirItem name={name} onChangeDir={onParentDir} />
+          </List.Item>
+          )}
+      />
+      <List
         dataSource={dirOrderedList()}
         style={listWrapperStyle}
         renderItem={(name) => (
           <List.Item>
-            <ListDirItem
-              name={name}
-            />
+            <ListDirItem name={name} onChangeDir={onChangeDir} />
           </List.Item>
         )}
       />

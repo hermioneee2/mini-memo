@@ -66,6 +66,14 @@ export const storeDir = (cwd, dirname) => {
   Fsp.store_dir_in_dir(cwd, dirname);
 }
 
+export const changeDir = (cwd, dirname) => {
+  return Fsp.get_dir_by_name(cwd, dirname);
+}
+
+export const parentDir = (cwd) => {
+  return Fsp.get_parent_dir(cwd);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // reload cwd pointer for force update
 export const reloadCwd = (cwd) => {

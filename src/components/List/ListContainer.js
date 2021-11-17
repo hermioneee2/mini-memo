@@ -8,6 +8,8 @@ const ListContainer = ({
   setId,
   memoOrderedList,
   dirOrderedList,
+  onChangeDir,
+  onParentDir,
   cwd,
 }) => {
   return (
@@ -18,6 +20,8 @@ const ListContainer = ({
       setId={setId}
       memoOrderedList={memoOrderedList}
       dirOrderedList={dirOrderedList}
+      onChangeDir={onChangeDir}
+      onParentDir={onParentDir}
       cwd={cwd}
     />
   );

@@ -172,6 +172,19 @@ const HeaderPresenter = () => {
     </Menu>
   );
 
+  // change dir related
+  const onChangeDir = (name) => {
+    let newCwd = MStore.changeDir(cwd, name);
+    // console.log('newCwd');
+    // console.log(newCwd);
+    setCwd(newCwd);
+  }
+
+  const onParentDir = (name) => {
+    // trick: use same type with onChangeDir, getting `name` arg but not use
+    let newCwd = MStore.parentDir(cwd);
+    setCwd(newCwd);
+  }
 
   // sort and displaying related
   const memoOrderedList = () => {
@@ -256,6 +269,8 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
           setTrue={setShowEditorTrue}
           setId={setId}
+          onChangeDir={onChangeDir}
+          onParentDir={onParentDir}
           memoOrderedList={memoOrderedList}
           dirOrderedList={dirOrderedList}
           cwd={cwd}

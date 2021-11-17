@@ -5,10 +5,11 @@ import Clock from 'react-clock';
 
 
 const ListDirItemContainer = ({
-  name
+  name,
+  onChangeDir,
 }) => {
   return (
-    <div onClick = {() => {}}>
+    <div onClick = {() => {console.log(onChangeDir);onChangeDir(name)}}>
       <ListDirItemPresenter
         name={name}
       />
