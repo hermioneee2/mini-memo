@@ -1,7 +1,8 @@
 import { React } from "react";
 import ListItem from "../ListItem";
+import ListDirItem from "../ListDirItem";
 import { List } from "antd";
-import { FolderOutlined } from "@ant-design/icons";
+
 const ListPresenter = ({
   showCheckbox,
   checkedItemHandler,
@@ -18,8 +19,9 @@ const ListPresenter = ({
         style={listWrapperStyle}
         renderItem={(name) => (
           <List.Item>
-            <FolderOutlined />
-            {name}
+            <ListDirItem
+              name={name}
+            />
           </List.Item>
         )}
       />
