@@ -29,7 +29,7 @@ const ListItemContainer = ({
     // let a = d + h + ':' + m;
     // console.log(a);
     // console.log(h);
-    let a = dateFormat(t, "yyyy. m. d  HH:M");
+    let a = dateFormat(t, "yyyy. m. d  HH:MM");
     return a;
   }
   return (
