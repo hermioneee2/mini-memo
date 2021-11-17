@@ -3,11 +3,11 @@ import PostItItem from "../PostItItem";
 import { List } from "antd";
 import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
-const PostItPresenter = ({ showCheckbox, checkedItemHandler }) => {
+const PostItPresenter = ({ showCheckbox, checkedItemHandler, setTrue, setId,  memoOrderedList}) => {
   return (
     <div>
       <List
-        dataSource={loadMemoList()}
+        dataSource={memoOrderedList()}
         style={listWrapperStyle}
         grid={{ gutter: 16, column: 4 }}
         renderItem={(item) => (
@@ -18,6 +18,7 @@ const PostItPresenter = ({ showCheckbox, checkedItemHandler }) => {
               uid={item.uid}
               showCheckbox={showCheckbox}
               checkedItemHandler={checkedItemHandler}
+              setTrue = {setTrue} setId = {setId}
             />
           </List.Item>
         )}

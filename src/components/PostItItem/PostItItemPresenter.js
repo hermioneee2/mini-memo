@@ -8,14 +8,15 @@ const PostItItemPresenter = ({
   showCheckbox,
   bchecked,
   checkHandler,
+  setTrue
 }) => {
   return (
     <div>
-      <Card title={title} style={cardStyle}>
-        {content}
-        {showCheckbox && (
+      {showCheckbox && (
           <input type="checkbox" checked={bchecked} onChange={checkHandler} />
         )}
+      <Card title={title} style={cardStyle} onClick = {setTrue}>
+        {content}
       </Card>
     </div>
   );
@@ -24,6 +25,7 @@ const PostItItemPresenter = ({
 const cardStyle = {
   width: "310px",
   margin: "10px",
+  cursor: "pointer",
 };
 
 export default PostItItemPresenter;

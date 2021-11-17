@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import { Input, Divider, Button } from "antd";
 import EditorComponent from "../Editor/Quill";
 import {existingMemo} from "../../memo-storage/memo-localstorage";
+import ReactQuill from 'react-quill';
 
 const { TextArea } = Input;
 
@@ -15,6 +16,7 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id}) => {
   const [memoObj, setMemoObj] = useState({
     title: "",
     content: "",
+    createdAt: "",
   });
 
   const setMemoObjTitle = (e) => {
@@ -31,6 +33,13 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id}) => {
     setMemoObj(newObj)
   };
 
+  const setMemoObjCreatedAt = () => {
+    let newObj = memoObj
+    //console.log(e)
+    newObj.createdAt = new Date() 
+    setMemoObj(newObj)
+  };
+
   const onSave = () => {
     console.log(existingMemo(id));
     if (memoObj.content === "" || memoObj.title === "") {
@@ -38,17 +47,18 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id}) => {
       return;
     }
     else if(existingMemo(id)){
+      setMemoObjCreatedAt();
       atModify(memoObj, id);
     }
     else{
       atSave(memoObj,);
     }
   };
-  
+
   return (
     <div>
       <Modal isOpen={isOpen} onRequestClose={atCancel} style={style}>
-        <Input placeholder="Title" onChange={setMemoObjTitle}/>
+        <Input placeholder="Title" onChange={setMemoObjTitle} />
         <Divider />
         <EditorComponent value = {memoObj} onChange={setMemoObjContent} />
         <div style={{ marginRight: "10px" }}>

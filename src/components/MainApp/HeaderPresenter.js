@@ -4,7 +4,7 @@ import {
   DeleteOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Affix, Dropdown, Menu } from "antd";
+import { Affix, Dropdown, Menu , Button, Cascader} from "antd";
 import { React, useState } from "react";
 import styled from "styled-components";
 import List from "../List";
@@ -18,12 +18,44 @@ const HeaderPresenter = () => {
     LIST: "list",
     POSTIT: "postit",
   };
+
+  const options = [
+    {
+      label: 'Edited Time',
+      value: 'time',
+      children: [
+        {
+          label: 'Ascending Order',
+          value: 'time_ascend',
+        },
+        {
+          label: 'Desceding Order',
+          value: 'time_descend',
+        },
+      ],
+    },
+    {
+      label: 'Name',
+      value: 'name',
+      children: [
+        {
+          label: 'Ascending Order',
+          value: 'name_ascend',
+        },
+        {
+          label: 'Desceding Order',
+          value: 'name_descend',
+        },
+      ],
+    },
+  ];
   
   const [showEditor, setShowEditor] = useState(false);
   const [showCheckbox, setShowCheckbox] = useState(false); // for delete
   const [delItems, setDelItems] = useState(new Set()); // for delete
   const [display, setDisplay] = useState(DISP.LIST);
   const [id, setNum] = useState(0);
+  const [order, setOrder] = useState('');
   
   const setShowEditorTrue = () => {
     console.log('set true');
@@ -48,6 +80,7 @@ const HeaderPresenter = () => {
   const handleDeleteIconClick = () => {
     setShowCheckbox(!showCheckbox);
   };
+  
 
   const checkedItemHandler = (id, isChecked) => {
     //reflect change on del item list
@@ -66,6 +99,12 @@ const HeaderPresenter = () => {
       setDisplay(DISP.POSTIT);
     }
   };
+
+  function onChange(value) {
+    setOrder(value[1]);
+  }
+  
+  
 
   const deleteDropdown = (
     <Menu>
@@ -88,6 +127,8 @@ const HeaderPresenter = () => {
         <Header>
           <span style={headerStyle}>Mini Memo</span>
           <HeaderButtonWrapper>
+            <span style = {sortStyle}>Sort By</span>
+            <Cascader options={options} onChange={onChange} expandTrigger="hover" placeholder="Please select" />
             {display === DISP.POSTIT && (
               <BarsOutlined onClick={handleDispIconClick} style={iconStyle} />
             )}
@@ -121,12 +162,16 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
           setTrue = {setShowEditorTrue} 
           setId = {setId}
+          order = {order}
         />
       )}
       {display === DISP.POSTIT && (
         <PostIt
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}
+          setTrue = {setShowEditorTrue} 
+          setId = {setId}
+          order = {order}
         />
       )}
     </Wrapper>
@@ -141,10 +186,25 @@ const headerStyle = {
   marginLeft: 20,
 };
 
+const sortStyle = {
+  color: "#F0BF39",
+  fontFamily: "Open Sans",
+  fontSize: 20,
+  fontWeight: 600
+};
+
+// const cascadeStyle = {
+//   width: "250px",
+//   alignItems:'center',
+//   marginleft: 100
+
+// };
+
 const iconStyle = {
   fontSize: 28,
   color: "#F0BF39",
   cursor: "pointer",
+  padding: 3
 };
 
 const Wrapper = styled.div`
@@ -166,7 +226,7 @@ const HeaderButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   padding-right: 40px;
-  width: 160px;
+  width: 300px;
   justify-content: space-between;
 `;
 
@@ -178,3 +238,4 @@ const HeaderBottomOutline = styled.div`
 `;
 
 export default HeaderPresenter;
+

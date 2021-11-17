@@ -7,6 +7,8 @@ const PostItItemContainer = ({
   uid,
   showCheckbox,
   checkedItemHandler,
+  setTrue, 
+  setId
 }) => {
   const [bChecked, setChecked] = useState(false);
 
@@ -16,13 +18,14 @@ const PostItItemContainer = ({
   };
 
   return (
-    <div>
+    <div onClick = {() => setId(uid)}>
       <PostItItemPresenter
         title={title}
         content={content}
         showCheckbox={showCheckbox}
         bChecked={bChecked}
         checkHandler={checkHandler}
+        setTrue={setTrue}
       />
     </div>
   );

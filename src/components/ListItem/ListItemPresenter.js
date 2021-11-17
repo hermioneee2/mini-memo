@@ -4,6 +4,7 @@ import { FileOutlined } from "@ant-design/icons";
 const ListItemPresenter = ({
   title,
   content,
+  time,
   showCheckbox,
   bchecked,
   checkHandler,
@@ -14,10 +15,14 @@ const ListItemPresenter = ({
       {showCheckbox && (
         <input type="checkbox" checked={bchecked} onChange={checkHandler} />
       )}
-      <div style={listItemStyle} onClick = {setTrue}>
+      <div style = {listItemStyle} onClick = {setTrue}>
         <FileOutlined />
         <strong>{title}</strong> {content}
+        <span style = {timeStyle}>
+          {time()}
+        </span>
       </div>
+
     </div>
   );
 };
@@ -25,6 +30,12 @@ const ListItemPresenter = ({
 const listItemStyle = {
   height: "63px",
   fontSize: "large",
+  cursor: "pointer",
+};
+const timeStyle = {
+  height: "63px",
+  fontSize: "large",
+  padding: 40
 };
 
 export default ListItemPresenter;
