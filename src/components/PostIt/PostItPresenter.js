@@ -1,7 +1,6 @@
 import React from "react";
 import PostItItem from "../PostItItem";
 import { List } from "antd";
-import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
 const PostItPresenter = ({ showCheckbox, checkedItemHandler, setTrue, setId,  memoOrderedList}) => {
   return (

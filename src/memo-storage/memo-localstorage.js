@@ -1,126 +1,99 @@
 import { memo } from "react";
 import { makeMemoObj } from "./memo-parse";
 import { getNextMemoUid } from "./uid";
+import * as Fsp from "./fs-pointer";
 
-export const loadMemoList = () => {
-  let memoList = [];
-  const memoListStr = localStorage.getItem("memoList");
-  if (memoListStr) {
-    const memoListObj = JSON.parse(memoListStr);
-    memoList = memoListObj;
-  }
+/// NOTE: all these functions should get (cwd: fsPointer object) as argument now.
+/// cwd should be managed as state variable in MainApp component.
+
+// load memo list from cwd pointer
+export const loadMemoList = (cwd) => {
+  let memoList = Fsp.get_file_list(cwd).map(p => p.data);
   return memoList;
 };
 
-export const loadMemo = () => {
-  const memo = localStorage.getItem("memoList");
-  if (memo) {
-    return JSON.parse(memo);
-  } else {
-    return [];
-  }
+// check memo with uid exists from cwd
+export const existingMemo = (cwd, uid) => {
+  let memoList = Fsp.get_file_data_list_by_data_predicate(cwd, (m) => m.uid == uid);
+  return memoList.length > 0;
 };
 
-export const existingMemo = (id) => {
-  let bool = false;
-  const memoList = loadMemoList();
-  memoList.forEach((e) => {
-    if(e.uid === id)
-      bool = true;
-  });
-  return bool;
-}
-
-export const loadItem = (id) => {
-  const memoList = loadMemoList();
-  memoList.forEach((e) => {
-    if(e.uid == id)
-      return e;
-  })
-  return null;
- };
-
-
-export const deleteMemo = (id) => {
-  const list = [];
-  const memoList = loadMemoList();
-  memoList.forEach((e) => {
-    if (e.uid !== id) list.push(e);
-  });
-  localStorage.removeItem("memoList");
-  localStorage.setItem("memoList", JSON.stringify(list));
-}
-
-export const modifyMemo = (memo, id) =>{
-  const memoList = loadMemoList();
-  memoList.forEach((e) => {
-    if(e.uid === id){
-      e.content = memo.content;
-      e.title = memo.title;
-      e.createdAt = memo.createdAt;
-    }
-  });
-  localStorage.removeItem("memoList");
-  localStorage.setItem("memoList", JSON.stringify(memoList));
-} 
-
-export const storeMemo = (tile, content) => {
-  const memoObj = makeMemoObj(getNextMemoUid(), tile, content);
-  const memoList = loadMemo();
-  memoList.push(memoObj);
-  localStorage.setItem("memoList", JSON.stringify(memoList));
+// load memo by uid from cwd
+// TODO : this is not used... why needed?
+export const loadItem = (cwd, uid) => {
+  let memoList = Fsp.get_file_data_list_by_data_predicate(cwd, (m) => m.uid == uid);
+  return memoList[0];
 };
 
+// TODO refactor to delete memo from cwd
+export const deleteMemo = (cwd, uid) => {
+  let resBool = Fsp.delete_file_by_data_predicate(cwd, (m) => m.uid == uid);
+  return resBool;
+};
+
+// TODO refactor to modify memo from cwd
+export const modifyMemo = (cwd, memoObj, uid) => {
+  let resBool = Fsp.modify_file_data_by_data_predicate(cwd, (m) => m.uid == uid, memoObj);
+  return resBool;
+};
+
+// refactor to store in cwd
+export const storeMemo = (cwd, title, content) => {
+  const memoObj = makeMemoObj(getNextMemoUid(), title, content);
+  Fsp.store_file_in_dir(cwd, title, memoObj);
+};
+
+////////////////////////////sorters
+/// TODO refactor all sort in cwd
 //Helper function
 export const compareObjects = (object1, object2, key) => {
-  const obj1 = object1[key].toUpperCase()
-  const obj2 = object2[key].toUpperCase()
+  const obj1 = object1[key].toUpperCase();
+  const obj2 = object2[key].toUpperCase();
   if (obj1 < obj2) {
-    return -1
+    return -1;
   }
   if (obj1 > obj2) {
-    return 1
+    return 1;
   }
-  return 0
+  return 0;
 };
 
-export const nameAscendingSort = () =>{
-  const memoList = loadMemoList();
+export const nameAscendingSort = (cwd) => {
+  const memoList = loadMemoList(cwd);
   console.log(memoList);
   memoList.sort((memo1, memo2) => {
-    return compareObjects(memo1, memo2, 'title')
+    return compareObjects(memo1, memo2, "title");
   });
   console.log(memoList);
   return memoList;
-}
+};
 
-export const nameDescendingSort = () =>{
-  const memoList = loadMemoList();
+export const nameDescendingSort = (cwd) => {
+  const memoList = loadMemoList(cwd);
   console.log(memoList);
   memoList.sort((memo1, memo2) => {
-    return compareObjects(memo2, memo1, 'title')
+    return compareObjects(memo2, memo1, "title");
   });
   console.log(memoList);
   return memoList;
-}
+};
 
-export const timeAscendingSort = () =>{
-  const memoList = loadMemoList();
+export const timeAscendingSort = (cwd) => {
+  const memoList = loadMemoList(cwd);
   console.log(memoList);
   memoList.sort((memo1, memo2) => {
-    return compareObjects(memo1, memo2, 'createdAt')
+    return compareObjects(memo1, memo2, "createdAt");
   });
   console.log(memoList);
   return memoList;
-}
+};
 
-export const timeDescendingSort = () =>{
-  const memoList = loadMemoList();
+export const timeDescendingSort = (cwd) => {
+  const memoList = loadMemoList(cwd);
   console.log(memoList);
   memoList.sort((memo1, memo2) => {
-    return compareObjects(memo2, memo1, 'createdAt')
+    return compareObjects(memo2, memo1, "createdAt");
   });
   console.log(memoList);
   return memoList;
-}
-
+};

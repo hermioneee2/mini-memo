@@ -89,6 +89,21 @@ export const error_pointer = (msg) => {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+// getters for file list
+export const get_file_list = (fp) => {
+  return fp.files();
+};
+
+// getters for dir list
+export const get_dir_list = (fp) => {
+  return fp.dirs();
+};
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////// helper fns  ////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
 // given a pointer, get the file pointer given name
 // only searches direct children
 export const child_file_pointer = (fp, name) => {
@@ -123,7 +138,7 @@ export const add_file_to_pointer = (fp, filename, filedata) => {
   if (fp.type != "directory") return error_pointer("not a dir pointer");
   // check filename already exists
   if (fp.files().filter((p) => p.name == filename).length > 0) {
-    return error_pointer(`file ${filename} already exist`)
+    return error_pointer(`file ${filename} already exist`);
   }
   let new_file = lfs.new_file(filename, fp.id, filedata);
   // return pointer to newly made file
@@ -135,7 +150,7 @@ export const add_dir_to_pointer = (fp, dirname) => {
   if (fp.type != "directory") return error_pointer("not a dir pointer");
   // check dirname already exists
   if (fp.dirs().filter((p) => p.name == dirname).length > 0) {
-    return error_pointer(`dir ${dirname} already exist`)
+    return error_pointer(`dir ${dirname} already exist`);
   }
   let new_dir = lfs.new_directory(dirname, fp.id);
   // return pointer to newly made dir
@@ -148,14 +163,14 @@ export const remove_pointer = (fp) => {
   if (fp.type == "file") {
     lfs.remove_file(fp.id);
     return true;
-  }
-  else if (fp.type == "directory") {
+  } else if (fp.type == "directory") {
     lfs.remove_directory(fp.id);
     return true;
-  }
-  else return false // TODO should return some id
+  } else return false; // TODO should return some id
 };
 
+////////////////////////////////////////////////////////////////////////////////
+// update file data of given pointer
 export const update_data_file_pointer = (fp, filedata) => {
   if (fp.type != "file") return false;
   let file = fp.raw;
@@ -225,12 +240,39 @@ export const get_pointer_path = (fp) => {
   else return "";
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// high-level api for fs
-////////////////////////////////////////////////////////////////////////////////
 
-// initialize the localstorage fs, returns fsPointer to the root
-const init_fs = () => {
-  lfs.init_fs();
-
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////Main fns for memo-localstorage //////////////////
+////////////////////////////////////////////////////////////////////////////////
+// getters for file data by predicate of file data
+export const get_file_data_list_by_data_predicate = (fp, predicate) => {
+  let targetFileDatas = fp
+    .files()
+    .filter((fp) => predicate(fp.data()))
+    .map((fp) => fp.data());
+  return targetFileDatas;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// modifiers for file pointers
+export const delete_file_by_data_predicate = (fp, predicate) => {
+  let targetFiles = fp.files().filter((fp) => predicate(fp.data()));
+  if (targetFiles.length == 0) return false
+  targetFiles.forEach((fp) => {
+    remove_pointer(fp);
+  });
+  return true;
+};
+
+export const modify_file_data_by_data_predicate = (fp, predicate, newData) => {
+  let targetFiles = fp.files().filter((fp) => predicate(fp.data()));
+  // assert only one target file to modify
+  if (targetFiles.length != 1) return false 
+  update_data_file_pointer(targetFiles[0], newData);
+  return true;
+}
+
+export const store_file_in_dir = (fp, name, data) => {
+  add_file_to_pointer(fp, name, data);
+}
