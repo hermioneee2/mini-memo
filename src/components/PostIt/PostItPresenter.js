@@ -1,9 +1,15 @@
 import React from "react";
 import PostItItem from "../PostItItem";
 import { List } from "antd";
-import { loadMemoList } from "../../memo-storage/memo-localstorage";
 
-const PostItPresenter = ({ showCheckbox, checkedItemHandler, setTrue, setId,  memoOrderedList}) => {
+const PostItPresenter = ({
+  showCheckbox,
+  checkedItemHandler,
+  setTrue,
+  setId,
+  memoOrderedList,
+  cwd,
+}) => {
   return (
     <div>
       <List
@@ -18,7 +24,8 @@ const PostItPresenter = ({ showCheckbox, checkedItemHandler, setTrue, setId,  me
               uid={item.uid}
               showCheckbox={showCheckbox}
               checkedItemHandler={checkedItemHandler}
-              setTrue = {setTrue} setId = {setId}
+              setTrue={setTrue}
+              setId={setId}
             />
           </List.Item>
         )}
