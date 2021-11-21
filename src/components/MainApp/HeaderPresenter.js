@@ -66,7 +66,6 @@ const HeaderPresenter = () => {
   const [order, setOrder] = useState("");
   const [cwd, setCwd] = useState(MStore.initMemoCwd());
 
-
   const forceCwdUpdate = () => {
     setCwd(MStore.reloadCwd(cwd));
   };
@@ -139,7 +138,7 @@ const HeaderPresenter = () => {
 
   const handleDirNameChange = (e) => {
     setDirName(e.target.value);
-  }
+  };
 
   const handleDirAddIconClick = () => {
     setShowDirInput(!showDirInput);
@@ -150,7 +149,7 @@ const HeaderPresenter = () => {
     setDirName("");
     setShowDirInput(false);
     forceCwdUpdate();
-  }
+  };
 
   const dirAddDropdown = (
     <Menu>
@@ -163,10 +162,12 @@ const HeaderPresenter = () => {
             enterButton="Add"
             onChange={handleDirNameChange}
           />
-          <Button 
+          <Button
             type="primary"
             onClick={() => handleDirAddButtonclick(dirName)}
-          >Add</Button>
+          >
+            Add
+          </Button>
         </Input.Group>
       </Menu.Item>
     </Menu>
@@ -178,13 +179,13 @@ const HeaderPresenter = () => {
     // console.log('newCwd');
     // console.log(newCwd);
     setCwd(newCwd);
-  }
+  };
 
   const onParentDir = (name) => {
     // trick: use same type with onChangeDir, getting `name` arg but not use
     let newCwd = MStore.parentDir(cwd);
     setCwd(newCwd);
-  }
+  };
 
   // sort and displaying related
   const memoOrderedList = () => {

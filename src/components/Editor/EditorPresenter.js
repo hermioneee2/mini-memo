@@ -1,9 +1,10 @@
 import React, { memo, useState } from "react";
 import Modal from "react-modal";
-import { Input, Divider, Button } from "antd";
+import { Input, Divider, Button, message } from "antd";
 import EditorComponent from "../Editor/Quill";
 import { existingMemo } from "../../memo-storage/memo-localstorage";
 import ReactQuill from "react-quill";
+import styled from "styled-components";
 
 const { TextArea } = Input;
 
@@ -50,6 +51,30 @@ const EditorPresenter = ({
     setMemoObj(newObj);
   };
 
+  const successMsg = () => {
+    message.success({
+      content: "Shortened URL is copied to the clipboard.",
+      // className: "custom-class",
+      style: {
+        marginTop: "40vh",
+      },
+    });
+  };
+
+  const failMsg = () => {
+    message.error({
+      content: "Please enter valid URL",
+      // className: "custom-class",
+      style: {
+        marginTop: "40vh",
+      },
+    });
+  };
+
+  const handleURLButtonWrapper = () => {
+    handleURLButton(successMsg, failMsg);
+  };
+
   const onSave = () => {
     console.log(existingMemo(cwd, id));
     if (memoObj.content === "" || memoObj.title === "") {
@@ -65,7 +90,7 @@ const EditorPresenter = ({
 
   return (
     <div>
-      <Modal isOpen={isOpen} onRequestClose={atCancel} style={style}>
+      <Modal isOpen={isOpen} onRequestClose={atCancel}>
         <Input placeholder="Title" onChange={setMemoObjTitle} />
         <Divider />
         <EditorComponent value={memoObj} onChange={setMemoObjContent} />
@@ -74,6 +99,7 @@ const EditorPresenter = ({
             style={{ width: "calc(40% - 200px)" }}
             placeholder="Enter your URL here"
             onChange={handleURLQuery}
+            onPressEnter={handleURLButtonWrapper}
           />
           <Button
             style={{
@@ -81,12 +107,13 @@ const EditorPresenter = ({
               color: "#F0BF39",
               fontWeight: "bold",
             }}
-            onClick={handleURLButton}
+            onClick={handleURLButtonWrapper}
           >
             Shorten URL
           </Button>
         </Input.Group>
-        <div>result: {shortenedURL}</div>
+        {/* <Input defaultValue={shortenedURL} /> */}
+        <div>Shortend URL: {shortenedURL}</div>
         <div style={{ marginRight: "10px" }}>
           <Button
             type="primary"

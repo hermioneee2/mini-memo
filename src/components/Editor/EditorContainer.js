@@ -11,7 +11,7 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
     setURL(e.target.value);
   };
 
-  const handleURLButton = async () => {
+  const handleURLButton = async (successMsg, failMsg) => {
     try {
       const res = await axios.get("http://localhost:3031/getURL", {
         params: {
@@ -22,9 +22,13 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
         const { data } = res;
         // console.log(data);
         setShortenedURL(data.result.url);
+        navigator.clipboard.writeText(data.result.url);
+        successMsg();
       }
     } catch (e) {
-      console.log("error ", e);
+      // console.log("error ", e);
+      setShortenedURL("");
+      failMsg();
     }
   };
 
