@@ -3,10 +3,10 @@ import MainApp from "./components/MainApp";
 // import AddMemo from "./components/AddMemo";
 // import Editor from "./components/Editor";
 // import { useState } from "react";
-//"hi"
+
 import "antd/dist/antd.css";
 const App = () => {
-
+  console.log("hello")
   return (
     <div className="App">
       <MainApp />
