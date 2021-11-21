@@ -36,15 +36,19 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
     storeMemo(cwd, memoObj.title, memoObj.content);
     forceCwdUpdate();
     modalClose(false);
+    setShortenedURL("");
   };
+
   const atModify = (memoObj, id) => {
     modifyMemo(cwd, memoObj, id);
     forceCwdUpdate();
     modalClose(false);
+    setShortenedURL("");
   };
 
   const atCancel = () => {
     modalClose(false);
+    setShortenedURL("");
   };
   return (
     <EditorPresenter
