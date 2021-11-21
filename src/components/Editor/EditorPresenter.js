@@ -12,7 +12,17 @@ const style = {
   height: "486px",
 };
 
-const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id, cwd }) => {
+const EditorPresenter = ({
+  isOpen,
+  atSave,
+  atModify,
+  atCancel,
+  id,
+  cwd,
+  handleURLQuery,
+  handleURLButton,
+  shortenedURL,
+}) => {
   const [memoObj, setMemoObj] = useState({
     title: "",
     content: "",
@@ -59,8 +69,34 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id, cwd }) => {
         <Input placeholder="Title" onChange={setMemoObjTitle} />
         <Divider />
         <EditorComponent value={memoObj} onChange={setMemoObjContent} />
+        <Input.Group compact>
+          <Input
+            style={{ width: "calc(40% - 200px)" }}
+            placeholder="Enter your URL here"
+            onChange={handleURLQuery}
+          />
+          <Button
+            style={{
+              borderColor: "#F0BF39",
+              color: "#F0BF39",
+              fontWeight: "bold",
+            }}
+            onClick={handleURLButton}
+          >
+            Shorten URL
+          </Button>
+        </Input.Group>
+        <div>result: {shortenedURL}</div>
         <div style={{ marginRight: "10px" }}>
-          <Button type="primary" style={{ marginTop: "10px" }} onClick={onSave}>
+          <Button
+            type="primary"
+            style={{
+              background: "#F0BF39",
+              borderColor: "#F0BF39",
+              marginTop: "10px",
+            }}
+            onClick={onSave}
+          >
             Save
           </Button>
           <Button onClick={atCancel}>Cancel</Button>

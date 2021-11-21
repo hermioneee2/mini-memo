@@ -1,8 +1,33 @@
 import EditorPresenter from "./EditorPresenter";
 import React, { useState } from "react";
 import { storeMemo, modifyMemo } from "../../memo-storage/memo-localstorage";
+import axios from "axios";
 
 const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
+  const [url, setURL] = useState("");
+  const [shortenedURL, setShortenedURL] = useState();
+
+  const handleURLQuery = (e) => {
+    setURL(e.target.value);
+  };
+
+  const handleURLButton = async () => {
+    try {
+      const res = await axios.get("http://localhost:3031/getURL", {
+        params: {
+          url: url,
+        },
+      });
+      if (res && res.status === 200) {
+        const { data } = res;
+        // console.log(data);
+        setShortenedURL(data.result.url);
+      }
+    } catch (e) {
+      console.log("error ", e);
+    }
+  };
+
   const atSave = (memoObj) => {
     storeMemo(cwd, memoObj.title, memoObj.content);
     forceCwdUpdate();
@@ -25,6 +50,9 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
       atCancel={atCancel}
       id={id}
       cwd={cwd}
+      handleURLQuery={handleURLQuery}
+      handleURLButton={handleURLButton}
+      shortenedURL={shortenedURL}
     />
   );
 };
