@@ -92,8 +92,8 @@ export const loadItem = (cwd, uid) => {
 ////////////////////////////sorters
 //Helper function
 export const compareObjects = (object1, object2, key) => {
-  const obj1 = object1[key].toUpperCase();
-  const obj2 = object2[key].toUpperCase();
+  const obj1 = (object1[key] || "").toUpperCase();
+  const obj2 = (object2[key] || "").toUpperCase();
   if (obj1 < obj2) {
     return -1;
   }
@@ -102,6 +102,20 @@ export const compareObjects = (object1, object2, key) => {
   }
   return 0;
 };
+
+// 
+export const objectGeneralSort = (datalist, key, ascending) => {
+  let sorted = datalist
+  sorted.sort((o1, o2) => {
+    if (ascending) {
+      return compareObjects(o1, o2, key);
+    }
+    else {
+      return compareObjects(o2, o1, key);
+    }
+  });
+  return sorted;
+}
 
 export const nameAscendingSort = (cwd) => {
   const memoList = loadMemoList(cwd);

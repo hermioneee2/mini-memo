@@ -203,6 +203,28 @@ const HeaderPresenter = () => {
     return dirList; // list of strings
   };
 
+  const dataOrderedList = () => {
+    let memoList = MStore.loadMemoList(cwd);
+    let dirList = MStore.loadDirList(cwd);
+    if (order == "name_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", true);
+      dirList = MStore.objectGeneralSort(dirList, "title", true);
+    }
+    else if (order == "name_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", false);
+      dirList = MStore.objectGeneralSort(dirList, "title", false);
+    }
+    else if (order == "time_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", true);
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", true);
+    }
+    else if (order == "time_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", false);
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", false);
+    }
+    return dirList.concat(memoList);
+  }
+
   return (
     <Wrapper>
       <Editor
@@ -273,6 +295,7 @@ const HeaderPresenter = () => {
           onParentDir={onParentDir}
           memoOrderedList={memoOrderedList}
           dirOrderedList={dirOrderedList}
+          dataOrderedList={dataOrderedList}
           cwd={cwd}
         />
       )}

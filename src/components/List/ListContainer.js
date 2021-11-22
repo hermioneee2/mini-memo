@@ -8,6 +8,7 @@ const ListContainer = ({
   setId,
   memoOrderedList,
   dirOrderedList,
+  dataOrderedList,
   onChangeDir,
   onParentDir,
   cwd,
@@ -20,6 +21,7 @@ const ListContainer = ({
       setId={setId}
       memoOrderedList={memoOrderedList}
       dirOrderedList={dirOrderedList}
+      dataOrderedList={dataOrderedList}
       onChangeDir={onChangeDir}
       onParentDir={onParentDir}
       cwd={cwd}

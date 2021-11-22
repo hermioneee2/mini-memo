@@ -296,6 +296,7 @@ export const get_dir_data_list = (fp) => {
   return get_dir_list(fp).map((p) => {
     return {
       type: 'directory',
+      title: p.name,
       name: p.name,
     };
   });
