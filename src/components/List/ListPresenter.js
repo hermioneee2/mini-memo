@@ -42,8 +42,9 @@ const ListPresenter = ({
         dataSource={memoOrderedList()}
         style={listWrapperStyle}
         renderItem={(item) => (
-          <List.Item>
+          <List.Item style ={{width:"100%"}}>
             <ListItem
+              style ={{height:"100px"}}
               title={item.title}
               content={item.content}
               uid={item.uid}

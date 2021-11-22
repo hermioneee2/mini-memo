@@ -37,7 +37,7 @@ const BreadCrumbPresenter = (cwd) => {
             <Breadcrumb style = {Breadcrumb_style}>
                 {hierarchy_render}
             </Breadcrumb>
-            <div style = {{padding: "14px 0px 6px", fontSize:18}}>{folder_title}</div>
+            <strong style = {{padding: "14px 0px 6px", fontSize:18}}>{folder_title}</strong>
         </div>
     )
 }
