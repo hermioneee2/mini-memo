@@ -12,6 +12,7 @@ import List from "../List";
 import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
+import BreadCrumb from "../BreadCrumb";
 import {
   deleteMemo,
   nameAscendingSort,
@@ -263,6 +264,10 @@ const HeaderPresenter = () => {
       <div onClick={() => setId(-1)}>
         <AddMemo setter={setShowEditorTrue} />
       </div>
+      <BreadCrumb
+        cwd ={cwd}
+        onChangeDir ={onChangeDir}>
+      </BreadCrumb>
       {display === DISP.LIST && (
         <List
           showCheckbox={showCheckbox}
