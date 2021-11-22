@@ -241,7 +241,6 @@ export const get_pointer_path = (fp) => {
   else return "";
 };
 
-
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////Main fns for memo-localstorage //////////////////
@@ -256,14 +255,14 @@ export const get_file_data_list_by_data_predicate = (fp, predicate) => {
 };
 
 export const get_file_data_list = (fp) => {
-  return get_file_data_list_by_data_predicate(fp, m => true);
-}
+  return get_file_data_list_by_data_predicate(fp, (m) => true);
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // modifiers for file pointers
 export const delete_file_by_data_predicate = (fp, predicate) => {
   let targetFiles = fp.files().filter((fp) => predicate(fp.data()));
-  if (targetFiles.length == 0) return false
+  if (targetFiles.length == 0) return false;
   targetFiles.forEach((fp) => {
     remove_pointer(fp);
   });
@@ -273,40 +272,49 @@ export const delete_file_by_data_predicate = (fp, predicate) => {
 export const modify_file_data_by_data_predicate = (fp, predicate, newData) => {
   let targetFiles = fp.files().filter((fp) => predicate(fp.data()));
   // assert only one target file to modify
-  if (targetFiles.length != 1) return false 
+  if (targetFiles.length != 1) return false;
   update_data_file_pointer(targetFiles[0], newData);
   return true;
-}
+};
 
 export const store_file_in_dir = (fp, name, data) => {
   add_file_to_pointer(fp, name, data);
-}
+};
 
 export const reload_pointer = (fp) => {
   let id = fp.id;
   return fsPointer(id);
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // directory related
 export const get_dir_name_list = (fp) => {
   return get_dir_list(fp).map((p) => p.name);
-}
+};
+
+export const get_dir_data_list = (fp) => {
+  return get_dir_list(fp).map((p) => {
+    return {
+      type: 'directory',
+      name: p.name,
+    };
+  });
+};
 
 export const store_dir_in_dir = (fp, name) => {
   add_dir_to_pointer(fp, name);
-}
+};
 
 export const get_dir_by_name = (fp, name) => {
   let resPointer = child_dir_pointer(fp, name);
   // console.log('respointer');
   // console.log(resPointer);
-  if (resPointer.type != 'directory') return fp
+  if (resPointer.type != "directory") return fp;
   else return resPointer;
-}
+};
 
 export const get_parent_dir = (fp) => {
   let resPointer = parent_dir_pointer(fp);
-  if (resPointer.type != 'directory') return fp;
+  if (resPointer.type != "directory") return fp;
   else return resPointer;
-}
+};

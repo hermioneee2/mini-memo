@@ -23,7 +23,7 @@ export const loadMemoList = (cwd) => {
 
 // load dir list from cwd pointer
 export const loadDirList = (cwd) => {
-  let dirList = Fsp.get_dir_name_list(cwd);
+  let dirList = Fsp.get_dir_data_list(cwd);
   return dirList;
 }
 

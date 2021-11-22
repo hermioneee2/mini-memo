@@ -28,9 +28,9 @@ const ListPresenter = ({
       <List
         dataSource={dirOrderedList()}
         style={listWrapperStyle}
-        renderItem={(name) => (
+        renderItem={(item) => (
           <List.Item>
-            <ListDirItem name={name} onChangeDir={onChangeDir} />
+            <ListDirItem name={item.name} onChangeDir={onChangeDir} />
           </List.Item>
         )}
       />
