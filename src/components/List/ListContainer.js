@@ -8,6 +8,7 @@ const ListContainer = ({
   setId,
   memoOrderedList,
   dirOrderedList,
+  dataOrderedList,
   onChangeDir,
   onParentDir,
   cwd,
@@ -18,8 +19,7 @@ const ListContainer = ({
       checkedItemHandler={checkedItemHandler}
       setTrue={setTrue}
       setId={setId}
-      memoOrderedList={memoOrderedList}
-      dirOrderedList={dirOrderedList}
+      dataOrderedList={dataOrderedList}
       onChangeDir={onChangeDir}
       onParentDir={onParentDir}
       cwd={cwd}

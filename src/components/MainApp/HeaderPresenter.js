@@ -186,22 +186,61 @@ const HeaderPresenter = () => {
     setCwd(newCwd);
   }
 
-  // sort and displaying related
   const memoOrderedList = () => {
-    let memoList = nameAscendingSort(cwd);
-    if (order == "name_ascend") return memoList;
-    else if (order == "name_descend") memoList = nameDescendingSort(cwd);
-    else if (order == "time_ascend") memoList = timeAscendingSort(cwd);
-    else if (order == "time_descend") memoList = timeDescendingSort(cwd);
-    else return timeDescendingSort(cwd);
+    let memoList = MStore.loadMemoList(cwd);
+    if (order == "name_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", true);
+    }
+    else if (order == "name_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", false);
+    }
+    else if (order == "time_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", true);
+    }
+    else if (order == "time_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", false);
+    }
     return memoList;
-  };
+  }
 
   const dirOrderedList = () => {
     let dirList = MStore.loadDirList(cwd);
-    // TODO add order
-    return dirList; // list of strings
-  };
+    if (order == "name_ascend") {
+      dirList = MStore.objectGeneralSort(dirList, "title", true);
+    }
+    else if (order == "name_descend") {
+      dirList = MStore.objectGeneralSort(dirList, "title", false);
+    }
+    else if (order == "time_ascend") {
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", true);
+    }
+    else if (order == "time_descend") {
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", false);
+    }
+    return dirList;
+  }
+
+  const dataOrderedList = () => {
+    let memoList = MStore.loadMemoList(cwd);
+    let dirList = MStore.loadDirList(cwd);
+    if (order == "name_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", true);
+      dirList = MStore.objectGeneralSort(dirList, "title", true);
+    }
+    else if (order == "name_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", false);
+      dirList = MStore.objectGeneralSort(dirList, "title", false);
+    }
+    else if (order == "time_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", true);
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", true);
+    }
+    else if (order == "time_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", false);
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", false);
+    }
+    return dirList.concat(memoList);
+  }
 
   return (
     <Wrapper>
@@ -271,8 +310,7 @@ const HeaderPresenter = () => {
           setId={setId}
           onChangeDir={onChangeDir}
           onParentDir={onParentDir}
-          memoOrderedList={memoOrderedList}
-          dirOrderedList={dirOrderedList}
+          dataOrderedList={dataOrderedList}
           cwd={cwd}
         />
       )}
@@ -282,7 +320,10 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
           setTrue={setShowEditorTrue}
           setId={setId}
+          onChangeDir={onChangeDir}
+          onParentDir={onParentDir}
           memoOrderedList={memoOrderedList}
+          dirOrderedList={dirOrderedList}
           cwd={cwd}
         />
       )}

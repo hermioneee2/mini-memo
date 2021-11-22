@@ -8,8 +8,7 @@ const ListPresenter = ({
   checkedItemHandler,
   setTrue,
   setId,
-  memoOrderedList,
-  dirOrderedList,
+  dataOrderedList,
   onChangeDir,
   onParentDir,
   cwd,
@@ -26,31 +25,27 @@ const ListPresenter = ({
           )}
       />
       <List
-        dataSource={dirOrderedList()}
-        style={listWrapperStyle}
-        renderItem={(name) => (
-          <List.Item>
-            <ListDirItem name={name} onChangeDir={onChangeDir} />
-          </List.Item>
-        )}
-      />
-      <List
-        dataSource={memoOrderedList()}
+        dataSource={dataOrderedList()}
         style={listWrapperStyle}
         renderItem={(item) => (
-          <List.Item>
-            <ListItem
-              title={item.title}
-              content={item.content}
-              uid={item.uid}
-              time={item.createdAt}
-              showCheckbox={showCheckbox}
-              checkedItemHandler={checkedItemHandler}
-              setTrue={setTrue}
-              setId={setId}
-            />
-          </List.Item>
-        )}
+          (item.type === "directory") ? (
+            <List.Item>
+              <ListDirItem name={item.title} onChangeDir={onChangeDir} />
+            </List.Item>
+            ) : (
+            <List.Item>
+              <ListItem
+                title={item.title}
+                content={item.content}
+                uid={item.uid}
+                time={item.createdAt}
+                showCheckbox={showCheckbox}
+                checkedItemHandler={checkedItemHandler}
+                setTrue={setTrue}
+                setId={setId}
+              />
+            </List.Item>
+          ))}
       />
     </div>
   );
