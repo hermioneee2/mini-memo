@@ -6,7 +6,7 @@ import MainApp from "./components/MainApp";
 
 import "antd/dist/antd.css";
 const App = () => {
-  console.log("hello")
+  
   return (
     <div className="App">
       <MainApp />
