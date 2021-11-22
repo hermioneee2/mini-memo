@@ -186,23 +186,6 @@ const HeaderPresenter = () => {
     setCwd(newCwd);
   }
 
-  // sort and displaying related
-  const memoOrderedList = () => {
-    let memoList = nameAscendingSort(cwd);
-    if (order == "name_ascend") return memoList;
-    else if (order == "name_descend") memoList = nameDescendingSort(cwd);
-    else if (order == "time_ascend") memoList = timeAscendingSort(cwd);
-    else if (order == "time_descend") memoList = timeDescendingSort(cwd);
-    else return timeDescendingSort(cwd);
-    return memoList;
-  };
-
-  const dirOrderedList = () => {
-    let dirList = MStore.loadDirList(cwd);
-    // TODO add order
-    return dirList; // list of strings
-  };
-
   const dataOrderedList = () => {
     let memoList = MStore.loadMemoList(cwd);
     let dirList = MStore.loadDirList(cwd);
@@ -293,8 +276,6 @@ const HeaderPresenter = () => {
           setId={setId}
           onChangeDir={onChangeDir}
           onParentDir={onParentDir}
-          memoOrderedList={memoOrderedList}
-          dirOrderedList={dirOrderedList}
           dataOrderedList={dataOrderedList}
           cwd={cwd}
         />
@@ -305,7 +286,7 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
           setTrue={setShowEditorTrue}
           setId={setId}
-          memoOrderedList={memoOrderedList}
+          memoOrderedList={dataOrderedList}
           cwd={cwd}
         />
       )}
