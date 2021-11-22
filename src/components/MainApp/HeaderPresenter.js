@@ -186,6 +186,40 @@ const HeaderPresenter = () => {
     setCwd(newCwd);
   }
 
+  const memoOrderedList = () => {
+    let memoList = MStore.loadMemoList(cwd);
+    if (order == "name_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", true);
+    }
+    else if (order == "name_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "title", false);
+    }
+    else if (order == "time_ascend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", true);
+    }
+    else if (order == "time_descend") {
+      memoList = MStore.objectGeneralSort(memoList, "createdAt", false);
+    }
+    return memoList;
+  }
+
+  const dirOrderedList = () => {
+    let dirList = MStore.loadDirList(cwd);
+    if (order == "name_ascend") {
+      dirList = MStore.objectGeneralSort(dirList, "title", true);
+    }
+    else if (order == "name_descend") {
+      dirList = MStore.objectGeneralSort(dirList, "title", false);
+    }
+    else if (order == "time_ascend") {
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", true);
+    }
+    else if (order == "time_descend") {
+      dirList = MStore.objectGeneralSort(dirList, "createdAt", false);
+    }
+    return dirList;
+  }
+
   const dataOrderedList = () => {
     let memoList = MStore.loadMemoList(cwd);
     let dirList = MStore.loadDirList(cwd);
@@ -286,7 +320,10 @@ const HeaderPresenter = () => {
           checkedItemHandler={checkedItemHandler}
           setTrue={setShowEditorTrue}
           setId={setId}
-          memoOrderedList={dataOrderedList}
+          onChangeDir={onChangeDir}
+          onParentDir={onParentDir}
+          memoOrderedList={memoOrderedList}
+          dirOrderedList={dirOrderedList}
           cwd={cwd}
         />
       )}

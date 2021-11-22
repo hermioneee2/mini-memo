@@ -6,7 +6,10 @@ const PostItContainer = ({
   checkedItemHandler,
   setTrue,
   setId,
+  onChangeDir,
+  onParentDir,
   memoOrderedList,
+  dirOrderedList,
   cwd,
 }) => {
   return (
@@ -15,7 +18,10 @@ const PostItContainer = ({
       checkedItemHandler={checkedItemHandler}
       setTrue={setTrue}
       setId={setId}
+      onChangeDir={onChangeDir}
+      onParentDir={onParentDir}
       memoOrderedList={memoOrderedList}
+      dirOrderedList={dirOrderedList}
       cwd={cwd}
     />
   );
