@@ -1,11 +1,11 @@
 import React from "react";
-import { FolderOutlined } from "@ant-design/icons";
+import { FolderFilled } from "@ant-design/icons";
 
 const ListDirItemPresenter = ({ name }) => {
   return (
     <div>
       <div style={listItemStyle}>
-        <FolderOutlined />
+        <FolderFilled/>
         <strong>{name}</strong>
       </div>
     </div>
@@ -16,6 +16,7 @@ const listItemStyle = {
   height: "63px",
   fontSize: "large",
   cursor: "pointer",
+  width:"100%"
 };
 const timeStyle = {
   height: "63px",
