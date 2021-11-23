@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-
 const CustomToolbar = () =>(
     <div id = "toolbar">
         <button class="ql-bold"></button>
@@ -29,27 +28,22 @@ const CustomToolbar = () =>(
     </div>
 )
 
+
 class EditorComponent extends Component{
     constructor(props){
         super(props);
-        
     }
-    
-    
 
     modules = {
         toolbar: '#toolbar'
       }
     
-    formats = [
-    //'font',
-    
-    'bold', 'italic', 'underline', 
-    'link', 'image', 'color'     
-    ]
-
-    
-
+      formats = [
+        //'font',
+        
+        'bold', 'italic', 'underline', 
+        'link', 'image',      
+      ]
 
     render(){
         const {value, onChange } = this.props;
