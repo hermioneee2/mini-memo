@@ -18,7 +18,11 @@ export const init_fs = () => {
   if (!check_fs()) {
     // add the root directory
     // parent of root = root
-    let rootDir = new_directory("/", 0);
+    let rootDir = new_directory("/", 0, {
+      type: "directory",
+      name: "/",
+      createAt: new Date(),
+    });
     write_directory(0, rootDir);
   }
 };
@@ -64,12 +68,13 @@ export const new_file = (name, parent, data) => {
 
 // defualt constructor for directory
 // name: string, parent: id of parent dir, children: array of id of children file / directory
-export const new_directory = (name, parent) => {
+export const new_directory = (name, parent, data) => {
   return {
     type: "directory",
     name: name,
     parent: parent,
     children: [],
+    data: data,
   };
 };
 
