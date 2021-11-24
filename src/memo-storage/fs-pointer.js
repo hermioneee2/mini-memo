@@ -58,6 +58,7 @@ export const fsPointer = (id) => {
         },
         // TODO : safer access to this dir
         raw: dir,
+        data: () => dir.data,
       };
     }
   } catch (e) {
@@ -147,13 +148,13 @@ export const add_file_to_pointer = (fp, filename, filedata) => {
 };
 
 // add dir to given dir pointer
-export const add_dir_to_pointer = (fp, dirname) => {
+export const add_dir_to_pointer = (fp, dirname, dirdata) => {
   if (fp.type != "directory") return error_pointer("not a dir pointer");
   // check dirname already exists
   if (fp.dirs().filter((p) => p.name == dirname).length > 0) {
     return error_pointer(`dir ${dirname} already exist`);
   }
-  let new_dir = lfs.new_directory(dirname, fp.id);
+  let new_dir = lfs.new_directory(dirname, fp.id, dirdata);
   // return pointer to newly made dir
   return fsPointer(lfs.add_dir_to_dir(fp.id, new_dir));
 };
@@ -293,17 +294,11 @@ export const get_dir_name_list = (fp) => {
 };
 
 export const get_dir_data_list = (fp) => {
-  return get_dir_list(fp).map((p) => {
-    return {
-      type: 'directory',
-      title: p.name,
-      name: p.name,
-    };
-  });
+  return get_dir_list(fp).map((p) => p.data());
 };
 
-export const store_dir_in_dir = (fp, name) => {
-  add_dir_to_pointer(fp, name);
+export const store_dir_in_dir = (fp, name, data) => {
+  add_dir_to_pointer(fp, name, data);
 };
 
 export const get_dir_by_name = (fp, name) => {

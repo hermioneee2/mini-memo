@@ -24,19 +24,26 @@ const ListPresenter = ({
         style={listWrapperStyle}
         renderItem={(name) => (
           <List.Item>
-            <ListDirItem name={name} onChangeDir={onParentDir} />
+            <ListDirItem
+              name={name}
+              time={null}
+              onChangeDir={onParentDir} />
           </List.Item>
-          )}
+        )}
       />
       <List
         dataSource={dataOrderedList()}
         style={listWrapperStyle}
-        renderItem={(item) => (
-          (item.type === "directory") ? (
+        renderItem={(item) =>
+          item.type === "directory" ? (
             <List.Item>
-              <ListDirItem name={item.title} onChangeDir={onChangeDir} />
+              <ListDirItem
+                name={item.title}
+                time={item.createdAt}
+                onChangeDir={onChangeDir}
+              />
             </List.Item>
-            ) : (
+          ) : (
             <List.Item>
               <ListItem
                 title={item.title}
@@ -49,7 +56,8 @@ const ListPresenter = ({
                 setId={setId}
               />
             </List.Item>
-          ))}
+          )
+        }
       />
     </div>
   );

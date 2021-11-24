@@ -62,8 +62,8 @@ export const storeMemo = (cwd, title, content) => {
 ////////////////////////////////////////////////////////////////////////////////
 // Modifiers for dirs
 
-export const storeDir = (cwd, dirname) => {
-  Fsp.store_dir_in_dir(cwd, dirname);
+export const storeDir = (cwd, dirname, data) => {
+  Fsp.store_dir_in_dir(cwd, dirname, data);
 }
 
 export const changeDir = (cwd, dirname) => {

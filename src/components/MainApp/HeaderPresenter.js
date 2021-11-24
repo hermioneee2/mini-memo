@@ -146,7 +146,13 @@ const HeaderPresenter = () => {
   };
 
   const handleDirAddButtonclick = (name) => {
-    MStore.storeDir(cwd, name);
+    let dirData = {
+      type: "directory",
+      name: name,
+      title: name,
+      createdAt: new Date(),
+    }
+    MStore.storeDir(cwd, name, dirData);
     setDirName("");
     setShowDirInput(false);
     forceCwdUpdate();
