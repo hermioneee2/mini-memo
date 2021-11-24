@@ -1,9 +1,10 @@
 import React, { memo, useState } from "react";
 import Modal from "react-modal";
-import { Input, Divider, Button } from "antd";
+import { Input, Divider, Button, message } from "antd";
 import EditorComponent from "../Editor/Quill";
 import { existingMemo } from "../../memo-storage/memo-localstorage";
 import ReactQuill from "react-quill";
+import styled from "styled-components";
 
 const { TextArea } = Input;
 
@@ -12,7 +13,17 @@ const style = {
   height: "486px",
 };
 
-const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id, cwd }) => {
+const EditorPresenter = ({
+  isOpen,
+  atSave,
+  atModify,
+  atCancel,
+  id,
+  cwd,
+  handleURLQuery,
+  handleURLButton,
+  shortenedURL,
+}) => {
   const [memoObj, setMemoObj] = useState({
     title: "",
     content: "",
@@ -40,6 +51,30 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id, cwd }) => {
     setMemoObj(newObj);
   };
 
+  const successMsg = () => {
+    message.success({
+      content: "Shortened URL is copied to the clipboard.",
+      // className: "custom-class",
+      style: {
+        marginTop: "40vh",
+      },
+    });
+  };
+
+  const failMsg = () => {
+    message.error({
+      content: "Please enter valid URL",
+      // className: "custom-class",
+      style: {
+        marginTop: "40vh",
+      },
+    });
+  };
+
+  const handleURLButtonWrapper = () => {
+    handleURLButton(successMsg, failMsg);
+  };
+
   const onSave = () => {
     console.log(existingMemo(cwd, id));
     if (memoObj.content === "" || memoObj.title === "") {
@@ -55,12 +90,40 @@ const EditorPresenter = ({ isOpen, atSave, atModify, atCancel, id, cwd }) => {
 
   return (
     <div>
-      <Modal isOpen={isOpen} onRequestClose={atCancel} style={style}>
+      <Modal isOpen={isOpen} onRequestClose={atCancel}>
         <Input placeholder="Title" onChange={setMemoObjTitle} />
         <Divider />
         <EditorComponent value={memoObj} onChange={setMemoObjContent} />
+        <Input.Group compact>
+          <Input
+            style={{ width: "calc(40% - 200px)" }}
+            placeholder="Enter your URL here"
+            onChange={handleURLQuery}
+            onPressEnter={handleURLButtonWrapper}
+          />
+          <Button
+            style={{
+              borderColor: "#F0BF39",
+              color: "#F0BF39",
+              fontWeight: "bold",
+            }}
+            onClick={handleURLButtonWrapper}
+          >
+            Shorten URL
+          </Button>
+        </Input.Group>
+        {/* <Input defaultValue={shortenedURL} /> */}
+        <div>Shortend URL: {shortenedURL}</div>
         <div style={{ marginRight: "10px" }}>
-          <Button type="primary" style={{ marginTop: "10px" }} onClick={onSave}>
+          <Button
+            type="primary"
+            style={{
+              background: "#F0BF39",
+              borderColor: "#F0BF39",
+              marginTop: "10px",
+            }}
+            onClick={onSave}
+          >
             Save
           </Button>
           <Button onClick={atCancel}>Cancel</Button>
