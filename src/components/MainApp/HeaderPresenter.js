@@ -56,7 +56,7 @@ const HeaderPresenter = () => {
       ],
     },
   ];
-  const [showCheckbox, setShowCheckbox] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
   const [delItems, setDelItems] = useState(new Set());
   const [display, setDisplay] = useState(DISP.LIST);
   const [order, setOrder] = useState("");
@@ -72,11 +72,11 @@ const HeaderPresenter = () => {
     });
   };
 
-  const handleDeleteIconClick = () => {
-    setShowCheckbox(!showCheckbox);
+  const DeleteIconClick = () => {
+    setCheckbox(!checkbox);
   };
 
-  const checkedItemHandler = (id, isChecked) => {
+  const setCheckedItem = (id, isChecked) => {
     if (isChecked) {
       delItems.add(id);
     } else if (!isChecked) {
@@ -85,7 +85,7 @@ const HeaderPresenter = () => {
     setDelItems(delItems);
   };
 
-  const handleDispIconClick = () => {
+  const dispIconClick = () => {
     if (display === DISP.POSTIT) {
       setDisplay(DISP.LIST);
     } else {
@@ -104,7 +104,7 @@ const HeaderPresenter = () => {
         style={{ color: "red" }}
         onClick={() => {
           delMemo();
-          setShowCheckbox(false);
+          setCheckbox(false);
         }}
       >
         Delete Selections
@@ -116,15 +116,15 @@ const HeaderPresenter = () => {
   const [showDirInput, setShowDirInput] = useState(false); // for dir add
   const [dirName, setDirName] = useState("");
 
-  const handleDirNameChange = (e) => {
+  const dirNameChange = (e) => {
     setDirName(e.target.value);
   };
 
-  const handleDirAddIconClick = () => {
+  const dirAddIconClick = () => {
     setShowDirInput(!showDirInput);
   };
 
-  const handleDirAddButtonclick = (name) => {
+  const dirAddButtonclick = (name) => {
     let dirData = {
       type: "directory",
       name: name,
@@ -146,11 +146,11 @@ const HeaderPresenter = () => {
             placeholder="New Folder Name"
             value={dirName}
             enterButton="Add"
-            onChange={handleDirNameChange}
+            onChange={dirNameChange}
           />
           <Button
             type="primary"
-            onClick={() => handleDirAddButtonclick(dirName)}
+            onClick={() => dirAddButtonclick(dirName)}
           >
             Add
           </Button>
@@ -249,11 +249,11 @@ const HeaderPresenter = () => {
               placeholder="Please select"
             />
             {display === DISP.POSTIT && (
-              <BarsOutlined onClick={handleDispIconClick} style={iconStyle} />
+              <BarsOutlined onClick={dispIconClick} style={iconStyle} />
             )}
             {display === DISP.LIST && (
               <AppstoreOutlined
-                onClick={handleDispIconClick}
+                onClick={dispIconClick}
                 style={iconStyle}
               />
             )}
@@ -263,8 +263,8 @@ const HeaderPresenter = () => {
               trigger={["click"]}
               placement="bottomCenter"
               arrow
-              onClick={handleDeleteIconClick}
-              visible={showCheckbox}
+              onClick={DeleteIconClick}
+              visible={checkbox}
             >
               <DeleteOutlined style={iconStyle} />
             </Dropdown>
@@ -274,7 +274,7 @@ const HeaderPresenter = () => {
               trigger={["click"]}
               placement="bottomRight"
               arrow
-              onClick={handleDirAddIconClick}
+              onClick={dirAddIconClick}
               visible={showDirInput}
             >
               <FolderAddOutlined style={iconStyle} />
@@ -297,8 +297,8 @@ const HeaderPresenter = () => {
       {display === DISP.LIST && (
         <Provider storeEditor = {controlEditor}>
           <List
-            showCheckbox={showCheckbox}
-            checkedItemHandler={checkedItemHandler}
+            showCheckbox={checkbox}
+            checkedItemHandler={setCheckedItem}
             onChangeDir={onChangeDir}
             onParentDir={onParentDir}
             dataOrderedList={dataOrderedList}
@@ -309,8 +309,8 @@ const HeaderPresenter = () => {
       {display === DISP.POSTIT && (
         <Provider storeEditor = {controlEditor}>
           <PostIt
-            showCheckbox={showCheckbox}
-            checkedItemHandler={checkedItemHandler}
+            showCheckbox={checkbox}
+            checkedItemHandler={setCheckedItem}
             onChangeDir={onChangeDir}
             onParentDir={onParentDir}
             memoOrderedList={memoOrderedList}
