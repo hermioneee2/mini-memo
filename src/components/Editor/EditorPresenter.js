@@ -3,28 +3,22 @@ import Modal from "react-modal";
 import { Input, Divider, Button, message } from "antd";
 import EditorComponent from "../Editor/Quill";
 import { existingMemo, loadMemoTitle, loadMemoContent } from "../../memo-storage/memo-localstorage";
-import ReactQuill from "react-quill";
-import styled from "styled-components";
+import { observer, inject } from "mobx-react";
 
-const { TextArea } = Input;
 
-const style = {
-  width: "701px",
-  height: "486px",
-};
 
 const EditorPresenter = ({
-  isOpen,
-  newOpen,
+  storeEditor,
   atSave,
   atModify,
   atCancel,
-  id,
   cwd,
   handleURLQuery,
   handleURLButton,
-  shortenedURL,
+  shortenedURL
 }) => {
+  const controlEditor = storeEditor;
+  const id = controlEditor.id;
   const [memoObj, setMemoObj] = useState({
     title: "",
     content: "",
@@ -89,13 +83,6 @@ const EditorPresenter = ({
     }
   };
   
-  const open = () => {
-    if(isOpen === true || newOpen === true)
-      return true;
-    else
-      return false;
-
-  }
   const defaultTitle = () =>{
     let r = loadMemoTitle(cwd, id);
     return r;
@@ -105,16 +92,27 @@ const EditorPresenter = ({
     return r;
   }
 
+
+  let open;
+  if(controlEditor.editor === true || controlEditor.newEditor === true){
+    open =  true;
+  }
+  else{
+    open =  false;
+  }
+
   let editor;
-  if(newOpen == true)
+  if(controlEditor.newEditor === true)
     editor = <div><Input placeholder="Title" onChange={setMemoObjTitle} /><Divider /><EditorComponent value="" onChange={setMemoObjContent} /></div>;
   else{
     console.log("!#@!@QWEAS")
     editor = <div><Input defaultValue = {defaultTitle()} onChange={setMemoObjTitle} /><Divider /><EditorComponent value={defaultContent()} onChange={setMemoObjContent} /></div>;
   }
+
+
   return (
     <div>
-      <Modal isOpen={open()} onRequestClose={atCancel}>
+      <Modal isOpen={open} onRequestClose={atCancel}>
         {editor}
         <Input.Group compact>
           <Input
@@ -155,4 +153,4 @@ const EditorPresenter = ({
   );
 };
 
-export default EditorPresenter;
+export default inject("storeEditor")(observer(EditorPresenter));

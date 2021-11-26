@@ -2,14 +2,12 @@ import EditorPresenter from "./EditorPresenter";
 import React, { useState } from "react";
 import { storeMemo, modifyMemo } from "../../memo-storage/memo-localstorage";
 import axios from "axios";
-import {observer} from 'mobx';
-import ShowEditor from "../../stores/showEditor";
+import { observer, inject } from "mobx-react"
 
-const EditorContainer = observer(({id, cwd, forceCwdUpdate }) => {
-  const showEditor = new ShowEditor();
-
+const EditorContainer = ({storeEditor, cwd, forceCwdUpdate}) => {
   const [url, setURL] = useState("");
   const [shortenedURL, setShortenedURL] = useState();
+  const controlEditor = storeEditor;
 
   const handleURLQuery = (e) => {
     setURL(e.target.value);
@@ -37,38 +35,35 @@ const EditorContainer = observer(({id, cwd, forceCwdUpdate }) => {
   const atSave = (memoObj) => {
     storeMemo(cwd, memoObj.title, memoObj.content);
     forceCwdUpdate();
-    showEditor.setShowEditorFalse();
-    showEditor.setShowNewEditorFalse();
+    controlEditor.setEditorFalse();
+    controlEditor.setNewEditorFalse();
     setShortenedURL("");
   };
 
   const atModify = (memoObj, id) => {
     modifyMemo(cwd, memoObj, id);
     forceCwdUpdate();
-    showEditor.setShowEditorFalse();
-    showEditor.setShowNewEditorFalse();
+    controlEditor.setEditorFalse();
+    controlEditor.setNewEditorFalse();
     setShortenedURL("");
   };
 
   const atCancel = () => {
-    showEditor.setShowEditorFalse();
-    showEditor.setShowNewEditorFalse();
+    controlEditor.setEditorFalse();
+    controlEditor.setNewEditorFalse();
     setShortenedURL("");
   };
   return (
     <EditorPresenter
-      isOpen={showEditor.showEditor}
-      newOpen={showEditor.showNewEditor}
       atSave={atSave}
       atModify={atModify}
       atCancel={atCancel}
-      id={id}
       cwd={cwd}
       handleURLQuery={handleURLQuery}
       handleURLButton={handleURLButton}
       shortenedURL={shortenedURL}
     />
   );
-});
+};
 
-export default EditorContainer;
+export default inject("storeEditor")(observer(EditorContainer));

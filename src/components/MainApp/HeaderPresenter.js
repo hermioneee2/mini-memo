@@ -13,14 +13,12 @@ import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 import BreadCrumb from "../BreadCrumb";
-import {
-  deleteMemo,
-  nameAscendingSort,
-  nameDescendingSort,
-  timeAscendingSort,
-  timeDescendingSort,
-} from "../../memo-storage/memo-localstorage";
+import { deleteMemo} from "../../memo-storage/memo-localstorage";
 import * as MStore from "../../memo-storage/memo-localstorage";
+import { Provider, observer } from "mobx-react";
+import ControlEditor from "../../stores/controlEditor";
+
+const controlEditor = new ControlEditor();
 
 const HeaderPresenter = () => {
   const DISP = {
@@ -58,37 +56,14 @@ const HeaderPresenter = () => {
       ],
     },
   ];
-  // const [showNewEditor, setShowNewEditor] = useState(false);
-  // const [showEditor, setShowEditor] = useState(false);
-  const [showCheckbox, setShowCheckbox] = useState(false); // for delete
-  const [delItems, setDelItems] = useState(new Set()); // for delete
+  const [showCheckbox, setShowCheckbox] = useState(false);
+  const [delItems, setDelItems] = useState(new Set());
   const [display, setDisplay] = useState(DISP.LIST);
-  const [id, setNum] = useState(0);
   const [order, setOrder] = useState("");
   const [cwd, setCwd] = useState(MStore.initMemoCwd());
 
   const forceCwdUpdate = () => {
     setCwd(MStore.reloadCwd(cwd));
-  };
-
-  // const setShowEditorTrue = () => {
-  //   setShowEditor(true);
-  // };
-
-  // const setShowEditorFalse = () => {
-  //   setShowEditor(false);
-  // };
-
-  // const setShowNewEditorTrue = () =>{
-  //   setShowNewEditor(true);
-  // };
-
-  // const setShowNewEditorFalse = () =>{
-  //   setShowNewEditor(false);
-  // };
-
-  const setId = (id) => {
-    setNum(id);
   };
 
   const delMemo = () => {
@@ -256,15 +231,12 @@ const HeaderPresenter = () => {
 
   return (
     <Wrapper>
-      <Editor
-        // isOpen={showEditor}
-        // newOpen = {showNewEditor}
-        // modalClose = {setShowEditorFalse}
-        // modalNewClose = {setShowNewEditorFalse}
-        id={id}
-        cwd={cwd}
-        forceCwdUpdate={forceCwdUpdate}
-      />
+      <Provider storeEditor = {controlEditor}>
+        <Editor
+          cwd={cwd}
+          forceCwdUpdate={forceCwdUpdate}
+        />
+      </Provider>
       <Affix offsetTop={0}>
         <Header>
           <span style={headerStyle}>Mini Memo</span>
@@ -313,39 +285,39 @@ const HeaderPresenter = () => {
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <div onClick={() => setId(-1)}>
-        <AddMemo 
-        // setter={setShowNewEditorTrue} 
-        />
-      </div>
+        <Provider storeEditor = {controlEditor}>
+          <div onClick = {() => controlEditor.setId(-1)}>
+            <AddMemo />
+          </div>
+        </Provider>
       <BreadCrumb
         cwd ={cwd}
         onChangeDir ={onChangeDir}>
       </BreadCrumb>
       {display === DISP.LIST && (
-        <List
-          showCheckbox={showCheckbox}
-          checkedItemHandler={checkedItemHandler}
-          // setTrue={setShowEditorTrue}
-          setId={setId}
-          onChangeDir={onChangeDir}
-          onParentDir={onParentDir}
-          dataOrderedList={dataOrderedList}
-          cwd={cwd}
-        />
+        <Provider storeEditor = {controlEditor}>
+          <List
+            showCheckbox={showCheckbox}
+            checkedItemHandler={checkedItemHandler}
+            onChangeDir={onChangeDir}
+            onParentDir={onParentDir}
+            dataOrderedList={dataOrderedList}
+            cwd={cwd}
+          />
+        </Provider>
       )}
       {display === DISP.POSTIT && (
-        <PostIt
-          showCheckbox={showCheckbox}
-          checkedItemHandler={checkedItemHandler}
-          // setTrue={setShowEditorTrue}
-          setId={setId}
-          onChangeDir={onChangeDir}
-          onParentDir={onParentDir}
-          memoOrderedList={memoOrderedList}
-          dirOrderedList={dirOrderedList}
-          cwd={cwd}
-        />
+        <Provider storeEditor = {controlEditor}>
+          <PostIt
+            showCheckbox={showCheckbox}
+            checkedItemHandler={checkedItemHandler}
+            onChangeDir={onChangeDir}
+            onParentDir={onParentDir}
+            memoOrderedList={memoOrderedList}
+            dirOrderedList={dirOrderedList}
+            cwd={cwd}
+          />
+        </Provider>
       )}
     </Wrapper>
   );
@@ -410,4 +382,4 @@ const HeaderBottomOutline = styled.div`
   display: flex;
 `;
 
-export default HeaderPresenter;
+export default observer(HeaderPresenter);

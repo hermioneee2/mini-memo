@@ -1,15 +1,15 @@
 import AddMemoPresenter from "./AddMemoPresenter";
-import React, { useState } from "react";
+import React from "react";
+import { observer, inject } from "mobx-react"
 
-const AddMemoContainer = ({setter}) => {
-  const onClickShow = () => {
-    setter();
-  };
+const AddMemoContainer = ({storeEditor}) => {
+  const controlEditor = storeEditor;
+
   return (
-      <div onClick={onClickShow}>
+      <div onClick = {controlEditor.setNewEditorTrue}>
         <AddMemoPresenter/>
       </div>
   );
 };
 
-export default AddMemoContainer;
+export default inject("storeEditor")(observer(AddMemoContainer));

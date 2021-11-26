@@ -2,12 +2,11 @@ import React from "react";
 import PostItItem from "../PostItItem";
 import PostItDirItem from "../PostItDirItem";
 import { List } from "antd";
+import { observer, inject } from "mobx-react"
 
 const PostItPresenter = ({
   showCheckbox,
   checkedItemHandler,
-  setTrue,
-  setId,
   onChangeDir,
   onParentDir,
   memoOrderedList,
@@ -50,8 +49,6 @@ const PostItPresenter = ({
               uid={item.uid}
               showCheckbox={showCheckbox}
               checkedItemHandler={checkedItemHandler}
-              setTrue={setTrue}
-              setId={setId}
             />
           </List.Item>
         )}
@@ -66,4 +63,4 @@ const listWrapperStyle = {
   marginRight: "auto",
 };
 
-export default PostItPresenter;
+export default inject("storeEditor")(observer(PostItPresenter));

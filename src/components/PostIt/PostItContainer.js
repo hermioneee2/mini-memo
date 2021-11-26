@@ -1,10 +1,10 @@
 import PostItPresenter from "./PostItPresenter";
 import React from "react";
+import { observer, inject } from "mobx-react"
 
 const PostItContainer = ({
   showCheckbox,
   checkedItemHandler,
-  setTrue,
   setId,
   onChangeDir,
   onParentDir,
@@ -16,8 +16,6 @@ const PostItContainer = ({
     <PostItPresenter
       showCheckbox={showCheckbox}
       checkedItemHandler={checkedItemHandler}
-      setTrue={setTrue}
-      setId={setId}
       onChangeDir={onChangeDir}
       onParentDir={onParentDir}
       memoOrderedList={memoOrderedList}
@@ -27,4 +25,4 @@ const PostItContainer = ({
   );
 };
 
-export default PostItContainer;
+export default inject("storeEditor")(observer(PostItContainer));

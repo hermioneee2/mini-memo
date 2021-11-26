@@ -1,21 +1,23 @@
 import React from "react";
 import { FileOutlined } from "@ant-design/icons";
+import { observer, inject } from "mobx-react"
 
 const ListItemPresenter = ({
+  storeEditor,
   title,
   content,
   time,
   showCheckbox,
   bchecked,
   checkHandler,
-  setTrue
 }) => {
+  const controlEditor = storeEditor;
   return (
     <div>
       {showCheckbox && (
         <input type="checkbox" checked={bchecked} onChange={checkHandler} />
       )}
-      <div style = {listItemStyle} onClick = {setTrue}>
+      <div style = {listItemStyle} onClick = {controlEditor.setEditorTrue}>
         <FileOutlined />
         <strong>{title}</strong> {content}
         <span style = {timeStyle}>
@@ -38,4 +40,4 @@ const timeStyle = {
   padding: 40
 };
 
-export default ListItemPresenter;
+export default inject("storeEditor")(observer(ListItemPresenter));

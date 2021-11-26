@@ -1,13 +1,11 @@
 import ListPresenter from "./ListPresenter";
 import React from "react";
+import { observer, inject } from "mobx-react"
 
 const ListContainer = ({
   showCheckbox,
   checkedItemHandler,
-  setTrue,
   setId,
-  memoOrderedList,
-  dirOrderedList,
   dataOrderedList,
   onChangeDir,
   onParentDir,
@@ -17,8 +15,6 @@ const ListContainer = ({
     <ListPresenter
       showCheckbox={showCheckbox}
       checkedItemHandler={checkedItemHandler}
-      setTrue={setTrue}
-      setId={setId}
       dataOrderedList={dataOrderedList}
       onChangeDir={onChangeDir}
       onParentDir={onParentDir}
@@ -27,4 +23,4 @@ const ListContainer = ({
   );
 };
 
-export default ListContainer;
+export default inject("storeEditor")(observer(ListContainer));

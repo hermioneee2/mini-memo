@@ -2,17 +2,16 @@ import { React } from "react";
 import ListItem from "../ListItem";
 import ListDirItem from "../ListDirItem";
 import { List } from "antd";
+import { observer, inject } from "mobx-react"
 
 const ListPresenter = ({
   showCheckbox,
   checkedItemHandler,
-  setTrue,
-  setId,
   dataOrderedList,
   onChangeDir,
   onParentDir,
-  cwd,
 }) => {
+  
   return (
     <div style ={overallListStyle}>
       <div style = {titleBoxStyle}>
@@ -52,8 +51,6 @@ const ListPresenter = ({
                 time={item.createdAt}
                 showCheckbox={showCheckbox}
                 checkedItemHandler={checkedItemHandler}
-                setTrue={setTrue}
-                setId={setId}
               />
             </List.Item>
           )
@@ -92,4 +89,4 @@ const titleBoxStyle = {
     
 }
 
-export default ListPresenter;
+export default inject("storeEditor")(observer(ListPresenter));
