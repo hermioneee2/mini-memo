@@ -1,3 +1,5 @@
 import ListContainer from "./ListContainer";
 
-export default ListContainer;
+const List = ListContainer;
+
+export default List;

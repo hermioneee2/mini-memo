@@ -23,12 +23,6 @@ const ListItemContainer = ({
   
   const setTime = () => {
     let t = time;
-    // let h = (parseInt(dateFormat(t, "HH"))) % 24;
-    // let d = dateFormat(t, "yyyy. m. d ");
-    // let m = dateFormat(t, "M");
-    // let a = d + h + ':' + m;
-    // console.log(a);
-    // console.log(h);
     let a = dateFormat(t, "yyyy. m. d  HH:MM");
     return a;
   }

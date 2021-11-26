@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import Modal from "react-modal";
 import { Input, Divider, Button, message } from "antd";
 import EditorComponent from "../Editor/Quill";
-import { existingMemo } from "../../memo-storage/memo-localstorage";
+import { existingMemo, loadMemoTitle, loadMemoContent } from "../../memo-storage/memo-localstorage";
 import ReactQuill from "react-quill";
 import styled from "styled-components";
 
@@ -15,6 +15,7 @@ const style = {
 
 const EditorPresenter = ({
   isOpen,
+  newOpen,
   atSave,
   atModify,
   atCancel,
@@ -87,13 +88,34 @@ const EditorPresenter = ({
       atSave(memoObj);
     }
   };
+  
+  const open = () => {
+    if(isOpen === true || newOpen === true)
+      return true;
+    else
+      return false;
 
+  }
+  const defaultTitle = () =>{
+    let r = loadMemoTitle(cwd, id);
+    return r;
+  }
+  const defaultContent = () =>{
+    let r = loadMemoContent(cwd, id);
+    return r;
+  }
+
+  let editor;
+  if(newOpen == true)
+    editor = <div><Input placeholder="Title" onChange={setMemoObjTitle} /><Divider /><EditorComponent value="" onChange={setMemoObjContent} /></div>;
+  else{
+    console.log("!#@!@QWEAS")
+    editor = <div><Input defaultValue = {defaultTitle()} onChange={setMemoObjTitle} /><Divider /><EditorComponent value={defaultContent()} onChange={setMemoObjContent} /></div>;
+  }
   return (
     <div>
-      <Modal isOpen={isOpen} onRequestClose={atCancel}>
-        <Input placeholder="Title" onChange={setMemoObjTitle} />
-        <Divider />
-        <EditorComponent value={memoObj} onChange={setMemoObjContent} />
+      <Modal isOpen={open()} onRequestClose={atCancel}>
+        {editor}
         <Input.Group compact>
           <Input
             style={{ width: "calc(40% - 200px)" }}

@@ -1,3 +1,5 @@
 import BreadCrumbContainer from "./BreadCrumbContainer";
 
-export default BreadCrumbContainer
+const BreadCrumb = BreadCrumbContainer;
+
+export default BreadCrumb;

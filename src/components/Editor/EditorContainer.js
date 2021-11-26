@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { storeMemo, modifyMemo } from "../../memo-storage/memo-localstorage";
 import axios from "axios";
 
-const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
+const EditorContainer = ({ isOpen, newOpen, modalClose, modalNewClose, id, cwd, forceCwdUpdate }) => {
   const [url, setURL] = useState("");
   const [shortenedURL, setShortenedURL] = useState();
 
@@ -36,6 +36,7 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
     storeMemo(cwd, memoObj.title, memoObj.content);
     forceCwdUpdate();
     modalClose(false);
+    modalNewClose(false);
     setShortenedURL("");
   };
 
@@ -43,16 +44,19 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
     modifyMemo(cwd, memoObj, id);
     forceCwdUpdate();
     modalClose(false);
+    modalNewClose(false);
     setShortenedURL("");
   };
 
   const atCancel = () => {
     modalClose(false);
+    modalNewClose(false);
     setShortenedURL("");
   };
   return (
     <EditorPresenter
       isOpen={isOpen}
+      newOpen={newOpen}
       atSave={atSave}
       atModify={atModify}
       atCancel={atCancel}

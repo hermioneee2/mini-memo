@@ -58,7 +58,7 @@ const HeaderPresenter = () => {
       ],
     },
   ];
-
+  const [showNewEditor, setShowNewEditor] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
   const [showCheckbox, setShowCheckbox] = useState(false); // for delete
   const [delItems, setDelItems] = useState(new Set()); // for delete
@@ -72,7 +72,6 @@ const HeaderPresenter = () => {
   };
 
   const setShowEditorTrue = () => {
-    // console.log("set true");
     setShowEditor(true);
   };
 
@@ -80,9 +79,15 @@ const HeaderPresenter = () => {
     setShowEditor(false);
   };
 
+  const setShowNewEditorTrue = () =>{
+    setShowNewEditor(true);
+  };
+
+  const setShowNewEditorFalse = () =>{
+    setShowNewEditor(false);
+  };
+
   const setId = (id) => {
-    // console.log("id");
-    // console.log(id);
     setNum(id);
   };
 
@@ -97,7 +102,6 @@ const HeaderPresenter = () => {
   };
 
   const checkedItemHandler = (id, isChecked) => {
-    //reflect change on del item list
     if (isChecked) {
       delItems.add(id);
     } else if (!isChecked) {
@@ -254,7 +258,9 @@ const HeaderPresenter = () => {
     <Wrapper>
       <Editor
         isOpen={showEditor}
-        modalClose={setShowEditorFalse}
+        newOpen = {showNewEditor}
+        modalClose = {setShowEditorFalse}
+        modalNewClose = {setShowNewEditorFalse}
         id={id}
         cwd={cwd}
         forceCwdUpdate={forceCwdUpdate}
@@ -308,7 +314,7 @@ const HeaderPresenter = () => {
         <HeaderBottomOutline />
       </Affix>
       <div onClick={() => setId(-1)}>
-        <AddMemo setter={setShowEditorTrue} />
+        <AddMemo setter={setShowNewEditorTrue} />
       </div>
       <BreadCrumb
         cwd ={cwd}

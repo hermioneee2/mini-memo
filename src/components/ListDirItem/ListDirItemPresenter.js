@@ -1,5 +1,5 @@
 import React from "react";
-import { FolderFilled } from "@ant-design/icons";
+import { FolderOutlined, FolderFilled } from "@ant-design/icons";
 
 const ListDirItemPresenter = ({ name, time }) => {
   return (time != null) ? (
