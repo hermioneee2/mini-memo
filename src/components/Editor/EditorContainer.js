@@ -2,8 +2,12 @@ import EditorPresenter from "./EditorPresenter";
 import React, { useState } from "react";
 import { storeMemo, modifyMemo } from "../../memo-storage/memo-localstorage";
 import axios from "axios";
+import {observer} from 'mobx';
+import ShowEditor from "../../stores/showEditor";
 
-const EditorContainer = ({ isOpen, newOpen, modalClose, modalNewClose, id, cwd, forceCwdUpdate }) => {
+const EditorContainer = observer(({id, cwd, forceCwdUpdate }) => {
+  const showEditor = new ShowEditor();
+
   const [url, setURL] = useState("");
   const [shortenedURL, setShortenedURL] = useState();
 
@@ -20,13 +24,11 @@ const EditorContainer = ({ isOpen, newOpen, modalClose, modalNewClose, id, cwd, 
       });
       if (res && res.status === 200) {
         const { data } = res;
-        // console.log(data);
         setShortenedURL(data.result.url);
         navigator.clipboard.writeText(data.result.url);
         successMsg();
       }
     } catch (e) {
-      // console.log("error ", e);
       setShortenedURL("");
       failMsg();
     }
@@ -35,28 +37,28 @@ const EditorContainer = ({ isOpen, newOpen, modalClose, modalNewClose, id, cwd, 
   const atSave = (memoObj) => {
     storeMemo(cwd, memoObj.title, memoObj.content);
     forceCwdUpdate();
-    modalClose(false);
-    modalNewClose(false);
+    showEditor.setShowEditorFalse();
+    showEditor.setShowNewEditorFalse();
     setShortenedURL("");
   };
 
   const atModify = (memoObj, id) => {
     modifyMemo(cwd, memoObj, id);
     forceCwdUpdate();
-    modalClose(false);
-    modalNewClose(false);
+    showEditor.setShowEditorFalse();
+    showEditor.setShowNewEditorFalse();
     setShortenedURL("");
   };
 
   const atCancel = () => {
-    modalClose(false);
-    modalNewClose(false);
+    showEditor.setShowEditorFalse();
+    showEditor.setShowNewEditorFalse();
     setShortenedURL("");
   };
   return (
     <EditorPresenter
-      isOpen={isOpen}
-      newOpen={newOpen}
+      isOpen={showEditor.showEditor}
+      newOpen={showEditor.showNewEditor}
       atSave={atSave}
       atModify={atModify}
       atCancel={atCancel}
@@ -67,6 +69,6 @@ const EditorContainer = ({ isOpen, newOpen, modalClose, modalNewClose, id, cwd, 
       shortenedURL={shortenedURL}
     />
   );
-};
+});
 
 export default EditorContainer;

@@ -58,8 +58,8 @@ const HeaderPresenter = () => {
       ],
     },
   ];
-  const [showNewEditor, setShowNewEditor] = useState(false);
-  const [showEditor, setShowEditor] = useState(false);
+  // const [showNewEditor, setShowNewEditor] = useState(false);
+  // const [showEditor, setShowEditor] = useState(false);
   const [showCheckbox, setShowCheckbox] = useState(false); // for delete
   const [delItems, setDelItems] = useState(new Set()); // for delete
   const [display, setDisplay] = useState(DISP.LIST);
@@ -71,21 +71,21 @@ const HeaderPresenter = () => {
     setCwd(MStore.reloadCwd(cwd));
   };
 
-  const setShowEditorTrue = () => {
-    setShowEditor(true);
-  };
+  // const setShowEditorTrue = () => {
+  //   setShowEditor(true);
+  // };
 
-  const setShowEditorFalse = () => {
-    setShowEditor(false);
-  };
+  // const setShowEditorFalse = () => {
+  //   setShowEditor(false);
+  // };
 
-  const setShowNewEditorTrue = () =>{
-    setShowNewEditor(true);
-  };
+  // const setShowNewEditorTrue = () =>{
+  //   setShowNewEditor(true);
+  // };
 
-  const setShowNewEditorFalse = () =>{
-    setShowNewEditor(false);
-  };
+  // const setShowNewEditorFalse = () =>{
+  //   setShowNewEditor(false);
+  // };
 
   const setId = (id) => {
     setNum(id);
@@ -257,10 +257,10 @@ const HeaderPresenter = () => {
   return (
     <Wrapper>
       <Editor
-        isOpen={showEditor}
-        newOpen = {showNewEditor}
-        modalClose = {setShowEditorFalse}
-        modalNewClose = {setShowNewEditorFalse}
+        // isOpen={showEditor}
+        // newOpen = {showNewEditor}
+        // modalClose = {setShowEditorFalse}
+        // modalNewClose = {setShowNewEditorFalse}
         id={id}
         cwd={cwd}
         forceCwdUpdate={forceCwdUpdate}
@@ -314,7 +314,9 @@ const HeaderPresenter = () => {
         <HeaderBottomOutline />
       </Affix>
       <div onClick={() => setId(-1)}>
-        <AddMemo setter={setShowNewEditorTrue} />
+        <AddMemo 
+        // setter={setShowNewEditorTrue} 
+        />
       </div>
       <BreadCrumb
         cwd ={cwd}
@@ -324,7 +326,7 @@ const HeaderPresenter = () => {
         <List
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}
-          setTrue={setShowEditorTrue}
+          // setTrue={setShowEditorTrue}
           setId={setId}
           onChangeDir={onChangeDir}
           onParentDir={onParentDir}
@@ -336,7 +338,7 @@ const HeaderPresenter = () => {
         <PostIt
           showCheckbox={showCheckbox}
           checkedItemHandler={checkedItemHandler}
-          setTrue={setShowEditorTrue}
+          // setTrue={setShowEditorTrue}
           setId={setId}
           onChangeDir={onChangeDir}
           onParentDir={onParentDir}
