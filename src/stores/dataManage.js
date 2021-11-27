@@ -28,7 +28,7 @@ export default class DataManage {
       setOrder: action,
       setMemoList: action,
       setDirList: action,
-      setDataList: action
+      setDataList: action,
     })
   }
 
@@ -105,5 +105,4 @@ export default class DataManage {
     }
     this.dataList = this.dirList.concat(this.memoList);
   }
-
 }

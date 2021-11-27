@@ -24,11 +24,27 @@ const PostItPresenter = ({
         dataSource={dirOrderedListWithPrev()}
         style={listWrapperStyle}
         grid={{ gutter: 16, column: 4 }}
-        renderItem={(item) => (
-
+                renderItem={(item) => (
+          (item.type == "prevDirectory") ? (
+            <List.Item>
+              <PostItDirItem name=".." set = {parent} />
+            </List.Item>
+          ) : (
           <List.Item>
             <PostItDirItem name={item.title} set = {change} />
           </List.Item>
+          )
+        )}
+        renderItem={(item) => (
+          (item.type == "prevDirectory") ? (
+            <List.Item>
+              <PostItDirItem name=".." set = {parent} />
+            </List.Item>
+          ) : (
+          <List.Item>
+            <PostItDirItem name={item.title} set = {change} />
+          </List.Item>
+          )
         )}
       />
       <List
