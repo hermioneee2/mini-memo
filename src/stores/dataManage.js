@@ -7,7 +7,6 @@ export default class DataManage {
   memoList;
   dirList;
   dataList;
-  dirPrevList;
 
   constructor() {
     this.cwd = MStore.initMemoCwd();
