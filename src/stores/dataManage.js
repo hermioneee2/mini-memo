@@ -7,6 +7,7 @@ export default class DataManage {
   memoList;
   dirList;
   dataList;
+  dirPrevList;
 
   constructor() {
     this.cwd = MStore.initMemoCwd();
@@ -14,6 +15,7 @@ export default class DataManage {
     this.memoList = MStore.loadMemoList(this.cwd);
     this.dirList = MStore.loadDirList(this.cwd);
     this.dataList = this.dirList.concat(this.memoList);
+    this.dirPrevList = this.dirList;
 
     makeObservable(this, {
       cwd: observable,
@@ -21,6 +23,7 @@ export default class DataManage {
       memoList: observable,
       dirList: observable,
       dataList: observable,
+      dirPrevList: observable,
       reloadCwd:action,
       setCwd: action,
       setChangeDir: action,
@@ -29,6 +32,7 @@ export default class DataManage {
       setMemoList: action,
       setDirList: action,
       setDataList: action,
+      setDirPrevList: action,
     })
   }
 
@@ -104,5 +108,9 @@ export default class DataManage {
       this.dirList = MStore.objectGeneralSort(this.dirList, "createdAt", false);
     }
     this.dataList = this.dirList.concat(this.memoList);
+  }
+  setDirPrevList = () => {
+    let temp = this.dirList;
+    this.dirPrevList = temp.unshift({type: "prevDirectory"});
   }
 }

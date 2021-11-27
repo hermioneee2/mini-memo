@@ -3,6 +3,7 @@ import PostItItem from "../PostItItem";
 import PostItDirItem from "../PostItDirItem";
 import { List } from "antd";
 import { observer, inject } from "mobx-react"
+import {autorun} from "mobx";
 
 const PostItPresenter = ({
   storeData,
@@ -10,43 +11,32 @@ const PostItPresenter = ({
   checkedItemHandler,
 }) => {
   const dataManage = storeData;
-  const dirOrderedListWithPrev = () => {
-    let prev = { type: "prevDirectory" };
-    let temp = dataManage.dirList;
-    temp.unshift(prev);
-    return temp;
-  };
   let parent = "parent";
   let change = "change";
   return (
     <div>
+      <span style={listWrapperStyle} >
       <List
-        dataSource={dirOrderedListWithPrev()}
+        dataSource={[".."]}
         style={listWrapperStyle}
         grid={{ gutter: 16, column: 4 }}
-                renderItem={(item) => (
-          (item.type == "prevDirectory") ? (
-            <List.Item>
-              <PostItDirItem name=".." set = {parent} />
-            </List.Item>
-          ) : (
+        renderItem={() => (
           <List.Item>
-            <PostItDirItem name={item.title} set = {change} />
+            <PostItDirItem name=".." set = {parent} />
           </List.Item>
-          )
-        )}
-        renderItem={(item) => (
-          (item.type == "prevDirectory") ? (
-            <List.Item>
-              <PostItDirItem name=".." set = {parent} />
-            </List.Item>
-          ) : (
-          <List.Item>
-            <PostItDirItem name={item.title} set = {change} />
-          </List.Item>
-          )
         )}
       />
+      <List
+        dataSource={dataManage.dirList}
+        style={listWrapperStyle}
+        grid={{ gutter: 16, column: 4 }}
+        renderItem={(item) => (
+          <List.Item>
+            <PostItDirItem name={item.title} set = {change} />
+          </List.Item>
+        )}
+      />
+      </span>
       <List
         dataSource={dataManage.memoList}
         style={listWrapperStyle}
