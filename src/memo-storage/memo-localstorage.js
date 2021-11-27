@@ -56,8 +56,10 @@ export const loadMemoTitle = (cwd, uid) => {
   let memoList = loadMemoList(cwd);
   let r;
   memoList.forEach((e) => {
-    if(e.uid == uid)
+    if(e.uid == uid){
+      console.log(e.title);
       r = e.title;
+    }
   })
   return r;
 }
@@ -67,7 +69,7 @@ export const loadMemoContent = (cwd, uid) => {
   let r;
   memoList.forEach((e) => {
     if(e.uid == uid)
-      r =  e.content;
+      r = e.content;
   })
   return r;
 }

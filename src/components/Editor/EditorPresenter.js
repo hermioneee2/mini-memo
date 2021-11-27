@@ -9,15 +9,16 @@ import { observer, inject } from "mobx-react";
 
 const EditorPresenter = ({
   storeEditor,
+  storeData,
   atSave,
   atModify,
   atCancel,
-  cwd,
   handleURLQuery,
   handleURLButton,
   shortenedURL
 }) => {
   const controlEditor = storeEditor;
+  const dataManage = storeData;
   const id = controlEditor.id;
   const [memoObj, setMemoObj] = useState({
     title: "",
@@ -71,24 +72,26 @@ const EditorPresenter = ({
   };
 
   const onSave = () => {
-    console.log(existingMemo(cwd, id));
+    console.log(existingMemo(dataManage.cwd, id));
     if (memoObj.content === "" || memoObj.title === "") {
       alert("제목과 내용을 입력해주세요.");
       return;
-    } else if (existingMemo(cwd, id)) {
+    } else if (existingMemo(dataManage.cwd, id)) {
       setMemoObjCreatedAt();
       atModify(memoObj, id);
     } else {
       atSave(memoObj);
     }
+    dataManage.setMemoList();
+    dataManage.setDataList();
   };
   
   const defaultTitle = () =>{
-    let r = loadMemoTitle(cwd, id);
+    let r = loadMemoTitle(dataManage.cwd, id);
     return r;
   }
   const defaultContent = () =>{
-    let r = loadMemoContent(cwd, id);
+    let r = loadMemoContent(dataManage.cwd, id);
     return r;
   }
 
@@ -108,7 +111,6 @@ const EditorPresenter = ({
     console.log("!#@!@QWEAS")
     editor = <div><Input defaultValue = {defaultTitle()} onChange={setMemoObjTitle} /><Divider /><EditorComponent value={defaultContent()} onChange={setMemoObjContent} /></div>;
   }
-
 
   return (
     <div>
@@ -153,4 +155,4 @@ const EditorPresenter = ({
   );
 };
 
-export default inject("storeEditor")(observer(EditorPresenter));
+export default inject("storeEditor", "storeData")(observer(EditorPresenter));

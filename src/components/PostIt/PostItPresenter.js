@@ -5,20 +5,19 @@ import { List } from "antd";
 import { observer, inject } from "mobx-react"
 
 const PostItPresenter = ({
+  storeData,
   showCheckbox,
   checkedItemHandler,
-  onChangeDir,
-  onParentDir,
-  memoOrderedList,
-  dirOrderedList,
-  cwd,
 }) => {
+  const dataManage = storeData;
   const dirOrderedListWithPrev = () => {
     let prev = { type: "prevDirectory" };
-    let temp = dirOrderedList();
+    let temp = dataManage.dirList;
     temp.unshift(prev);
     return temp;
   };
+  let parent = "parent";
+  let change = "change";
   return (
     <div>
       <List
@@ -26,19 +25,14 @@ const PostItPresenter = ({
         style={listWrapperStyle}
         grid={{ gutter: 16, column: 4 }}
         renderItem={(item) => (
-          (item.type == "prevDirectory") ? (
-            <List.Item>
-              <PostItDirItem name=".." onChangeDir={onParentDir} />
-            </List.Item>
-          ) : (
+
           <List.Item>
-            <PostItDirItem name={item.title} onChangeDir={onChangeDir} />
+            <PostItDirItem name={item.title} set = {change} />
           </List.Item>
-          )
         )}
       />
       <List
-        dataSource={memoOrderedList()}
+        dataSource={dataManage.memoList}
         style={listWrapperStyle}
         grid={{ gutter: 16, column: 4 }}
         renderItem={(item) => (
@@ -63,4 +57,4 @@ const listWrapperStyle = {
   marginRight: "auto",
 };
 
-export default inject("storeEditor")(observer(PostItPresenter));
+export default inject("storeEditor", "storeData")(observer(PostItPresenter));

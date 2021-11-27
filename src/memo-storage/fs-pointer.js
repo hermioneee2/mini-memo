@@ -303,8 +303,8 @@ export const store_dir_in_dir = (fp, name, data) => {
 
 export const get_dir_by_name = (fp, name) => {
   let resPointer = child_dir_pointer(fp, name);
-  // console.log('respointer');
-  // console.log(resPointer);
+  console.log('respointer');
+  console.log(resPointer);
   if (resPointer.type != "directory") return fp;
   else return resPointer;
 };

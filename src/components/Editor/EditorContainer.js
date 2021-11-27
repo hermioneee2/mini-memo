@@ -4,10 +4,11 @@ import { storeMemo, modifyMemo } from "../../memo-storage/memo-localstorage";
 import axios from "axios";
 import { observer, inject } from "mobx-react"
 
-const EditorContainer = ({storeEditor, cwd, forceCwdUpdate}) => {
+const EditorContainer = ({storeEditor, storeData}) => {
   const [url, setURL] = useState("");
   const [shortenedURL, setShortenedURL] = useState();
   const controlEditor = storeEditor;
+  const dataManage = storeData;
 
   const handleURLQuery = (e) => {
     setURL(e.target.value);
@@ -33,16 +34,16 @@ const EditorContainer = ({storeEditor, cwd, forceCwdUpdate}) => {
   };
 
   const atSave = (memoObj) => {
-    storeMemo(cwd, memoObj.title, memoObj.content);
-    forceCwdUpdate();
+    storeMemo(dataManage.cwd, memoObj.title, memoObj.content);
+    dataManage.reloadCwd();
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
   };
 
   const atModify = (memoObj, id) => {
-    modifyMemo(cwd, memoObj, id);
-    forceCwdUpdate();
+    modifyMemo(dataManage.cwd, memoObj, id);
+    dataManage.reloadCwd();
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
@@ -58,7 +59,6 @@ const EditorContainer = ({storeEditor, cwd, forceCwdUpdate}) => {
       atSave={atSave}
       atModify={atModify}
       atCancel={atCancel}
-      cwd={cwd}
       handleURLQuery={handleURLQuery}
       handleURLButton={handleURLButton}
       shortenedURL={shortenedURL}
@@ -66,4 +66,4 @@ const EditorContainer = ({storeEditor, cwd, forceCwdUpdate}) => {
   );
 };
 
-export default inject("storeEditor")(observer(EditorContainer));
+export default inject("storeEditor", "storeData")(observer(EditorContainer));

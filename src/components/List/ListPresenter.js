@@ -5,13 +5,13 @@ import { List } from "antd";
 import { observer, inject } from "mobx-react"
 
 const ListPresenter = ({
+  storeData,
   showCheckbox,
   checkedItemHandler,
-  dataOrderedList,
-  onChangeDir,
-  onParentDir,
 }) => {
-  
+  const dataManage = storeData;
+  let parent = "parent";
+  let change = "change";
   return (
     <div style ={overallListStyle}>
       <div style = {titleBoxStyle}>
@@ -26,12 +26,13 @@ const ListPresenter = ({
             <ListDirItem
               name={name}
               time={null}
-              onChangeDir={onParentDir} />
+              set = {parent}
+              />
           </List.Item>
         )}
       />
       <List
-        dataSource={dataOrderedList()}
+        dataSource={dataManage.dataList}
         style={listWrapperStyle}
         renderItem={(item) =>
           item.type === "directory" ? (
@@ -39,7 +40,7 @@ const ListPresenter = ({
               <ListDirItem
                 name={item.title}
                 time={item.createdAt}
-                onChangeDir={onChangeDir}
+                set = {change}
               />
             </List.Item>
           ) : (
@@ -89,4 +90,4 @@ const titleBoxStyle = {
     
 }
 
-export default inject("storeEditor")(observer(ListPresenter));
+export default inject("storeEditor", "storeData")(observer(ListPresenter));
