@@ -1,11 +1,12 @@
-import React, { memo, useState } from "react";
-import Modal from "react-modal";
-import { Input, Divider, Button, message } from "antd";
-import EditorComponent from "../Editor/Quill";
-import { existingMemo, loadMemoTitle, loadMemoContent } from "../../memo-storage/memo-localstorage";
+import React, { useState } from "react";
+import { Input, Divider, Button, message, Modal } from "antd";
+import EditorComponent from "../Editor/EditorComponent";
+import {
+  existingMemo,
+  loadMemoTitle,
+  loadMemoContent,
+} from "../../memo-storage/memo-localstorage";
 import { observer, inject } from "mobx-react";
-
-
 
 const EditorPresenter = ({
   storeEditor,
@@ -15,7 +16,7 @@ const EditorPresenter = ({
   atCancel,
   handleURLQuery,
   handleURLButton,
-  shortenedURL
+  shortenedURL,
 }) => {
   const controlEditor = storeEditor;
   const dataManage = storeData;
@@ -85,40 +86,67 @@ const EditorPresenter = ({
     dataManage.setMemoList();
     dataManage.setDataList();
   };
-  
-  const defaultTitle = () =>{
+
+  const defaultTitle = () => {
     let r = loadMemoTitle(dataManage.cwd, id);
     return r;
-  }
-  const defaultContent = () =>{
+  };
+  const defaultContent = () => {
     let r = loadMemoContent(dataManage.cwd, id);
     return r;
-  }
-
+  };
 
   let open;
-  if(controlEditor.editor === true || controlEditor.newEditor === true){
-    open =  true;
-  }
-  else{
-    open =  false;
+  if (controlEditor.editor === true || controlEditor.newEditor === true) {
+    open = true;
+  } else {
+    open = false;
   }
 
   let editor;
-  if(controlEditor.newEditor === true)
-    editor = <div><Input placeholder="Title" onChange={setMemoObjTitle} /><Divider /><EditorComponent value="" onChange={setMemoObjContent} /></div>;
-  else{
-    console.log("!#@!@QWEAS")
-    editor = <div><Input defaultValue = {defaultTitle()} onChange={setMemoObjTitle} /><Divider /><EditorComponent value={defaultContent()} onChange={setMemoObjContent} /></div>;
+  if (controlEditor.newEditor === true)
+    editor = (
+      <div>
+        <Input
+          placeholder="Title"
+          bordered={false}
+          onChange={setMemoObjTitle}
+          style={memoTitleStyle}
+        />
+        <EditorComponent value="" onChange={setMemoObjContent} />
+      </div>
+    );
+  else {
+    editor = (
+      <div>
+        <Input
+          defaultValue={defaultTitle()}
+          bordered={false}
+          onChange={setMemoObjTitle}
+          style={memoTitleStyle}
+        />
+        <EditorComponent
+          value={defaultContent()}
+          onChange={setMemoObjContent}
+        />
+      </div>
+    );
   }
 
   return (
     <div>
-      <Modal isOpen={open} onRequestClose={atCancel}>
+      <Modal
+        visible={open}
+        closable={false}
+        onCancel={atCancel}
+        onOk={onSave}
+        style={{ overflow: "hidden", borderRadius: "10px", height: "63vh" }}
+        footer={null}
+      >
         {editor}
         <Input.Group compact>
           <Input
-            style={{ width: "calc(40% - 200px)" }}
+            style={{ width: "calc(100% - 120px)" }}
             placeholder="Enter your URL here"
             onChange={handleURLQuery}
             onPressEnter={handleURLButtonWrapper}
@@ -128,31 +156,43 @@ const EditorPresenter = ({
               borderColor: "#F0BF39",
               color: "#F0BF39",
               fontWeight: "bold",
+              width: "120px",
             }}
             onClick={handleURLButtonWrapper}
           >
             Shorten URL
           </Button>
         </Input.Group>
-        {/* <Input defaultValue={shortenedURL} /> */}
-        <div>Shortend URL: {shortenedURL}</div>
-        <div style={{ marginRight: "10px" }}>
-          <Button
-            type="primary"
-            style={{
-              background: "#F0BF39",
-              borderColor: "#F0BF39",
-              marginTop: "10px",
-            }}
-            onClick={onSave}
-          >
-            Save
-          </Button>
-          <Button onClick={atCancel}>Cancel</Button>
-        </div>
+        <Button
+          key="back"
+          onClick={atCancel}
+          size="small"
+          type="link"
+          style={{ color: "#C5C5C5" }}
+        >
+          Cancel
+        </Button>
+        <Button
+          key="submit"
+          type="primary"
+          onClick={onSave}
+          size="small"
+          type="link"
+          style={{ color: "#F0BF39", float: "right" }}
+        >
+          Save
+        </Button>
       </Modal>
     </div>
   );
+};
+
+const memoTitleStyle = {
+  fontFamily: "Open Sans",
+  fontSize: 17,
+  fontWeight: 600,
+  marginLeft: 5,
+  marginBottom: 7,
 };
 
 export default inject("storeEditor", "storeData")(observer(EditorPresenter));

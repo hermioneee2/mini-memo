@@ -255,7 +255,7 @@ const Wrapper = styled.div`
 const Header = styled.div`
   background-color: #f0f0f0;
   width: 100%;
-  height: 80px;
+  height: 70px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
