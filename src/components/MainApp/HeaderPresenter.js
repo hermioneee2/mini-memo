@@ -13,7 +13,7 @@ import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 import BreadCrumb from "../BreadCrumb";
-import { deleteMemo} from "../../memo-storage/memo-localstorage";
+import { deleteMemo } from "../../memo-storage/memo-localstorage";
 import * as MStore from "../../memo-storage/memo-localstorage";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
@@ -125,7 +125,7 @@ const HeaderPresenter = () => {
       name: name,
       title: name,
       createdAt: new Date(),
-    }
+    };
     MStore.storeDir(dataManage.cwd, name, dirData);
     setDirName("");
     setShowDirInput(false);
@@ -143,10 +143,7 @@ const HeaderPresenter = () => {
             enterButton="Add"
             onChange={dirNameChange}
           />
-          <Button
-            type="primary"
-            onClick={() => dirAddButtonclick(dirName)}
-          >
+          <Button type="primary" onClick={() => dirAddButtonclick(dirName)}>
             Add
           </Button>
         </Input.Group>
@@ -156,41 +153,29 @@ const HeaderPresenter = () => {
 
   return (
     <Wrapper>
-      <Provider storeEditor = {controlEditor} storeData = {dataManage}>
-        <Editor/>
+      <Provider storeEditor={controlEditor} storeData={dataManage}>
+        <Editor />
       </Provider>
       <Affix offsetTop={0}>
         <Header>
           <span style={headerStyle}>Mini Memo</span>
           <HeaderButtonWrapper>
-            <span style={sortStyle}>Sort</span>
-            <Cascader
-              options={options}
-              onChange={dataManage.setOrder}
-              expandTrigger="hover"
-              placeholder="Please select"
-            />
+            <div>
+              <span style={sortStyle}>Sort By</span>
+              <Cascader
+                options={options}
+                onChange={dataManage.setOrder}
+                expandTrigger="hover"
+                placeholder="Please select"
+                style={cascaderStyle}
+              />
+            </div>
             {display === DISP.POSTIT && (
               <BarsOutlined onClick={dispIconClick} style={iconStyle} />
             )}
             {display === DISP.LIST && (
-              <AppstoreOutlined
-                onClick={dispIconClick}
-                style={iconStyle}
-              />
+              <AppstoreOutlined onClick={dispIconClick} style={iconStyle} />
             )}
-
-            <Dropdown
-              overlay={deleteDropdown}
-              trigger={["click"]}
-              placement="bottomCenter"
-              arrow
-              onClick={DeleteIconClick}
-              visible={checkbox}
-            >
-              <DeleteOutlined style={iconStyle} />
-            </Dropdown>
-
             <Dropdown
               overlay={dirAddDropdown}
               trigger={["click"]}
@@ -201,32 +186,35 @@ const HeaderPresenter = () => {
             >
               <FolderAddOutlined style={iconStyle} />
             </Dropdown>
-
+            <Dropdown
+              overlay={deleteDropdown}
+              trigger={["click"]}
+              placement="bottomCenter"
+              arrow
+              onClick={DeleteIconClick}
+              visible={checkbox}
+            >
+              <DeleteOutlined style={iconStyle} />
+            </Dropdown>
             <SettingOutlined style={iconStyle} />
           </HeaderButtonWrapper>
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <Provider storeEditor = {controlEditor}>
-        <div onClick = {() => controlEditor.setId(-1)}>
+      <Provider storeEditor={controlEditor}>
+        <div onClick={() => controlEditor.setId(-1)}>
           <AddMemo />
         </div>
       </Provider>
-      <BreadCrumb cwd ={dataManage.cwd}/>
+      <BreadCrumb cwd={dataManage.cwd} />
       {display === DISP.LIST && (
-        <Provider storeEditor = {controlEditor} storeData = {dataManage}>
-          <List
-            showCheckbox={checkbox}
-            checkedItemHandler={setCheckedItem}
-          />
+        <Provider storeEditor={controlEditor} storeData={dataManage}>
+          <List showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
         </Provider>
       )}
       {display === DISP.POSTIT && (
-        <Provider storeEditor = {controlEditor} storeData = {dataManage}>
-          <PostIt
-            showCheckbox={checkbox}
-            checkedItemHandler={setCheckedItem}
-          />
+        <Provider storeEditor={controlEditor} storeData={dataManage}>
+          <PostIt showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
         </Provider>
       )}
     </Wrapper>
@@ -244,16 +232,14 @@ const headerStyle = {
 const sortStyle = {
   color: "#F0BF39",
   fontFamily: "Open Sans",
-  fontSize: 20,
+  fontSize: 17,
   fontWeight: 600,
 };
 
-// const cascadeStyle = {
-//   width: "250px",
-//   alignItems:'center',
-//   marginleft: 100
-
-// };
+const cascaderStyle = {
+  width: "120px",
+  marginLeft: 8,
+};
 
 const iconStyle = {
   fontSize: 28,
@@ -281,7 +267,7 @@ const HeaderButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   padding-right: 40px;
-  width: 300px;
+  width: 420px;
   justify-content: space-between;
 `;
 
