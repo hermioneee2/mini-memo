@@ -13,14 +13,14 @@ import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 import BreadCrumb from "../BreadCrumb";
-import {
-  deleteMemo,
-  nameAscendingSort,
-  nameDescendingSort,
-  timeAscendingSort,
-  timeDescendingSort,
-} from "../../memo-storage/memo-localstorage";
+import { deleteMemo} from "../../memo-storage/memo-localstorage";
 import * as MStore from "../../memo-storage/memo-localstorage";
+import { Provider, observer } from "mobx-react";
+import ControlEditor from "../../stores/controlEditor";
+import DataManage from "../../stores/dataManage";
+
+const controlEditor = new ControlEditor();
+const dataManage = new DataManage();
 
 const HeaderPresenter = () => {
   const DISP = {
@@ -58,46 +58,21 @@ const HeaderPresenter = () => {
       ],
     },
   ];
-
-  const [showEditor, setShowEditor] = useState(false);
-  const [showCheckbox, setShowCheckbox] = useState(false); // for delete
-  const [delItems, setDelItems] = useState(new Set()); // for delete
+  const [checkbox, setCheckbox] = useState(false);
+  const [delItems, setDelItems] = useState(new Set());
   const [display, setDisplay] = useState(DISP.LIST);
-  const [id, setNum] = useState(0);
-  const [order, setOrder] = useState("");
-  const [cwd, setCwd] = useState(MStore.initMemoCwd());
-
-  const forceCwdUpdate = () => {
-    setCwd(MStore.reloadCwd(cwd));
-  };
-
-  const setShowEditorTrue = () => {
-    // console.log("set true");
-    setShowEditor(true);
-  };
-
-  const setShowEditorFalse = () => {
-    setShowEditor(false);
-  };
-
-  const setId = (id) => {
-    // console.log("id");
-    // console.log(id);
-    setNum(id);
-  };
 
   const delMemo = () => {
     delItems.forEach((e) => {
-      deleteMemo(cwd, e);
+      deleteMemo(dataManage.cwd, e);
     });
   };
 
-  const handleDeleteIconClick = () => {
-    setShowCheckbox(!showCheckbox);
+  const DeleteIconClick = () => {
+    setCheckbox(!checkbox);
   };
 
-  const checkedItemHandler = (id, isChecked) => {
-    //reflect change on del item list
+  const setCheckedItem = (id, isChecked) => {
     if (isChecked) {
       delItems.add(id);
     } else if (!isChecked) {
@@ -106,17 +81,13 @@ const HeaderPresenter = () => {
     setDelItems(delItems);
   };
 
-  const handleDispIconClick = () => {
+  const dispIconClick = () => {
     if (display === DISP.POSTIT) {
       setDisplay(DISP.LIST);
     } else {
       setDisplay(DISP.POSTIT);
     }
   };
-
-  function onChange(value) {
-    setOrder(value[1]);
-  }
 
   const deleteDropdown = (
     <Menu>
@@ -125,7 +96,10 @@ const HeaderPresenter = () => {
         style={{ color: "red" }}
         onClick={() => {
           delMemo();
-          setShowCheckbox(false);
+          setCheckbox(false);
+          dataManage.setMemoList();
+          dataManage.setDirList();
+          dataManage.setDataList();
         }}
       >
         Delete Selections
@@ -137,25 +111,25 @@ const HeaderPresenter = () => {
   const [showDirInput, setShowDirInput] = useState(false); // for dir add
   const [dirName, setDirName] = useState("");
 
-  const handleDirNameChange = (e) => {
+  const dirNameChange = (e) => {
     setDirName(e.target.value);
   };
 
-  const handleDirAddIconClick = () => {
+  const dirAddIconClick = () => {
     setShowDirInput(!showDirInput);
   };
 
-  const handleDirAddButtonclick = (name) => {
+  const dirAddButtonclick = (name) => {
     let dirData = {
       type: "directory",
       name: name,
       title: name,
       createdAt: new Date(),
     }
-    MStore.storeDir(cwd, name, dirData);
+    MStore.storeDir(dataManage.cwd, name, dirData);
     setDirName("");
     setShowDirInput(false);
-    forceCwdUpdate();
+    dataManage.reloadCwd();
   };
 
   const dirAddDropdown = (
@@ -167,11 +141,11 @@ const HeaderPresenter = () => {
             placeholder="New Folder Name"
             value={dirName}
             enterButton="Add"
-            onChange={handleDirNameChange}
+            onChange={dirNameChange}
           />
           <Button
             type="primary"
-            onClick={() => handleDirAddButtonclick(dirName)}
+            onClick={() => dirAddButtonclick(dirName)}
           >
             Add
           </Button>
@@ -180,85 +154,11 @@ const HeaderPresenter = () => {
     </Menu>
   );
 
-  // change dir related
-  const onChangeDir = (name) => {
-    let newCwd = MStore.changeDir(cwd, name);
-    // console.log('newCwd');
-    // console.log(newCwd);
-    setCwd(newCwd);
-  };
-
-  const onParentDir = (name) => {
-    // trick: use same type with onChangeDir, getting `name` arg but not use
-    let newCwd = MStore.parentDir(cwd);
-    setCwd(newCwd);
-  };
-
-  const memoOrderedList = () => {
-    let memoList = MStore.loadMemoList(cwd);
-    if (order == "name_ascend") {
-      memoList = MStore.objectGeneralSort(memoList, "title", true);
-    }
-    else if (order == "name_descend") {
-      memoList = MStore.objectGeneralSort(memoList, "title", false);
-    }
-    else if (order == "time_ascend") {
-      memoList = MStore.objectGeneralSort(memoList, "createdAt", true);
-    }
-    else if (order == "time_descend") {
-      memoList = MStore.objectGeneralSort(memoList, "createdAt", false);
-    }
-    return memoList;
-  }
-
-  const dirOrderedList = () => {
-    let dirList = MStore.loadDirList(cwd);
-    if (order == "name_ascend") {
-      dirList = MStore.objectGeneralSort(dirList, "title", true);
-    }
-    else if (order == "name_descend") {
-      dirList = MStore.objectGeneralSort(dirList, "title", false);
-    }
-    else if (order == "time_ascend") {
-      dirList = MStore.objectGeneralSort(dirList, "createdAt", true);
-    }
-    else if (order == "time_descend") {
-      dirList = MStore.objectGeneralSort(dirList, "createdAt", false);
-    }
-    return dirList;
-  }
-
-  const dataOrderedList = () => {
-    let memoList = MStore.loadMemoList(cwd);
-    let dirList = MStore.loadDirList(cwd);
-    if (order == "name_ascend") {
-      memoList = MStore.objectGeneralSort(memoList, "title", true);
-      dirList = MStore.objectGeneralSort(dirList, "title", true);
-    }
-    else if (order == "name_descend") {
-      memoList = MStore.objectGeneralSort(memoList, "title", false);
-      dirList = MStore.objectGeneralSort(dirList, "title", false);
-    }
-    else if (order == "time_ascend") {
-      memoList = MStore.objectGeneralSort(memoList, "createdAt", true);
-      dirList = MStore.objectGeneralSort(dirList, "createdAt", true);
-    }
-    else if (order == "time_descend") {
-      memoList = MStore.objectGeneralSort(memoList, "createdAt", false);
-      dirList = MStore.objectGeneralSort(dirList, "createdAt", false);
-    }
-    return dirList.concat(memoList);
-  }
-
   return (
     <Wrapper>
-      <Editor
-        isOpen={showEditor}
-        modalClose={setShowEditorFalse}
-        id={id}
-        cwd={cwd}
-        forceCwdUpdate={forceCwdUpdate}
-      />
+      <Provider storeEditor = {controlEditor} storeData = {dataManage}>
+        <Editor/>
+      </Provider>
       <Affix offsetTop={0}>
         <Header>
           <span style={headerStyle}>Mini Memo</span>
@@ -266,16 +166,16 @@ const HeaderPresenter = () => {
             <span style={sortStyle}>Sort</span>
             <Cascader
               options={options}
-              onChange={onChange}
+              onChange={dataManage.setOrder}
               expandTrigger="hover"
               placeholder="Please select"
             />
             {display === DISP.POSTIT && (
-              <BarsOutlined onClick={handleDispIconClick} style={iconStyle} />
+              <BarsOutlined onClick={dispIconClick} style={iconStyle} />
             )}
             {display === DISP.LIST && (
               <AppstoreOutlined
-                onClick={handleDispIconClick}
+                onClick={dispIconClick}
                 style={iconStyle}
               />
             )}
@@ -285,8 +185,8 @@ const HeaderPresenter = () => {
               trigger={["click"]}
               placement="bottomCenter"
               arrow
-              onClick={handleDeleteIconClick}
-              visible={showCheckbox}
+              onClick={DeleteIconClick}
+              visible={checkbox}
             >
               <DeleteOutlined style={iconStyle} />
             </Dropdown>
@@ -296,7 +196,7 @@ const HeaderPresenter = () => {
               trigger={["click"]}
               placement="bottomRight"
               arrow
-              onClick={handleDirAddIconClick}
+              onClick={dirAddIconClick}
               visible={showDirInput}
             >
               <FolderAddOutlined style={iconStyle} />
@@ -307,37 +207,27 @@ const HeaderPresenter = () => {
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <div onClick={() => setId(-1)}>
-        <AddMemo setter={setShowEditorTrue} />
-      </div>
-      <BreadCrumb
-        cwd ={cwd}
-        onChangeDir ={onChangeDir}>
-      </BreadCrumb>
+      <Provider storeEditor = {controlEditor}>
+        <div onClick = {() => controlEditor.setId(-1)}>
+          <AddMemo />
+        </div>
+      </Provider>
+      <BreadCrumb cwd ={dataManage.cwd}/>
       {display === DISP.LIST && (
-        <List
-          showCheckbox={showCheckbox}
-          checkedItemHandler={checkedItemHandler}
-          setTrue={setShowEditorTrue}
-          setId={setId}
-          onChangeDir={onChangeDir}
-          onParentDir={onParentDir}
-          dataOrderedList={dataOrderedList}
-          cwd={cwd}
-        />
+        <Provider storeEditor = {controlEditor} storeData = {dataManage}>
+          <List
+            showCheckbox={checkbox}
+            checkedItemHandler={setCheckedItem}
+          />
+        </Provider>
       )}
       {display === DISP.POSTIT && (
-        <PostIt
-          showCheckbox={showCheckbox}
-          checkedItemHandler={checkedItemHandler}
-          setTrue={setShowEditorTrue}
-          setId={setId}
-          onChangeDir={onChangeDir}
-          onParentDir={onParentDir}
-          memoOrderedList={memoOrderedList}
-          dirOrderedList={dirOrderedList}
-          cwd={cwd}
-        />
+        <Provider storeEditor = {controlEditor} storeData = {dataManage}>
+          <PostIt
+            showCheckbox={checkbox}
+            checkedItemHandler={setCheckedItem}
+          />
+        </Provider>
       )}
     </Wrapper>
   );
@@ -402,4 +292,4 @@ const HeaderBottomOutline = styled.div`
   display: flex;
 `;
 
-export default HeaderPresenter;
+export default observer(HeaderPresenter);

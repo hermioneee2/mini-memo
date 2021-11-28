@@ -1,16 +1,17 @@
 import PostItItemPresenter from "./PostItItemPresenter";
 import { useState } from "react";
+import { observer, inject } from "mobx-react"
 
 const PostItItemContainer = ({
+  storeEditor,
   title,
   content,
   uid,
   showCheckbox,
   checkedItemHandler,
-  setTrue, 
-  setId
 }) => {
   const [bChecked, setChecked] = useState(false);
+  const controlEditor = storeEditor;
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
@@ -18,17 +19,16 @@ const PostItItemContainer = ({
   };
 
   return (
-    <div onClick = {() => setId(uid)}>
+    <div onClick = {() => controlEditor.setId(uid)}>
       <PostItItemPresenter
         title={title}
         content={content}
         showCheckbox={showCheckbox}
         bChecked={bChecked}
         checkHandler={checkHandler}
-        setTrue={setTrue}
       />
     </div>
   );
 };
 
-export default PostItItemContainer;
+export default inject("storeEditor")(observer(PostItItemContainer));

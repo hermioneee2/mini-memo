@@ -1,3 +1,5 @@
 import ListDirItemContainer from "./ListDirItemContainer";
 
-export default ListDirItemContainer;
+const ListDirItem = ListDirItemContainer;
+
+export default ListDirItem;

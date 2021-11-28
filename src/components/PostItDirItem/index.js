@@ -1,3 +1,5 @@
 import PostItDirItemContainer from "./PostItDirItemContainer";
 
-export default PostItDirItemContainer;
+const PostItDirItem = PostItDirItemContainer;
+
+export default PostItDirItem;

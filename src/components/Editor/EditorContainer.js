@@ -2,10 +2,13 @@ import EditorPresenter from "./EditorPresenter";
 import React, { useState } from "react";
 import { storeMemo, modifyMemo } from "../../memo-storage/memo-localstorage";
 import axios from "axios";
+import { observer, inject } from "mobx-react"
 
-const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
+const EditorContainer = ({storeEditor, storeData}) => {
   const [url, setURL] = useState("");
   const [shortenedURL, setShortenedURL] = useState();
+  const controlEditor = storeEditor;
+  const dataManage = storeData;
 
   const handleURLQuery = (e) => {
     setURL(e.target.value);
@@ -20,44 +23,42 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
       });
       if (res && res.status === 200) {
         const { data } = res;
-        // console.log(data);
         setShortenedURL(data.result.url);
         navigator.clipboard.writeText(data.result.url);
         successMsg();
       }
     } catch (e) {
-      // console.log("error ", e);
       setShortenedURL("");
       failMsg();
     }
   };
 
   const atSave = (memoObj) => {
-    storeMemo(cwd, memoObj.title, memoObj.content);
-    forceCwdUpdate();
-    modalClose(false);
+    storeMemo(dataManage.cwd, memoObj.title, memoObj.content);
+    dataManage.reloadCwd();
+    controlEditor.setEditorFalse();
+    controlEditor.setNewEditorFalse();
     setShortenedURL("");
   };
 
   const atModify = (memoObj, id) => {
-    modifyMemo(cwd, memoObj, id);
-    forceCwdUpdate();
-    modalClose(false);
+    modifyMemo(dataManage.cwd, memoObj, id);
+    dataManage.reloadCwd();
+    controlEditor.setEditorFalse();
+    controlEditor.setNewEditorFalse();
     setShortenedURL("");
   };
 
   const atCancel = () => {
-    modalClose(false);
+    controlEditor.setEditorFalse();
+    controlEditor.setNewEditorFalse();
     setShortenedURL("");
   };
   return (
     <EditorPresenter
-      isOpen={isOpen}
       atSave={atSave}
       atModify={atModify}
       atCancel={atCancel}
-      id={id}
-      cwd={cwd}
       handleURLQuery={handleURLQuery}
       handleURLButton={handleURLButton}
       shortenedURL={shortenedURL}
@@ -65,4 +66,4 @@ const EditorContainer = ({ isOpen, modalClose, id, cwd, forceCwdUpdate }) => {
   );
 };
 
-export default EditorContainer;
+export default inject("storeEditor", "storeData")(observer(EditorContainer));

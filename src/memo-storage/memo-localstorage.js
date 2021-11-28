@@ -52,6 +52,28 @@ export const modifyMemo = (cwd, memoObj, uid) => {
   return resBool;
 };
 
+export const loadMemoTitle = (cwd, uid) => {
+  let memoList = loadMemoList(cwd);
+  let r;
+  memoList.forEach((e) => {
+    if(e.uid == uid){
+      console.log(e.title);
+      r = e.title;
+    }
+  })
+  return r;
+}
+
+export const loadMemoContent = (cwd, uid) => {
+  let memoList = loadMemoList(cwd);
+  let r;
+  memoList.forEach((e) => {
+    if(e.uid == uid)
+      r = e.content;
+  })
+  return r;
+}
+
 // refactor to store in cwd
 export const storeMemo = (cwd, title, content) => {
   const memoObj = makeMemoObj(getNextMemoUid(), title, content);

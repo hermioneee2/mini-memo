@@ -1,3 +1,5 @@
 import EditorContainer from "./EditorContainer";
 
-export default EditorContainer;
+const Editor = EditorContainer;
+
+export default Editor;

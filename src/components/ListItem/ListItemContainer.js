@@ -1,20 +1,19 @@
 import ListItemPresenter from "./ListItemPresenter";
 import { React, useState } from "react";
 import dateFormat, { masks } from "dateformat";
-import Clock from 'react-clock';
-
+import { observer, inject } from "mobx-react"
 
 const ListItemContainer = ({
+  storeEditor,
   title,
   content,
   uid,
   time,
   showCheckbox,
-  checkedItemHandler,
-  setTrue, 
-  setId
+  checkedItemHandler
 }) => {
   const [bChecked, setChecked] = useState(false);
+  const controlEditor = storeEditor;
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
@@ -23,17 +22,11 @@ const ListItemContainer = ({
   
   const setTime = () => {
     let t = time;
-    // let h = (parseInt(dateFormat(t, "HH"))) % 24;
-    // let d = dateFormat(t, "yyyy. m. d ");
-    // let m = dateFormat(t, "M");
-    // let a = d + h + ':' + m;
-    // console.log(a);
-    // console.log(h);
     let a = dateFormat(t, "yyyy. m. d  HH:MM");
     return a;
   }
   return (
-    <div onClick = {() => setId(uid)}>
+    <div onClick = {() => controlEditor.setId(uid)}>
       <ListItemPresenter
         title={title}
         content={content}
@@ -41,10 +34,9 @@ const ListItemContainer = ({
         showCheckbox={showCheckbox}
         bChecked={bChecked}
         checkHandler={checkHandler}
-        setTrue={setTrue}
       />
     </div>
   );
 };
 
-export default ListItemContainer;
+export default inject("storeEditor")(observer(ListItemContainer));

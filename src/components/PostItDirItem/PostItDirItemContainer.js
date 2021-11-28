@@ -1,12 +1,23 @@
 import PostItDirItemPresenter from "./PostItDirItemPresenter";
-import { useState } from "react";
+import { observer, inject } from "mobx-react"
 
 const PostItDirItemContainer = ({
+  storeData,
   name,
-  onChangeDir,
+  set
 }) => {
+  const dataManage = storeData;
+  const onChange = (name) => {
+    if(set === "parent"){
+      dataManage.setParentDir(name);
+    } else{
+      dataManage.setChangeDir(name);
+    }
+    dataManage.setDirList();
+    dataManage.setDataList();
+  }
   return (
-    <div onClick={() => onChangeDir(name)}>
+    <div onClick={() => onChange(name)}>
       <PostItDirItemPresenter
         name={name}
       />
@@ -14,4 +25,4 @@ const PostItDirItemContainer = ({
   );
 };
 
-export default PostItDirItemContainer;
+export default inject("storeData")(observer(PostItDirItemContainer));

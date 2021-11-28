@@ -1,3 +1,5 @@
 import AddMemoContainer from "./AddMemoContainer";
 
-export default AddMemoContainer;
+const AddMemo = AddMemoContainer;
+
+export default AddMemo;

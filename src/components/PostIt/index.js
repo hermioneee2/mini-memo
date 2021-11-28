@@ -1,3 +1,5 @@
 import PostItContainer from "./PostItContainer";
 
-export default PostItContainer;
+const PostIt = PostItContainer;
+
+export default PostIt;

@@ -2,44 +2,43 @@ import React from "react";
 import PostItItem from "../PostItItem";
 import PostItDirItem from "../PostItDirItem";
 import { List } from "antd";
+import { observer, inject } from "mobx-react"
+import {autorun} from "mobx";
 
 const PostItPresenter = ({
+  storeData,
   showCheckbox,
   checkedItemHandler,
-  setTrue,
-  setId,
-  onChangeDir,
-  onParentDir,
-  memoOrderedList,
-  dirOrderedList,
-  cwd,
 }) => {
-  const dirOrderedListWithPrev = () => {
-    let prev = { type: "prevDirectory" };
-    let temp = dirOrderedList();
-    temp.unshift(prev);
-    return temp;
-  };
+  const dataManage = storeData;
+  let parent = "parent";
+  let change = "change";
   return (
     <div>
+      <span style={listWrapperStyle} >
       <List
-        dataSource={dirOrderedListWithPrev()}
+        dataSource={[".."]}
         style={listWrapperStyle}
         grid={{ gutter: 16, column: 4 }}
-        renderItem={(item) => (
-          (item.type == "prevDirectory") ? (
-            <List.Item>
-              <PostItDirItem name=".." onChangeDir={onParentDir} />
-            </List.Item>
-          ) : (
+        renderItem={() => (
           <List.Item>
-            <PostItDirItem name={item.title} onChangeDir={onChangeDir} />
+            <PostItDirItem name=".." set = {parent} />
           </List.Item>
-          )
         )}
       />
       <List
-        dataSource={memoOrderedList()}
+        dataSource={dataManage.dirList}
+        style={listWrapperStyle}
+        grid={{ gutter: 16, column: 4 }}
+        renderItem={(item) => (
+          <List.Item>
+            <PostItDirItem name={item.title} set = {change} />
+          </List.Item>
+        )}
+      />
+      </span>
+      <List
+        dataSource={dataManage.memoList}
         style={listWrapperStyle}
         grid={{ gutter: 16, column: 4 }}
         renderItem={(item) => (
@@ -50,8 +49,6 @@ const PostItPresenter = ({
               uid={item.uid}
               showCheckbox={showCheckbox}
               checkedItemHandler={checkedItemHandler}
-              setTrue={setTrue}
-              setId={setId}
             />
           </List.Item>
         )}
@@ -66,4 +63,4 @@ const listWrapperStyle = {
   marginRight: "auto",
 };
 
-export default PostItPresenter;
+export default inject("storeEditor", "storeData")(observer(PostItPresenter));

@@ -1,3 +1,5 @@
 import HeaderContainer from "./HeaderContainer";
 
-export default HeaderContainer;
+const MainApp = HeaderContainer;
+
+export default MainApp;

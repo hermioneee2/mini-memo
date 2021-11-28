@@ -1,21 +1,22 @@
 import React from "react";
-// import { FileOutlined } from "@ant-design/icons";
 import { Card } from "antd";
+import { observer, inject } from "mobx-react"
 
 const PostItItemPresenter = ({
+  storeEditor,
   title,
   content,
   showCheckbox,
   bchecked,
   checkHandler,
-  setTrue
 }) => {
+  const controlEditor = storeEditor;
   return (
     <div>
       {showCheckbox && (
           <input type="checkbox" checked={bchecked} onChange={checkHandler} />
         )}
-      <Card title={title} style={cardStyle} onClick = {setTrue}>
+      <Card title={title} style={cardStyle} onClick = {controlEditor.setEditorTrue}>
         {content}
       </Card>
     </div>
@@ -28,4 +29,4 @@ const cardStyle = {
   cursor: "pointer",
 };
 
-export default PostItItemPresenter;
+export default inject("storeEditor")(observer(PostItItemPresenter));
