@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { makeMemoObj } from "./memo-parse";
 import { getNextMemoUid } from "./uid";
-import * as Fsp from "./fs-pointer";
+import * as Fsp from "./localstorage-fs/fs-pointer";
 
 /// NOTE: all these functions should get (cwd: fsPointer object) as argument now.
 /// cwd should be managed as state variable in MainApp component.
