@@ -59,7 +59,7 @@ class EditorComponent extends Component {
           formats={this.formats}
           value={value || ""}
           onChange={(content, delta, source, editor) =>
-            onChange(editor.getText())
+            onChange(editor.getHTML())
           } //can extract only text by getText
         />
         <CustomToolbar />

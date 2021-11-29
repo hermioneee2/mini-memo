@@ -11,6 +11,7 @@ const PostItItemPresenter = ({
   checkHandler,
 }) => {
   const controlEditor = storeEditor;
+
   return (
     <div>
       <Card
@@ -18,7 +19,7 @@ const PostItItemPresenter = ({
         style={cardStyle}
         onClick={controlEditor.setEditorTrue}
       >
-        {content}
+        <div dangerouslySetInnerHTML={{ __html: content }}></div>
       </Card>
       {showCheckbox && (
         <input
