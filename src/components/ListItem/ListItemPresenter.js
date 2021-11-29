@@ -68,8 +68,8 @@ const timeStyle = {
 
 const checkboxStyle = {
   position: "relative",
-  marginTop: "20px",
   left: "-30px",
+  top: "-5px",
   width: "15px",
   height: "15px",
 };
