@@ -33,7 +33,13 @@ const BreadCrumbPresenter = (cwd) => {
   return (
     <div style={BreadcrumbBox_style}>
       <Breadcrumb style={Breadcrumb_style}>{hierarchy_render}</Breadcrumb>
-      <strong style={{ padding: "14px 0px 6px", fontSize: 18 }}>
+      <strong
+        style={{
+          padding: "6px 0px 6px",
+          fontSize: 18,
+          fontFamily: "Open Sans",
+        }}
+      >
         {folder_title}
       </strong>
     </div>
@@ -47,9 +53,8 @@ const BreadcrumbBox_style = {
   padding: "16px 24px",
   margin: "auto",
   position: "relative",
-  width: "80%",
-  height: "102px",
-
+  width: "80vw",
+  height: "90px",
   top: "30px",
   bottom: "30px",
   backgroundColor: "#FAFAFA",
@@ -60,9 +65,8 @@ const Breadcrumb_style = {
   flexDirection: "row",
   alignItems: "center",
   padding: "0px",
-  fontFamily: "Roboto",
-  fontStyle: "normal",
-  fontWeight: "normal",
+  fontFamily: "Open Sans",
+  fontSize: "13px",
 };
 
 export default BreadCrumbPresenter;

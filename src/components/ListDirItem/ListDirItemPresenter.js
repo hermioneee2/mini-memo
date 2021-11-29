@@ -1,37 +1,48 @@
 import React from "react";
-import { FolderOutlined, FolderFilled } from "@ant-design/icons";
+import { FolderFilled } from "@ant-design/icons";
 
 const ListDirItemPresenter = ({ name, time }) => {
-  return (time != null) ? (
-    <div>
-      <div style={listItemStyle}>
-        <FolderOutlined />
-        <strong>{name}</strong>
-        <span style = {timeStyle}>
-          {time}
-        </span>
+  return time != null ? (
+    <div style={listItemStyle}>
+      <div style={titleStyle}>
+        <FolderFilled style={iconStyle} />
+        {name}
       </div>
+      <div style={timeStyle}>{time}</div>
     </div>
   ) : (
-    <div>
-      <div style={listItemStyle}>
-        <FolderFilled/>
-        <strong>{name}</strong>
+    <div style={listItemStyle}>
+      <div style={titleStyle}>
+        <FolderFilled style={iconStyle} />
+        {name}
       </div>
     </div>
   );
 };
 
 const listItemStyle = {
-  height: "63px",
-  fontSize: "large",
+  display: "flex",
+  justifyContent: "space-between",
+  alignContent: "center",
+  height: "55px",
+  width: "80vw",
+  fontSize: "16px",
   cursor: "pointer",
-  width:"100%"
+  fontFamily: "Open Sans",
+  borderBottom: "1px solid #DFDFDF",
+  paddingTop: "13px",
 };
+
+const iconStyle = {
+  marginLeft: "20px",
+  marginRight: "8px",
+};
+
+const titleStyle = {};
+
 const timeStyle = {
-  height: "63px",
-  fontSize: "large",
-  padding: 40,
+  position: "relative",
+  left: "-15%",
 };
 
 export default ListDirItemPresenter;

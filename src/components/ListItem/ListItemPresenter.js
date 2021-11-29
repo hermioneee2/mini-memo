@@ -13,28 +13,62 @@ const ListItemPresenter = ({
 }) => {
   const controlEditor = storeEditor;
   return (
-    <div>
-      {showCheckbox && (
-        <input type="checkbox" checked={bchecked} onChange={checkHandler} />
-      )}
+    <div style={listItemWrapperStyle}>
       <div style={listItemStyle} onClick={controlEditor.setEditorTrue}>
-        <FileOutlined />
-        <strong>{title}</strong> {content}
-        <span style={timeStyle}>{time()}</span>
+        <div style={titleStyle}>
+          <FileOutlined style={iconStyle} />
+          {title}
+        </div>
+        <div style={timeStyle}>{time()} </div>
       </div>
+      {showCheckbox && (
+        <input
+          type="checkbox"
+          checked={bchecked}
+          onChange={checkHandler}
+          style={checkboxStyle}
+        />
+      )}
     </div>
   );
 };
 
-const listItemStyle = {
-  height: "63px",
-  fontSize: "large",
-  cursor: "pointer",
+const listItemWrapperStyle = {
+  display: "flex",
+  alignContent: "center",
 };
+
+const listItemStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignContent: "center",
+  height: "55px",
+  width: "80vw",
+  fontSize: "16px",
+  cursor: "pointer",
+  fontFamily: "Open Sans",
+  borderBottom: "1px solid #DFDFDF",
+  paddingTop: "13px",
+};
+
+const iconStyle = {
+  marginLeft: "20px",
+  marginRight: "8px",
+};
+
+const titleStyle = {};
+
 const timeStyle = {
-  height: "63px",
-  fontSize: "large",
-  padding: 40,
+  position: "relative",
+  left: "-15%",
+};
+
+const checkboxStyle = {
+  position: "relative",
+  marginTop: "20px",
+  left: "-30px",
+  width: "15px",
+  height: "15px",
 };
 
 export default inject("storeEditor")(observer(ListItemPresenter));
