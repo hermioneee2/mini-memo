@@ -1,62 +1,37 @@
 import React from "react";
-import { FolderFilled, ArrowLeftOutlined } from "@ant-design/icons";
+import { FolderOutlined, FolderFilled } from "@ant-design/icons";
 
 const ListDirItemPresenter = ({ name, time }) => {
-  return time != null ? (
-    <div style={listItemStyle}>
-      <div style={titleStyle}>
-        <FolderFilled style={iconStyle} />
-        {name}
+  return (time != null) ? (
+    <div>
+      <div style={listItemStyle}>
+        <FolderOutlined />
+        <strong>{name}</strong>
+        <span style = {timeStyle}>
+          {time}
+        </span>
       </div>
-      <div style={timeStyle}>{time}</div>
     </div>
   ) : (
-    <div style={gobackStyle}>
-      <ArrowLeftOutlined style={gobackiconStyle} />
-      back to previous folder
+    <div>
+      <div style={listItemStyle}>
+        <FolderFilled/>
+        <strong>{name}</strong>
+      </div>
     </div>
   );
 };
 
 const listItemStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignContent: "center",
-  height: "30px",
-  width: "80vw",
-  fontSize: "16px",
+  height: "63px",
+  fontSize: "large",
   cursor: "pointer",
-  fontFamily: "Open Sans",
-  borderBottom: "1px solid #DFDFDF",
+  width:"100%"
 };
-
-const iconStyle = {
-  marginLeft: "20px",
-  marginRight: "8px",
-};
-
-const titleStyle = {
-  position: "relative",
-  top: "-10px",
-};
-
-const gobackiconStyle = {
-  marginRight: "8px",
-};
-
-const gobackStyle = {
-  position: "relative",
-  top: "45px",
-  fontSize: "13px",
-  cursor: "pointer",
-  fontFamily: "Open Sans",
-  color: "#808080",
-};
-
 const timeStyle = {
-  position: "relative",
-  top: "-10px",
-  left: "-15%",
+  height: "63px",
+  fontSize: "large",
+  padding: 40,
 };
 
 export default ListDirItemPresenter;

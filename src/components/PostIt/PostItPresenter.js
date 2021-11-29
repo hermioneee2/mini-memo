@@ -1,80 +1,66 @@
 import React from "react";
 import PostItItem from "../PostItItem";
 import PostItDirItem from "../PostItDirItem";
-import ListDirItem from "../ListDirItem";
 import { List } from "antd";
-import { observer, inject } from "mobx-react";
-import { autorun } from "mobx";
+import { observer, inject } from "mobx-react"
+import {autorun} from "mobx";
 
-const PostItPresenter = ({ storeData, showCheckbox, checkedItemHandler }) => {
+const PostItPresenter = ({
+  storeData,
+  showCheckbox,
+  checkedItemHandler,
+}) => {
   const dataManage = storeData;
   let parent = "parent";
   let change = "change";
   return (
-    <div style={overallListStyle}>
+    <div>
+      <span style={listWrapperStyle} >
       <List
         dataSource={[".."]}
-        grid={{ gutter: 24, column: 4 }}
+        style={listWrapperStyle}
+        grid={{ gutter: 16, column: 4 }}
         renderItem={() => (
           <List.Item>
-            <PostItDirItem name=".." set={parent} />
+            <PostItDirItem name=".." set = {parent} />
           </List.Item>
         )}
       />
-      <div style={regionTitleStyle}> Folder </div>
-      <div style={{ postitWrapperStyle }}>
-        <List
-          dataSource={dataManage.dirList}
-          grid={{ gutter: 24, column: 4 }}
-          renderItem={(item) => (
-            <List.Item>
-              <PostItDirItem name={item.title} set={change} />
-            </List.Item>
-          )}
-        />
-      </div>
-      <div style={regionTitleStyle}> Memo </div>
-      <div style={{ postitWrapperStyle }}>
-        <List
-          dataSource={dataManage.memoList}
-          grid={{ gutter: 16, column: 4 }}
-          renderItem={(item) => (
-            <List.Item>
-              <PostItItem
-                title={item.title}
-                content={item.content}
-                uid={item.uid}
-                showCheckbox={showCheckbox}
-                checkedItemHandler={checkedItemHandler}
-              />
-            </List.Item>
-          )}
-        />
-      </div>
+      <List
+        dataSource={dataManage.dirList}
+        style={listWrapperStyle}
+        grid={{ gutter: 16, column: 4 }}
+        renderItem={(item) => (
+          <List.Item>
+            <PostItDirItem name={item.title} set = {change} />
+          </List.Item>
+        )}
+      />
+      </span>
+      <List
+        dataSource={dataManage.memoList}
+        style={listWrapperStyle}
+        grid={{ gutter: 16, column: 4 }}
+        renderItem={(item) => (
+          <List.Item>
+            <PostItItem
+              title={item.title}
+              content={item.content}
+              uid={item.uid}
+              showCheckbox={showCheckbox}
+              checkedItemHandler={checkedItemHandler}
+            />
+          </List.Item>
+        )}
+      />
     </div>
   );
 };
 
-const overallListStyle = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "flex-start",
-  width: "80vw",
-  margin: "auto",
-};
-
-const postitWrapperStyle = {
-  // postion: "relative",
-  // top: "100px",
-};
-
-const regionTitleStyle = {
-  paddingLeft: "25px",
-  marginTop: "5px",
-  marginBottom: "15px",
-  fontFamily: "Open Sans",
-  color: "#A0A0A0",
-  // height: "30px",
+const listWrapperStyle = {
+  width: "90%",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
 
 export default inject("storeEditor", "storeData")(observer(PostItPresenter));

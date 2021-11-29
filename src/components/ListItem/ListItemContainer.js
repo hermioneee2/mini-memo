@@ -1,7 +1,7 @@
 import ListItemPresenter from "./ListItemPresenter";
 import { React, useState } from "react";
 import dateFormat, { masks } from "dateformat";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react"
 
 const ListItemContainer = ({
   storeEditor,
@@ -10,7 +10,7 @@ const ListItemContainer = ({
   uid,
   time,
   showCheckbox,
-  checkedItemHandler,
+  checkedItemHandler
 }) => {
   const [bChecked, setChecked] = useState(false);
   const controlEditor = storeEditor;
@@ -19,18 +19,18 @@ const ListItemContainer = ({
     setChecked(!bChecked);
     checkedItemHandler(uid, target.checked); //reflect change on del item list
   };
-
+  
   const setTime = () => {
     let t = time;
     let a = dateFormat(t, "yyyy. m. d  HH:MM");
     return a;
-  };
+  }
   return (
-    <div onClick={() => controlEditor.setId(uid)}>
+    <div onClick = {() => controlEditor.setId(uid)}>
       <ListItemPresenter
         title={title}
         content={content}
-        time={setTime}
+        time = {setTime}
         showCheckbox={showCheckbox}
         bChecked={bChecked}
         checkHandler={checkHandler}

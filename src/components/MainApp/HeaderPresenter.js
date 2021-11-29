@@ -13,7 +13,7 @@ import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 import BreadCrumb from "../BreadCrumb";
-import { deleteMemo } from "../../memo-storage/memo-localstorage";
+import { deleteMemo} from "../../memo-storage/memo-localstorage";
 import * as MStore from "../../memo-storage/memo-localstorage";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
@@ -125,7 +125,7 @@ const HeaderPresenter = () => {
       name: name,
       title: name,
       createdAt: new Date(),
-    };
+    }
     MStore.storeDir(dataManage.cwd, name, dirData);
     setDirName("");
     setShowDirInput(false);
@@ -137,7 +137,7 @@ const HeaderPresenter = () => {
       <Menu.Item>
         <Input.Group compact>
           <Input
-            style={{ width: "calc(100% - 55px)" }}
+            style={{ size: "50%" }}
             placeholder="New Folder Name"
             value={dirName}
             enterButton="Add"
@@ -145,13 +145,6 @@ const HeaderPresenter = () => {
           />
           <Button
             type="primary"
-            style={{
-              backgroundColor: "#F0BF39",
-              borderColor: "#F0BF39",
-              fontFamily: "Open Sans",
-              fontWeight: "600",
-              width: "55px",
-            }}
             onClick={() => dirAddButtonclick(dirName)}
           >
             Add
@@ -163,39 +156,30 @@ const HeaderPresenter = () => {
 
   return (
     <Wrapper>
-      <Provider storeEditor={controlEditor} storeData={dataManage}>
-        <Editor />
+      <Provider storeEditor = {controlEditor} storeData = {dataManage}>
+        <Editor/>
       </Provider>
       <Affix offsetTop={0}>
         <Header>
           <span style={headerStyle}>Mini Memo</span>
           <HeaderButtonWrapper>
-            <div>
-              <span style={sortStyle}>Sort By</span>
-              <Cascader
-                options={options}
-                onChange={dataManage.setOrder}
-                expandTrigger="hover"
-                placeholder="Please select"
-                style={cascaderStyle}
-              />
-            </div>
+            <span style={sortStyle}>Sort</span>
+            <Cascader
+              options={options}
+              onChange={dataManage.setOrder}
+              expandTrigger="hover"
+              placeholder="Please select"
+            />
             {display === DISP.POSTIT && (
               <BarsOutlined onClick={dispIconClick} style={iconStyle} />
             )}
             {display === DISP.LIST && (
-              <AppstoreOutlined onClick={dispIconClick} style={iconStyle} />
+              <AppstoreOutlined
+                onClick={dispIconClick}
+                style={iconStyle}
+              />
             )}
-            <Dropdown
-              overlay={dirAddDropdown}
-              trigger={["click"]}
-              placement="bottomCenter"
-              arrow
-              onClick={dirAddIconClick}
-              visible={showDirInput}
-            >
-              <FolderAddOutlined style={iconStyle} />
-            </Dropdown>
+
             <Dropdown
               overlay={deleteDropdown}
               trigger={["click"]}
@@ -206,25 +190,43 @@ const HeaderPresenter = () => {
             >
               <DeleteOutlined style={iconStyle} />
             </Dropdown>
+
+            <Dropdown
+              overlay={dirAddDropdown}
+              trigger={["click"]}
+              placement="bottomRight"
+              arrow
+              onClick={dirAddIconClick}
+              visible={showDirInput}
+            >
+              <FolderAddOutlined style={iconStyle} />
+            </Dropdown>
+
             <SettingOutlined style={iconStyle} />
           </HeaderButtonWrapper>
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <Provider storeEditor={controlEditor}>
-        <div onClick={() => controlEditor.setId(-1)}>
+      <Provider storeEditor = {controlEditor}>
+        <div onClick = {() => controlEditor.setId(-1)}>
           <AddMemo />
         </div>
       </Provider>
-      <BreadCrumb cwd={dataManage.cwd} />
+      <BreadCrumb cwd ={dataManage.cwd}/>
       {display === DISP.LIST && (
-        <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <List showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
+        <Provider storeEditor = {controlEditor} storeData = {dataManage}>
+          <List
+            showCheckbox={checkbox}
+            checkedItemHandler={setCheckedItem}
+          />
         </Provider>
       )}
       {display === DISP.POSTIT && (
-        <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <PostIt showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
+        <Provider storeEditor = {controlEditor} storeData = {dataManage}>
+          <PostIt
+            showCheckbox={checkbox}
+            checkedItemHandler={setCheckedItem}
+          />
         </Provider>
       )}
     </Wrapper>
@@ -242,14 +244,16 @@ const headerStyle = {
 const sortStyle = {
   color: "#F0BF39",
   fontFamily: "Open Sans",
-  fontSize: 17,
+  fontSize: 20,
   fontWeight: 600,
 };
 
-const cascaderStyle = {
-  width: "120px",
-  marginLeft: 8,
-};
+// const cascadeStyle = {
+//   width: "250px",
+//   alignItems:'center',
+//   marginleft: 100
+
+// };
 
 const iconStyle = {
   fontSize: 28,
@@ -265,7 +269,7 @@ const Wrapper = styled.div`
 const Header = styled.div`
   background-color: #f0f0f0;
   width: 100%;
-  height: 70px;
+  height: 80px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -277,7 +281,7 @@ const HeaderButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   padding-right: 40px;
-  width: 420px;
+  width: 300px;
   justify-content: space-between;
 `;
 

@@ -4,7 +4,7 @@ import { Affix } from "antd";
 
 const AddMemoPresenter = () => {
   return (
-    <Affix offsetTop={720}>
+    <Affix offsetBottom={30}>
       <PlusCircleFilled
         style={{
           fontSize: 60,

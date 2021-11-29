@@ -2,9 +2,9 @@ import EditorPresenter from "./EditorPresenter";
 import React, { useState } from "react";
 import { storeMemo, modifyMemo } from "../../memo-storage/memo-localstorage";
 import axios from "axios";
-import { observer, inject } from "mobx-react";
+import { observer, inject } from "mobx-react"
 
-const EditorContainer = ({ storeEditor, storeData }) => {
+const EditorContainer = ({storeEditor, storeData}) => {
   const [url, setURL] = useState("");
   const [shortenedURL, setShortenedURL] = useState();
   const controlEditor = storeEditor;
@@ -39,7 +39,6 @@ const EditorContainer = ({ storeEditor, storeData }) => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
-    setURL("");
   };
 
   const atModify = (memoObj, id) => {
@@ -48,14 +47,12 @@ const EditorContainer = ({ storeEditor, storeData }) => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
-    setURL("");
   };
 
   const atCancel = () => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
-    setURL("");
   };
   return (
     <EditorPresenter
@@ -64,7 +61,6 @@ const EditorContainer = ({ storeEditor, storeData }) => {
       atCancel={atCancel}
       handleURLQuery={handleURLQuery}
       handleURLButton={handleURLButton}
-      url={url}
       shortenedURL={shortenedURL}
     />
   );
