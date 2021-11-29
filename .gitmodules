@@ -1,3 +1,0 @@
-[submodule "src/memo-storage/localstorage-fs"]
-	path = src/memo-storage/localstorage-fs
-	url = git@github.com:yusungsim/localstorage-fs.git
