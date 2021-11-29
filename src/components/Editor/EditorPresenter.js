@@ -7,6 +7,7 @@ import {
   loadMemoContent,
 } from "../../memo-storage/memo-localstorage";
 import { observer, inject } from "mobx-react";
+import { SwapOutlined } from "@ant-design/icons";
 
 const EditorPresenter = ({
   storeEditor,
@@ -16,6 +17,7 @@ const EditorPresenter = ({
   atCancel,
   handleURLQuery,
   handleURLButton,
+  url,
   shortenedURL,
 }) => {
   const controlEditor = storeEditor;
@@ -138,37 +140,59 @@ const EditorPresenter = ({
       <Modal
         visible={open}
         closable={false}
-        onCancel={atCancel}
-        onOk={onSave}
-        style={{ overflow: "hidden", borderRadius: "10px", height: "63vh" }}
+        onCancel={onSave}
+        style={{ overflow: "hidden", borderRadius: "10px", height: "440px" }}
         footer={null}
       >
         {editor}
-        <Input.Group compact>
+        <Input.Group
+          compact
+          style={{
+            position: "relative",
+            top: "-45px",
+            left: "150px",
+          }}
+        >
           <Input
-            style={{ width: "calc(100% - 120px)" }}
-            placeholder="Enter your URL here"
+            style={{
+              width: "290px",
+              background: "#F5F5F5",
+            }}
+            bordered={false}
+            placeholder="Shorten your URL here"
+            value={url}
             onChange={handleURLQuery}
             onPressEnter={handleURLButtonWrapper}
           />
           <Button
+            type="primary"
+            icon={<SwapOutlined />}
             style={{
               borderColor: "#F0BF39",
-              color: "#F0BF39",
-              fontWeight: "bold",
-              width: "120px",
+              backgroundColor: "#F0BF39",
+              height: "30px",
             }}
             onClick={handleURLButtonWrapper}
+          ></Button>
+          <div
+            style={{
+              position: "relative",
+              top: "30px",
+              left: "-310px",
+              fontFamily: "Open Sans",
+              fontSize: "10px",
+              color: "gray",
+            }}
           >
-            Shorten URL
-          </Button>
+            {shortenedURL}
+          </div>
         </Input.Group>
         <Button
           key="back"
           onClick={atCancel}
           size="small"
           type="link"
-          style={{ color: "#C5C5C5" }}
+          style={{ color: "#C5C5C5", top: "-25px" }}
         >
           Cancel
         </Button>
@@ -178,7 +202,12 @@ const EditorPresenter = ({
           onClick={onSave}
           size="small"
           type="link"
-          style={{ color: "#F0BF39", float: "right" }}
+          style={{
+            color: "#F0BF39",
+            float: "right",
+            top: "-25px",
+            fontWeight: "600",
+          }}
         >
           Save
         </Button>

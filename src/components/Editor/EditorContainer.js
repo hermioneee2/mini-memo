@@ -39,6 +39,7 @@ const EditorContainer = ({ storeEditor, storeData }) => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
+    setURL("");
   };
 
   const atModify = (memoObj, id) => {
@@ -47,12 +48,14 @@ const EditorContainer = ({ storeEditor, storeData }) => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
+    setURL("");
   };
 
   const atCancel = () => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
     setShortenedURL("");
+    setURL("");
   };
   return (
     <EditorPresenter
@@ -61,6 +64,7 @@ const EditorContainer = ({ storeEditor, storeData }) => {
       atCancel={atCancel}
       handleURLQuery={handleURLQuery}
       handleURLButton={handleURLButton}
+      url={url}
       shortenedURL={shortenedURL}
     />
   );

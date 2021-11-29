@@ -4,7 +4,15 @@ import "react-quill/dist/quill.snow.css";
 
 const CustomToolbar = () => (
   <div>
-    <div id="toolbar" style={{ border: "none" }}>
+    <div
+      id="toolbar"
+      style={{
+        border: "none",
+        width: "160px",
+        position: "relative",
+        left: "-10px",
+      }}
+    >
       <button class="ql-bold"></button>
       <button class="ql-italic"></button>
       <button class="ql-underline"></button>
@@ -43,9 +51,9 @@ class EditorComponent extends Component {
   render() {
     const { value, onChange } = this.props;
     return (
-      <div style={{ height: "250px" }}>
+      <div style={{ height: "330px" }}>
         <ReactQuill
-          style={{ height: "200px" }}
+          style={{ height: "280px" }}
           theme="snow"
           modules={this.modules}
           formats={this.formats}
