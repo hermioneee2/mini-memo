@@ -137,13 +137,23 @@ const HeaderPresenter = () => {
       <Menu.Item>
         <Input.Group compact>
           <Input
-            style={{ size: "50%" }}
+            style={{ width: "calc(100% - 55px)" }}
             placeholder="New Folder Name"
             value={dirName}
             enterButton="Add"
             onChange={dirNameChange}
           />
-          <Button type="primary" onClick={() => dirAddButtonclick(dirName)}>
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: "#F0BF39",
+              borderColor: "#F0BF39",
+              fontFamily: "Open Sans",
+              fontWeight: "600",
+              width: "55px",
+            }}
+            onClick={() => dirAddButtonclick(dirName)}
+          >
             Add
           </Button>
         </Input.Group>
@@ -179,7 +189,7 @@ const HeaderPresenter = () => {
             <Dropdown
               overlay={dirAddDropdown}
               trigger={["click"]}
-              placement="bottomRight"
+              placement="bottomCenter"
               arrow
               onClick={dirAddIconClick}
               visible={showDirInput}

@@ -42,13 +42,12 @@ const listItemStyle = {
   display: "flex",
   justifyContent: "space-between",
   alignContent: "center",
-  height: "55px",
+  height: "30px",
   width: "80vw",
   fontSize: "16px",
   cursor: "pointer",
   fontFamily: "Open Sans",
   borderBottom: "1px solid #DFDFDF",
-  paddingTop: "13px",
 };
 
 const iconStyle = {
@@ -56,10 +55,14 @@ const iconStyle = {
   marginRight: "8px",
 };
 
-const titleStyle = {};
+const titleStyle = {
+  position: "relative",
+  top: "-10px",
+};
 
 const timeStyle = {
   position: "relative",
+  top: "-10px",
   left: "-15%",
 };
 

@@ -10,19 +10,18 @@ const ListPresenter = ({ storeData, showCheckbox, checkedItemHandler }) => {
   let change = "change";
   return (
     <div style={overallListStyle}>
-      <div style={titleBoxStyle}>
-        <div>Title</div>
-        <div style={timeStyle}>Last Edited Time</div>
-      </div>
       <List
         dataSource={[".."]}
-        style={listWrapperStyle}
         renderItem={(name) => (
           <List.Item>
             <ListDirItem name={name} time={null} set={parent} />
           </List.Item>
         )}
       />
+      <div style={titleBoxStyle}>
+        <div>Title</div>
+        <div style={timeStyle}>Last Edited Time</div>
+      </div>
       <List
         dataSource={dataManage.dataList}
         style={listWrapperStyle}
@@ -75,11 +74,11 @@ const titleBoxStyle = {
 
 const listWrapperStyle = {
   fontFamily: "Open Sans",
+  paddingTop: "15px",
 };
 
 const timeStyle = {
   position: "relative",
-  bottom: "5px",
   left: "-16%",
 };
 
