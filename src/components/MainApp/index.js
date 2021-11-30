@@ -18,9 +18,11 @@ import * as MStore from "../../memo-storage/memo-localstorage";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
+import ControlTopbar from "../../stores/controlTopbar";
 
 const controlEditor = new ControlEditor();
 const dataManage = new DataManage();
+const controlTopbar = new ControlTopbar();
 
 const MainApp = () => {
   const DISP = {
@@ -69,7 +71,11 @@ const MainApp = () => {
   };
 
   const DeleteIconClick = () => {
-    setCheckbox(!checkbox);
+    if (controlTopbar.deleteButton) {
+      controlTopbar.setDeleteButtonFalse();
+    } else {
+      controlTopbar.setDeleteButtonTrue();
+    }
   };
 
   const setCheckedItem = (id, isChecked) => {
@@ -90,13 +96,13 @@ const MainApp = () => {
   };
 
   const deleteDropdown = (
-    <Menu>
+    <Menu onBlur={controlTopbar.setDeleteButtonFalse}>
       <Menu.Item
         key="0"
         style={{ color: "red" }}
         onClick={() => {
+          controlTopbar.setDeleteButtonFalse();
           delMemo();
-          setCheckbox(false);
           dataManage.setMemoList();
           dataManage.setDirList();
           dataManage.setDataList();
@@ -108,15 +114,18 @@ const MainApp = () => {
   );
 
   // dir add related
-  const [showDirInput, setShowDirInput] = useState(false); // for dir add
   const [dirName, setDirName] = useState("");
 
   const dirNameChange = (e) => {
-    setDirName(e.target.value);
+    controlTopbar.setDirInput(e.target.value);
   };
 
   const dirAddIconClick = () => {
-    setShowDirInput(!showDirInput);
+    if (controlTopbar.dirInputBox) {
+      controlTopbar.setDirInputBoxFalse();
+    } else {
+      controlTopbar.setDirInputBoxTrue();
+    }
   };
 
   const dirAddButtonclick = (name) => {
@@ -127,8 +136,8 @@ const MainApp = () => {
       createdAt: new Date(),
     };
     MStore.storeDir(dataManage.cwd, name, dirData);
-    setDirName("");
-    setShowDirInput(false);
+    controlTopbar.setDirInput("");
+    dirAddIconClick();
     dataManage.reloadCwd();
     dataManage.setDirList();
     dataManage.setDataList();
@@ -139,15 +148,15 @@ const MainApp = () => {
     dataManage.setMemoList();
     dataManage.setDirList();
     dataManage.setDataList();
-  }
+  };
   const dirAddDropdown = (
-    <Menu>
+    <Menu onBlur={controlTopbar.setInit}>
       <Menu.Item>
         <Input.Group compact>
           <Input
             style={{ width: "calc(100% - 55px)" }}
             placeholder="New Folder Name"
-            value={dirName}
+            value={controlTopbar.dirInput}
             enterButton="Add"
             onChange={dirNameChange}
           />
@@ -160,7 +169,7 @@ const MainApp = () => {
               fontWeight: "600",
               width: "55px",
             }}
-            onClick={() => dirAddButtonclick(dirName)}
+            onMouseDown={() => dirAddButtonclick(controlTopbar.dirInput)}
           >
             Add
           </Button>
@@ -194,13 +203,14 @@ const MainApp = () => {
             {display === DISP.LIST && (
               <AppstoreOutlined onClick={dispIconClick} style={iconStyle} />
             )}
+
             <Dropdown
               overlay={dirAddDropdown}
               trigger={["click"]}
               placement="bottomCenter"
               arrow
               onClick={dirAddIconClick}
-              visible={showDirInput}
+              visible={controlTopbar.dirInputBox}
             >
               <FolderAddOutlined style={iconStyle} />
             </Dropdown>
@@ -210,7 +220,7 @@ const MainApp = () => {
               placement="bottomCenter"
               arrow
               onClick={DeleteIconClick}
-              visible={checkbox}
+              visible={controlTopbar.deleteButton}
             >
               <DeleteOutlined style={iconStyle} />
             </Dropdown>
@@ -227,12 +237,18 @@ const MainApp = () => {
       <BreadCrumb cwd={dataManage.cwd} />
       {display === DISP.LIST && (
         <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <List showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
+          <List
+            showCheckbox={controlTopbar.deleteButton}
+            checkedItemHandler={setCheckedItem}
+          />
         </Provider>
       )}
       {display === DISP.POSTIT && (
         <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <PostIt showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
+          <PostIt
+            showCheckbox={controlTopbar.deleteButton}
+            checkedItemHandler={setCheckedItem}
+          />
         </Provider>
       )}
     </Wrapper>
