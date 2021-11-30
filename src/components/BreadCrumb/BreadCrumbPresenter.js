@@ -3,23 +3,21 @@ import { Breadcrumb } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 
 const BreadCrumbPresenter = (cwd) => {
-  //console.log(cwd.cwd.cwd)
   let hierarchy = [];
   let folder_title = "";
   const real_cwd = cwd.cwd.cwd;
-  //console.log(parent)
-  //console.log(real_cwd)
-  //hierarchy.push("root")
-  const adding_hierarchy = (real_cwd) => {
+
+  const setHierarchy = (real_cwd) => {
     if (real_cwd.name != "/") {
       hierarchy.unshift(real_cwd.name);
-      return adding_hierarchy(real_cwd.parent());
+      return setHierarchy(real_cwd.parent());
     } else {
       hierarchy.unshift("Home");
       return;
     }
   };
-  adding_hierarchy(real_cwd);
+
+  setHierarchy(real_cwd);
 
   if (real_cwd.name === "/") {
     folder_title = "Home";
