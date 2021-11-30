@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Input, Divider, Button, message, Modal } from "antd";
+import Modal from "react-modal";
+import { Input, Divider, Button, message, } from "antd";
 import EditorComponent from "../Editor/EditorComponent";
 import {
   existingMemo,
@@ -14,9 +15,10 @@ const EditorPresenter = ({
   storeData,
   atSave,
   atModify,
+  atModifyTime,
   atCancel,
-  handleURLQuery,
-  handleURLButton,
+  setURLQuery,
+  setURLButton,
   url,
   shortenedURL,
 }) => {
@@ -29,6 +31,12 @@ const EditorPresenter = ({
     createdAt: "",
   });
 
+  const setMemoObjDefault = () => {
+    let newObj = memoObj;
+    newObj.title = "";
+    newObj.content = "";
+    newObj.createdAt = "";
+  }
   const setMemoObjTitle = (e) => {
     let newObj = memoObj;
     //console.log(e)
@@ -70,23 +78,34 @@ const EditorPresenter = ({
     });
   };
 
-  const handleURLButtonWrapper = () => {
-    handleURLButton(successMsg, failMsg);
+  const setURLButtonWrapper = () => {
+    setURLButton(successMsg, failMsg);
   };
 
   const onSave = () => {
     console.log(existingMemo(dataManage.cwd, id));
-    if (memoObj.content === "" || memoObj.title === "") {
+    console.log(memoObj.title);
+    console.log(memoObj.content);
+    
+    if ((memoObj.content === loadMemoContent(dataManage.cwd, id) || memoObj.title === loadMemoTitle(dataManage.cwd, id)) && (existingMemo(dataManage.cwd, id) === true)) {
+      setMemoObjCreatedAt();
+      atModifyTime(memoObj, id);
+      console.log('1')
+    } else if (memoObj.content === "" || memoObj.title === ""){
+      console.log('2');
       alert("제목과 내용을 입력해주세요.");
       return;
     } else if (existingMemo(dataManage.cwd, id)) {
+      console.log('3');
       setMemoObjCreatedAt();
       atModify(memoObj, id);
     } else {
+      console.log('4');
       atSave(memoObj);
     }
     dataManage.setMemoList();
     dataManage.setDataList();
+    setMemoObjDefault();
   };
 
   const defaultTitle = () => {
@@ -106,7 +125,8 @@ const EditorPresenter = ({
   }
 
   let editor;
-  if (controlEditor.newEditor === true)
+  if (controlEditor.newEditor === true){
+    // console.log('!')
     editor = (
       <div>
         <Input
@@ -117,8 +137,9 @@ const EditorPresenter = ({
         />
         <EditorComponent value="" onChange={setMemoObjContent} />
       </div>
-    );
+    );}
   else {
+    // console.log('!!')
     editor = (
       <div>
         <Input
@@ -138,9 +159,8 @@ const EditorPresenter = ({
   return (
     <div>
       <Modal
-        visible={open}
-        closable={false}
-        onCancel={onSave}
+        isOpen={open} 
+        onRequestClose={atCancel}
         style={{ overflow: "hidden", borderRadius: "10px", height: "440px" }}
         footer={null}
       >
@@ -161,8 +181,8 @@ const EditorPresenter = ({
             bordered={false}
             placeholder="Shorten your URL here"
             value={url}
-            onChange={handleURLQuery}
-            onPressEnter={handleURLButtonWrapper}
+            onChange={setURLQuery}
+            onPressEnter={setURLButtonWrapper}
           />
           <Button
             type="primary"
@@ -172,7 +192,7 @@ const EditorPresenter = ({
               backgroundColor: "#F0BF39",
               height: "30px",
             }}
-            onClick={handleURLButtonWrapper}
+            onClick={setURLButtonWrapper}
           ></Button>
           <div
             style={{
