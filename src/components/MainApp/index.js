@@ -13,13 +13,15 @@ import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 import BreadCrumb from "../BreadCrumb";
-import { deleteMemo } from "../../memo-storage/memo-localstorage";
+import { deleteMemo, deleteDir } from "../../memo-storage/memo-localstorage";
 import * as MStore from "../../memo-storage/memo-localstorage";
+import { getNextMemoUid } from "../../memo-storage/uid";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
 import ControlTopbar from "../../stores/controlTopbar";
 
+const Fsp = require("@systemop/localstorage-fs/localstorage-fs");
 const controlEditor = new ControlEditor();
 const dataManage = new DataManage();
 const controlTopbar = new ControlTopbar();
@@ -62,10 +64,15 @@ const MainApp = () => {
   ];
   const [checkbox, setCheckbox] = useState(false);
   const [delItems, setDelItems] = useState(new Set());
+
   const [display, setDisplay] = useState(DISP.LIST);
 
   const delMemo = () => {
+    let localStorageList = Fsp.load_fs();
     delItems.forEach((e) => {
+      console.log(localStorageList);
+      console.log(e);
+      deleteDir(dataManage.cwd, e);
       deleteMemo(dataManage.cwd, e);
     });
   };
@@ -85,6 +92,7 @@ const MainApp = () => {
       delItems.delete(id);
     }
     setDelItems(delItems);
+    //console.log(delItems);
   };
 
   const dispIconClick = () => {
@@ -133,6 +141,7 @@ const MainApp = () => {
       type: "directory",
       name: name,
       title: name,
+      uid: getNextMemoUid(),
       createdAt: new Date(),
     };
     MStore.storeDir(dataManage.cwd, name, dirData);
@@ -214,6 +223,7 @@ const MainApp = () => {
             >
               <FolderAddOutlined style={iconStyle} />
             </Dropdown>
+
             <Dropdown
               overlay={deleteDropdown}
               trigger={["click"]}
