@@ -3,12 +3,13 @@ import React from "react";
 import { Affix } from "antd";
 import { observer, inject } from "mobx-react"
 
-const AddMemo = ({storeEditor}) => {
+const AddMemo = ({storeEditor, storeData}) => {
   const controlEditor = storeEditor;
+  const dataManage = storeData;
 
   return (
       <div onClick = {controlEditor.setNewEditorTrue}>
-        <Affix offsetTop={720}>
+        <Affix onClick = {dataManage.setNewMemoObj} offsetTop={720}>
           <PlusCircleFilled
             style={{
               fontSize: 60,
@@ -24,4 +25,4 @@ const AddMemo = ({storeEditor}) => {
   );
 };
 
-export default inject("storeEditor")(observer(AddMemo));
+export default inject("storeEditor", "storeData")(observer(AddMemo));

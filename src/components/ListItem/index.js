@@ -5,6 +5,7 @@ import { observer, inject } from "mobx-react";
 
 const ListItem = ({
   storeEditor,
+  storeData,
   title,
   content,
   uid,
@@ -14,6 +15,7 @@ const ListItem = ({
 }) => {
   const [bChecked, setChecked] = useState(false);
   const controlEditor = storeEditor;
+  const dataManage = storeData;
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
@@ -26,7 +28,7 @@ const ListItem = ({
     return a;
   };
   return (
-    <div onClick={() => controlEditor.setId(uid)}>
+    <div onClick={() => {controlEditor.setId(uid); dataManage.setExistingMemoObj(dataManage.cwd, uid)}}>
       <ListItemPresenter
         title={title}
         content={content}
@@ -39,4 +41,4 @@ const ListItem = ({
   );
 };
 
-export default inject("storeEditor")(observer(ListItem));
+export default inject("storeEditor", "storeData")(observer(ListItem));

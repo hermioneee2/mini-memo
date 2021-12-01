@@ -53,26 +53,11 @@ export const modifyMemo = (cwd, memoObj, uid) => {
   return resBool;
 };
 
-export const modifyTime = (cwd, memoObj, uid) => {
-  let memoList = loadMemoList(cwd);
-  let newMemoObj = memoObj;
-  memoList.forEach((e) => {
-    if(e.uid == uid){
-      newMemoObj.title = e.title;
-      newMemoObj.content = e.content;
-    }
-  })
-  newMemoObj.uid = uid;
-  let resBool = Fsp.modify_file_data_by_data_predicate(cwd, (m) => m.uid == uid, newMemoObj);
-  return resBool;
-};
-
 export const loadMemoTitle = (cwd, uid) => {
   let memoList = loadMemoList(cwd);
   let r;
   memoList.forEach((e) => {
     if(e.uid == uid){
-      console.log(e.title);
       r = e.title;
     }
   })

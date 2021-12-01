@@ -225,7 +225,7 @@ const MainApp = () => {
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <Provider storeEditor={controlEditor}>
+      <Provider storeEditor={controlEditor} storeData = {dataManage}>
         <div onClick={() => controlEditor.setId(-1)}>
           <AddMemo />
         </div>
