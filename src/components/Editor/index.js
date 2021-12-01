@@ -9,8 +9,6 @@ import {
 import { observer, inject } from "mobx-react";
 
 const Editor = ({ storeEditor, storeData, storeUrl }) => {
-  // const [url, setURL] = useState("");
-  // const [shortenedURL, setShortenedURL] = useState();
   const controlEditor = storeEditor;
   const dataManage = storeData;
   const urlStore = storeUrl;
@@ -19,14 +17,12 @@ const Editor = ({ storeEditor, storeData, storeUrl }) => {
     urlStore.setLongUrl(e.target.value);
   };
 
-  // const setURLButton = urlStore.getShortenedUrl(successMsg, failMsg);
-
   const atSave = (memoObj) => {
     storeMemo(dataManage.cwd, memoObj.title, memoObj.content);
     dataManage.reloadCwd();
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
-    urlStore.setShortenedURL("");
+    urlStore.setShortenedUrl("");
     urlStore.setLongUrl("");
   };
 
@@ -35,7 +31,7 @@ const Editor = ({ storeEditor, storeData, storeUrl }) => {
     dataManage.reloadCwd();
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
-    urlStore.setShortenedURL("");
+    urlStore.setShortenedUrl("");
     urlStore.setLongUrl("");
   };
 
@@ -44,14 +40,14 @@ const Editor = ({ storeEditor, storeData, storeUrl }) => {
     dataManage.reloadCwd();
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
-    urlStore.setShortenedURL("");
+    urlStore.setShortenedUrl("");
     urlStore.setLongUrl("");
   };
 
   const atCancel = () => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
-    urlStore.setShortenedURL("");
+    urlStore.setShortenedUrl("");
     urlStore.setLongUrl("");
   };
   return (
@@ -62,8 +58,6 @@ const Editor = ({ storeEditor, storeData, storeUrl }) => {
       atCancel={atCancel}
       setURLQuery={setURLQuery}
       urlStore={urlStore}
-      // url={url}
-      // shortenedURL={shortenedURL}
     />
   );
 };
