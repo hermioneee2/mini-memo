@@ -18,9 +18,11 @@ import * as MStore from "../../memo-storage/memo-localstorage";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
+import UrlStore from "../../stores/urlStore";
 
 const controlEditor = new ControlEditor();
 const dataManage = new DataManage();
+const urlStore = new UrlStore();
 
 const MainApp = () => {
   const DISP = {
@@ -139,7 +141,7 @@ const MainApp = () => {
     dataManage.setMemoList();
     dataManage.setDirList();
     dataManage.setDataList();
-  }
+  };
   const dirAddDropdown = (
     <Menu>
       <Menu.Item>
@@ -171,7 +173,11 @@ const MainApp = () => {
 
   return (
     <Wrapper>
-      <Provider storeEditor={controlEditor} storeData={dataManage}>
+      <Provider
+        storeEditor={controlEditor}
+        storeData={dataManage}
+        storeUrl={urlStore}
+      >
         <Editor />
       </Provider>
       <Affix offsetTop={0}>

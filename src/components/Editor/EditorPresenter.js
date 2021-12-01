@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { Input, Divider, Button, message, } from "antd";
+import { Input, Divider, Button, message } from "antd";
 import EditorComponent from "../Editor/EditorComponent";
 import {
   existingMemo,
@@ -18,9 +18,7 @@ const EditorPresenter = ({
   atModifyTime,
   atCancel,
   setURLQuery,
-  setURLButton,
-  url,
-  shortenedURL,
+  urlStore,
 }) => {
   const controlEditor = storeEditor;
   const dataManage = storeData;
@@ -36,7 +34,7 @@ const EditorPresenter = ({
     newObj.title = "";
     newObj.content = "";
     newObj.createdAt = "";
-  }
+  };
   const setMemoObjTitle = (e) => {
     let newObj = memoObj;
     //console.log(e)
@@ -79,28 +77,32 @@ const EditorPresenter = ({
   };
 
   const setURLButtonWrapper = () => {
-    setURLButton(successMsg, failMsg);
+    urlStore.requestShortenedUrl(successMsg, failMsg);
   };
 
   const onSave = () => {
     console.log(existingMemo(dataManage.cwd, id));
     console.log(memoObj.title);
     console.log(memoObj.content);
-    
-    if ((memoObj.content === loadMemoContent(dataManage.cwd, id) || memoObj.title === loadMemoTitle(dataManage.cwd, id)) && (existingMemo(dataManage.cwd, id) === true)) {
+
+    if (
+      (memoObj.content === loadMemoContent(dataManage.cwd, id) ||
+        memoObj.title === loadMemoTitle(dataManage.cwd, id)) &&
+      existingMemo(dataManage.cwd, id) === true
+    ) {
       setMemoObjCreatedAt();
       atModifyTime(memoObj, id);
-      console.log('1')
-    } else if (memoObj.content === "" || memoObj.title === ""){
-      console.log('2');
+      console.log("1");
+    } else if (memoObj.content === "" || memoObj.title === "") {
+      console.log("2");
       alert("제목과 내용을 입력해주세요.");
       return;
     } else if (existingMemo(dataManage.cwd, id)) {
-      console.log('3');
+      console.log("3");
       setMemoObjCreatedAt();
       atModify(memoObj, id);
     } else {
-      console.log('4');
+      console.log("4");
       atSave(memoObj);
     }
     dataManage.setMemoList();
@@ -125,7 +127,7 @@ const EditorPresenter = ({
   }
 
   let editor;
-  if (controlEditor.newEditor === true){
+  if (controlEditor.newEditor === true) {
     // console.log('!')
     editor = (
       <div>
@@ -137,8 +139,8 @@ const EditorPresenter = ({
         />
         <EditorComponent value="" onChange={setMemoObjContent} />
       </div>
-    );}
-  else {
+    );
+  } else {
     // console.log('!!')
     editor = (
       <div>
@@ -159,7 +161,7 @@ const EditorPresenter = ({
   return (
     <div>
       <Modal
-        isOpen={open} 
+        isOpen={open}
         onRequestClose={atCancel}
         style={{ overflow: "hidden", borderRadius: "10px", height: "440px" }}
         footer={null}
@@ -180,7 +182,7 @@ const EditorPresenter = ({
             }}
             bordered={false}
             placeholder="Shorten your URL here"
-            value={url}
+            value={urlStore.longUrl}
             onChange={setURLQuery}
             onPressEnter={setURLButtonWrapper}
           />
@@ -204,7 +206,7 @@ const EditorPresenter = ({
               color: "gray",
             }}
           >
-            {shortenedURL}
+            {urlStore.shortenedUrl}
           </div>
         </Input.Group>
         <Button
@@ -244,4 +246,8 @@ const memoTitleStyle = {
   marginBottom: 7,
 };
 
-export default inject("storeEditor", "storeData")(observer(EditorPresenter));
+export default inject(
+  "storeEditor",
+  "storeData",
+  "storeUrl"
+)(observer(EditorPresenter));
