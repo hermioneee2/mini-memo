@@ -163,7 +163,7 @@ const EditorPresenter = ({
       <Modal
         isOpen={open}
         onRequestClose={atCancel}
-        style={{ overflow: "hidden", borderRadius: "10px", height: "440px" }}
+        style={modalStyle}
         footer={null}
       >
         {editor}
@@ -236,6 +236,20 @@ const EditorPresenter = ({
       </Modal>
     </div>
   );
+};
+
+const modalStyle = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    transform: "translate(-50%, -50%)",
+    width: "510px",
+    height: "450px",
+    overflow: "hidden",
+    borderRadius: "10px",
+  },
 };
 
 const memoTitleStyle = {
