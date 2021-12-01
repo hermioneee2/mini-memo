@@ -1,6 +1,6 @@
 import ListItemPresenter from "./ListItemPresenter";
 import { React, useState } from "react";
-import dateFormat, { masks } from "dateformat";
+import dateFormat from "dateformat";
 import { observer, inject } from "mobx-react";
 
 const ListItem = ({

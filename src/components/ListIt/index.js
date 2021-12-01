@@ -4,7 +4,7 @@ import ListDirItem from "../ListDirItem";
 import { List } from "antd";
 import { observer, inject } from "mobx-react";
 
-const ListPresenter = ({ storeData, showCheckbox, checkedItemHandler }) => {
+const ListIt = ({ storeData, showCheckbox, checkedItemHandler }) => {
   const dataManage = storeData;
   let parent = "parent";
   let change = "change";
@@ -82,4 +82,4 @@ const timeStyle = {
   left: "-16%",
 };
 
-export default inject("storeEditor", "storeData")(observer(ListPresenter));
+export default inject("storeEditor", "storeData")(observer(ListIt));

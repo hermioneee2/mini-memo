@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Breadcrumb } from "antd";
+import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
+import {get_root_pointer} from "@systemop/localstorage-fs"
 
 const BreadCrumbPresenter = (cwd) => {
+  const root_pointer = get_root_pointer() ;
   let hierarchy = [];
   let folder_title = "";
   const real_cwd = cwd.cwd.cwd;
@@ -23,7 +26,7 @@ const BreadCrumbPresenter = (cwd) => {
   } else {
     folder_title = real_cwd.name;
   }
-  //console.log(hierarchy)
+
   const hierarchy_render = hierarchy.map((pt) => (
     <Breadcrumb.Item>{pt}</Breadcrumb.Item>
   ));
