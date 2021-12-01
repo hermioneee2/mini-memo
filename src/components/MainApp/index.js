@@ -6,7 +6,7 @@ import {
   FolderAddOutlined,
 } from "@ant-design/icons";
 import { Affix, Dropdown, Menu, Button, Cascader, Input } from "antd";
-import { React, useState } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import List from "../List";
 import PostIt from "../PostIt";
@@ -19,12 +19,10 @@ import { getNextMemoUid } from "../../memo-storage/uid";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
-import ControlTopbar from "../../stores/controlTopbar";
 
 const Fsp = require("@systemop/localstorage-fs/localstorage-fs");
 const controlEditor = new ControlEditor();
 const dataManage = new DataManage();
-const controlTopbar = new ControlTopbar();
 
 const MainApp = () => {
   const DISP = {
@@ -78,11 +76,7 @@ const MainApp = () => {
   };
 
   const DeleteIconClick = () => {
-    if (controlTopbar.deleteButton) {
-      controlTopbar.setDeleteButtonFalse();
-    } else {
-      controlTopbar.setDeleteButtonTrue();
-    }
+    setCheckbox(!checkbox);
   };
 
   const setCheckedItem = (id, isChecked) => {
@@ -104,13 +98,13 @@ const MainApp = () => {
   };
 
   const deleteDropdown = (
-    <Menu onBlur={controlTopbar.setDeleteButtonFalse}>
+    <Menu>
       <Menu.Item
         key="0"
         style={{ color: "red" }}
         onClick={() => {
-          controlTopbar.setDeleteButtonFalse();
           delMemo();
+          setCheckbox(false);
           dataManage.setMemoList();
           dataManage.setDirList();
           dataManage.setDataList();
@@ -122,18 +116,15 @@ const MainApp = () => {
   );
 
   // dir add related
+  const [showDirInput, setShowDirInput] = useState(false); // for dir add
   const [dirName, setDirName] = useState("");
 
   const dirNameChange = (e) => {
-    controlTopbar.setDirInput(e.target.value);
+    setDirName(e.target.value);
   };
 
   const dirAddIconClick = () => {
-    if (controlTopbar.dirInputBox) {
-      controlTopbar.setDirInputBoxFalse();
-    } else {
-      controlTopbar.setDirInputBoxTrue();
-    }
+    setShowDirInput(!showDirInput);
   };
 
   const dirAddButtonclick = (name) => {
@@ -145,8 +136,8 @@ const MainApp = () => {
       createdAt: new Date(),
     };
     MStore.storeDir(dataManage.cwd, name, dirData);
-    controlTopbar.setDirInput("");
-    dirAddIconClick();
+    setDirName("");
+    setShowDirInput(false);
     dataManage.reloadCwd();
     dataManage.setDirList();
     dataManage.setDataList();
@@ -159,13 +150,13 @@ const MainApp = () => {
     dataManage.setDataList();
   };
   const dirAddDropdown = (
-    <Menu onBlur={controlTopbar.setInit}>
+    <Menu>
       <Menu.Item>
         <Input.Group compact>
           <Input
             style={{ width: "calc(100% - 55px)" }}
             placeholder="New Folder Name"
-            value={controlTopbar.dirInput}
+            value={dirName}
             enterButton="Add"
             onChange={dirNameChange}
           />
@@ -178,7 +169,7 @@ const MainApp = () => {
               fontWeight: "600",
               width: "55px",
             }}
-            onMouseDown={() => dirAddButtonclick(controlTopbar.dirInput)}
+            onMouseDown={() => dirAddButtonclick(dirName)}
           >
             Add
           </Button>
@@ -186,6 +177,37 @@ const MainApp = () => {
       </Menu.Item>
     </Menu>
   );
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (
+          ref.current &&
+          !ref.current.contains(event.target) &&
+          !(event.target.tagName == "INPUT") &&
+          !(event.target.innerText == "Delete Selections")
+        ) {
+          setShowDirInput(false);
+          setDirName("");
+          setCheckbox(false);
+          console.log(ref.current);
+          console.log(event.target);
+          //console.log(!ref.current.contains(event.target));
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      //console.log(ref);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  function OutsideAlerter(props) {
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
+    return <div ref={wrapperRef}>{props.children}</div>;
+  }
 
   return (
     <Wrapper>
@@ -219,21 +241,23 @@ const MainApp = () => {
               placement="bottomCenter"
               arrow
               onClick={dirAddIconClick}
-              visible={controlTopbar.dirInputBox}
+              visible={showDirInput}
             >
               <FolderAddOutlined style={iconStyle} />
             </Dropdown>
 
-            <Dropdown
-              overlay={deleteDropdown}
-              trigger={["click"]}
-              placement="bottomCenter"
-              arrow
-              onClick={DeleteIconClick}
-              visible={controlTopbar.deleteButton}
-            >
-              <DeleteOutlined style={iconStyle} />
-            </Dropdown>
+            <OutsideAlerter>
+              <Dropdown
+                overlay={deleteDropdown}
+                trigger={["click"]}
+                placement="bottomCenter"
+                arrow
+                onClick={DeleteIconClick}
+                visible={checkbox}
+              >
+                <DeleteOutlined style={iconStyle} />
+              </Dropdown>
+            </OutsideAlerter>
             <SettingOutlined style={iconStyle} />
           </HeaderButtonWrapper>
         </Header>
@@ -247,18 +271,12 @@ const MainApp = () => {
       <BreadCrumb cwd={dataManage.cwd} />
       {display === DISP.LIST && (
         <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <List
-            showCheckbox={controlTopbar.deleteButton}
-            checkedItemHandler={setCheckedItem}
-          />
+          <List showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
         </Provider>
       )}
       {display === DISP.POSTIT && (
         <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <PostIt
-            showCheckbox={controlTopbar.deleteButton}
-            checkedItemHandler={setCheckedItem}
-          />
+          <PostIt showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
         </Provider>
       )}
     </Wrapper>
