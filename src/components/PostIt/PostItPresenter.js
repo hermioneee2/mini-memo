@@ -1,10 +1,8 @@
 import React from "react";
 import PostItItem from "../PostItItem";
 import PostItDirItem from "../PostItDirItem";
-import ListDirItem from "../ListDirItem";
 import { List } from "antd";
 import { observer, inject } from "mobx-react";
-import { autorun } from "mobx";
 
 const PostItPresenter = ({ storeData, showCheckbox, checkedItemHandler }) => {
   const dataManage = storeData;

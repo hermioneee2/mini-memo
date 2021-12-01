@@ -1,10 +1,8 @@
 import EditorPresenter from "./EditorPresenter";
-// import React, { useState } from "react";
 import {
   storeMemo,
   modifyMemo,
 } from "../../memo-storage/memo-localstorage";
-// import axios from "axios";
 import { observer, inject } from "mobx-react";
 
 const Editor = ({ storeEditor, storeData, storeUrl }) => {

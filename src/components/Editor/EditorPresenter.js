@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 import { Input, Button, message } from "antd";
 import EditorComponent from "../Editor/EditorComponent";
