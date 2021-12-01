@@ -1,25 +1,38 @@
 import PostItDirItemPresenter from "./PostItDirItemPresenter";
-import { observer, inject } from "mobx-react"
-
+import { observer, inject } from "mobx-react";
+import { useState } from "react";
 const PostItDirItem = ({
   storeData,
   name,
-  set
+  set,
+  uid,
+  showCheckbox,
+  checkedItemHandler,
 }) => {
   const dataManage = storeData;
+  const [bChecked, setChecked] = useState(false);
+  const checkHandler = ({ target }) => {
+    setChecked(!bChecked);
+    checkedItemHandler(uid, target.checked); //reflect change on del item list
+  };
+
   const onChange = (name) => {
-    if(set === "parent"){
+    if (set === "parent") {
       dataManage.setParentDir(name);
-    } else{
+    } else {
       dataManage.setChangeDir(name);
     }
     dataManage.setDirList();
     dataManage.setDataList();
-  }
+  };
   return (
-    <div onClick={() => onChange(name)}>
+    <div>
       <PostItDirItemPresenter
         name={name}
+        showCheckbox={showCheckbox}
+        bChecked={bChecked}
+        checkHandler={checkHandler}
+        changeHandler={onChange}
       />
     </div>
   );

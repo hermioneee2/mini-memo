@@ -7,27 +7,28 @@ const ListDirItemPresenter = ({
   showCheckbox,
   bChecked,
   checkHandler,
+  changeHandler,
 }) => {
   return time != null ? (
     <div style={listItemWrapperStyle}>
-      <div style={listItemStyle}>
+      <div style={listItemStyle} onClick={() => changeHandler(name)}>
         <div style={titleStyle}>
           <FolderFilled style={iconStyle} />
           {name}
         </div>
         <div style={timeStyle}>{time}</div>
-        {showCheckbox && (
-          <input
-            type="checkbox"
-            checked={bChecked}
-            onChange={checkHandler}
-            style={checkboxStyle}
-          />
-        )}
       </div>
+      {showCheckbox && (
+        <input
+          type="checkbox"
+          checked={bChecked}
+          onChange={checkHandler}
+          style={checkboxStyle}
+        />
+      )}
     </div>
   ) : (
-    <div style={gobackStyle}>
+    <div style={gobackStyle} onClick={() => changeHandler(name)}>
       <ArrowLeftOutlined style={gobackiconStyle} />
       back to previous folder
     </div>

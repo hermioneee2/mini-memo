@@ -2,16 +2,30 @@ import React from "react";
 import { FolderFilled, ArrowLeftOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 
-const PostItDirItemPresenter = ({ name }) => {
+const PostItDirItemPresenter = ({
+  name,
+  showCheckbox,
+  bchecked,
+  checkHandler,
+  changeHandler,
+}) => {
   return name != ".." ? (
     <div>
-      <div style={folderStyle}>
+      <div style={folderStyle} onClick={() => changeHandler(name)}>
         <FolderFilled style={folderIconStyle} />
         <div style={folderNameStyle}>{name}</div>
       </div>
+      {showCheckbox && (
+        <input
+          type="checkbox"
+          checked={bchecked}
+          style={checkboxStyle}
+          onChange={checkHandler}
+        />
+      )}
     </div>
   ) : (
-    <div style={gobackStyle}>
+    <div style={gobackStyle} onClick={() => changeHandler(name)}>
       <ArrowLeftOutlined style={gobackiconStyle} />
       back to previous folder
     </div>
@@ -53,6 +67,14 @@ const gobackStyle = {
   cursor: "pointer",
   fontFamily: "Open Sans",
   color: "#808080",
+};
+
+const checkboxStyle = {
+  position: "relative",
+  left: "245px",
+  top: "-30px",
+  width: "17px",
+  height: "17px",
 };
 
 export default PostItDirItemPresenter;

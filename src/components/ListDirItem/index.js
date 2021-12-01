@@ -33,15 +33,14 @@ const ListDirItem = ({
     }
   };
   return (
-    <div onClick={() => onChange(name)}>
-      <ListDirItemPresenter
-        name={name}
-        time={timeString}
-        showCheckbox={showCheckbox}
-        bChecked={bChecked}
-        checkHandler={checkHandler}
-      />
-    </div>
+    <ListDirItemPresenter
+      name={name}
+      time={timeString}
+      showCheckbox={showCheckbox}
+      bChecked={bChecked}
+      checkHandler={checkHandler}
+      changeHandler={onChange}
+    />
   );
 };
 
