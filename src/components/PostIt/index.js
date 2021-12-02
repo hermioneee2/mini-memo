@@ -24,9 +24,16 @@ const PostIt = ({ storeData, showCheckbox, checkedItemHandler }) => {
         <List
           dataSource={dataManage.dirList}
           grid={{ gutter: 24, column: 4 }}
+          locale={{ emptyText: " " }}
           renderItem={(item) => (
             <List.Item>
-              <PostItDirItem name={item.title} set={change} />
+              <PostItDirItem
+                name={item.title}
+                set={change}
+                uid={item.uid}
+                showCheckbox={showCheckbox}
+                checkedItemHandler={checkedItemHandler}
+              />
             </List.Item>
           )}
         />

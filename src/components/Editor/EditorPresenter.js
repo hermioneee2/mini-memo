@@ -6,6 +6,7 @@ import {
   existingMemo,
   loadMemoTitle,
   loadMemoContent,
+  modifyMemo,
 } from "../../memo-storage/memo-localstorage";
 import { observer, inject } from "mobx-react";
 import { SwapOutlined } from "@ant-design/icons";
@@ -50,20 +51,16 @@ const EditorPresenter = ({
   };
 
   const onSave = () => {
-
-    if(existingMemo(cwd, id)){
+    if (existingMemo(cwd, id)) {
       dataManage.setMemoObjCreatedAt();
       atModify(memoObj, id);
       console.log("3");
       console.log(memoObj);
-    } 
-    else{
-      if(memoObj.content === "" && memoObj.title === ""){
+    } else {
+      if (memoObj.content === "" && memoObj.title === "") {
         alert("제목이나 내용을 입력해주세요.");
         return;
-      } 
-      else
-        atSave(memoObj);
+      } else atSave(memoObj);
     }
     dataManage.setMemoList();
     dataManage.setDataList();

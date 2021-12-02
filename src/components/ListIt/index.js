@@ -30,8 +30,11 @@ const ListIt = ({ storeData, showCheckbox, checkedItemHandler }) => {
             <List.Item>
               <ListDirItem
                 name={item.title}
+                uid={item.uid}
                 time={item.createdAt}
                 set={change}
+                showCheckbox={showCheckbox}
+                checkedItemHandler={checkedItemHandler}
               />
             </List.Item>
           ) : (

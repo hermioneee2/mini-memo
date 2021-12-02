@@ -6,15 +6,16 @@ import {
   FolderAddOutlined,
 } from "@ant-design/icons";
 import { Affix, Dropdown, Menu, Button, Cascader, Input } from "antd";
-import { React, useState } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import ListIt from "../ListIt";
 import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
 import BreadCrumb from "../BreadCrumb";
-import { deleteMemo } from "../../memo-storage/memo-localstorage";
+import { deleteMemo, deleteDir } from "../../memo-storage/memo-localstorage";
 import * as MStore from "../../memo-storage/memo-localstorage";
+import { getNextMemoUid } from "../../memo-storage/uid";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
@@ -62,10 +63,12 @@ const MainApp = () => {
   ];
   const [checkbox, setCheckbox] = useState(false);
   const [delItems, setDelItems] = useState(new Set());
+
   const [display, setDisplay] = useState(DISP.LIST);
 
   const delMemo = () => {
     delItems.forEach((e) => {
+      deleteDir(dataManage.cwd, e);
       deleteMemo(dataManage.cwd, e);
     });
   };
@@ -81,6 +84,7 @@ const MainApp = () => {
       delItems.delete(id);
     }
     setDelItems(delItems);
+    //console.log(delItems);
   };
 
   const dispIconClick = () => {
@@ -126,6 +130,7 @@ const MainApp = () => {
       type: "directory",
       name: name,
       title: name,
+      uid: getNextMemoUid(),
       createdAt: new Date(),
     };
     MStore.storeDir(dataManage.cwd, name, dirData);
@@ -162,7 +167,7 @@ const MainApp = () => {
               fontWeight: "600",
               width: "55px",
             }}
-            onClick={() => dirAddButtonclick(dirName)}
+            onMouseDown={() => dirAddButtonclick(dirName)}
           >
             Add
           </Button>
@@ -170,6 +175,35 @@ const MainApp = () => {
       </Menu.Item>
     </Menu>
   );
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (
+          ref.current &&
+          !ref.current.contains(event.target) &&
+          !(event.target.tagName == "INPUT") &&
+          !(event.target.innerText == "Delete Selections")
+        ) {
+          setShowDirInput(false);
+          setDirName("");
+          setCheckbox(false);
+          //console.log(!ref.current.contains(event.target));
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      //console.log(ref);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  function OutsideAlerter(props) {
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
+    return <div ref={wrapperRef}>{props.children}</div>;
+  }
 
   return (
     <Wrapper>
@@ -200,6 +234,7 @@ const MainApp = () => {
             {display === DISP.LIST && (
               <AppstoreOutlined onClick={dispIconClick} style={iconStyle} />
             )}
+
             <Dropdown
               overlay={dirAddDropdown}
               trigger={["click"]}
@@ -210,16 +245,19 @@ const MainApp = () => {
             >
               <FolderAddOutlined style={iconStyle} />
             </Dropdown>
-            <Dropdown
-              overlay={deleteDropdown}
-              trigger={["click"]}
-              placement="bottomCenter"
-              arrow
-              onClick={DeleteIconClick}
-              visible={checkbox}
-            >
-              <DeleteOutlined style={iconStyle} />
-            </Dropdown>
+
+            <OutsideAlerter>
+              <Dropdown
+                overlay={deleteDropdown}
+                trigger={["click"]}
+                placement="bottomCenter"
+                arrow
+                onClick={DeleteIconClick}
+                visible={checkbox}
+              >
+                <DeleteOutlined style={iconStyle} />
+              </Dropdown>
+            </OutsideAlerter>
             <SettingOutlined style={iconStyle} />
           </HeaderButtonWrapper>
         </Header>

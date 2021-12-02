@@ -1,10 +1,8 @@
 import React from "react";
 import { Breadcrumb } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
-import {get_root_pointer} from "@systemop/localstorage-fs"
 
 const BreadCrumbPresenter = (cwd) => {
-  const root_pointer = get_root_pointer() ;
   let hierarchy = [];
   let folder_title = "";
   const real_cwd = cwd.cwd.cwd;

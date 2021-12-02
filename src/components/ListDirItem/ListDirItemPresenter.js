@@ -1,21 +1,43 @@
 import React from "react";
 import { FolderFilled, ArrowLeftOutlined } from "@ant-design/icons";
 
-const ListDirItemPresenter = ({ name, time }) => {
+const ListDirItemPresenter = ({
+  name,
+  time,
+  showCheckbox,
+  bChecked,
+  checkHandler,
+  changeHandler,
+}) => {
   return time != null ? (
-    <div style={listItemStyle}>
-      <div style={titleStyle}>
-        <FolderFilled style={iconStyle} />
-        {name}
+    <div style={listItemWrapperStyle}>
+      <div style={listItemStyle} onClick={() => changeHandler(name)}>
+        <div style={titleStyle}>
+          <FolderFilled style={iconStyle} />
+          {name}
+        </div>
+        <div style={timeStyle}>{time}</div>
       </div>
-      <div style={timeStyle}>{time}</div>
+      {showCheckbox && (
+        <input
+          type="checkbox"
+          checked={bChecked}
+          onChange={checkHandler}
+          style={checkboxStyle}
+        />
+      )}
     </div>
   ) : (
-    <div style={gobackStyle}>
+    <div style={gobackStyle} onClick={() => changeHandler(name)}>
       <ArrowLeftOutlined style={gobackiconStyle} />
       back to previous folder
     </div>
   );
+};
+
+const listItemWrapperStyle = {
+  display: "flex",
+  alignContent: "center",
 };
 
 const listItemStyle = {
@@ -57,6 +79,13 @@ const timeStyle = {
   position: "relative",
   top: "-10px",
   left: "-15%",
+};
+const checkboxStyle = {
+  position: "relative",
+  left: "-30px",
+  top: "-5px",
+  width: "15px",
+  height: "15px",
 };
 
 export default ListDirItemPresenter;
