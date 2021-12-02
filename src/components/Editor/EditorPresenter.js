@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
-import { Input, Divider, Button, message } from "antd";
+import { Input, Button, message } from "antd";
 import EditorComponent from "../Editor/EditorComponent";
 import {
   existingMemo,
@@ -15,7 +15,6 @@ const EditorPresenter = ({
   storeData,
   atSave,
   atModify,
-  atModifyTime,
   atCancel,
   setURLQuery,
   urlStore,
@@ -23,38 +22,8 @@ const EditorPresenter = ({
   const controlEditor = storeEditor;
   const dataManage = storeData;
   const id = controlEditor.id;
-  const [memoObj, setMemoObj] = useState({
-    title: "",
-    content: "",
-    createdAt: "",
-  });
-
-  const setMemoObjDefault = () => {
-    let newObj = memoObj;
-    newObj.title = "";
-    newObj.content = "";
-    newObj.createdAt = "";
-  };
-  const setMemoObjTitle = (e) => {
-    let newObj = memoObj;
-    //console.log(e)
-    newObj.title = e.target.value;
-    setMemoObj(newObj);
-  };
-
-  const setMemoObjContent = (e) => {
-    let newObj = memoObj;
-    //console.log(e)
-    newObj.content = e;
-    setMemoObj(newObj);
-  };
-
-  const setMemoObjCreatedAt = () => {
-    let newObj = memoObj;
-    //console.log(e)
-    newObj.createdAt = new Date();
-    setMemoObj(newObj);
-  };
+  const cwd = dataManage.cwd;
+  const memoObj = dataManage.memoObj;
 
   const successMsg = () => {
     message.success({
@@ -81,41 +50,31 @@ const EditorPresenter = ({
   };
 
   const onSave = () => {
-    console.log(existingMemo(dataManage.cwd, id));
-    console.log(memoObj.title);
-    console.log(memoObj.content);
 
-    if (
-      (memoObj.content === loadMemoContent(dataManage.cwd, id) ||
-        memoObj.title === loadMemoTitle(dataManage.cwd, id)) &&
-      existingMemo(dataManage.cwd, id) === true
-    ) {
-      setMemoObjCreatedAt();
-      atModifyTime(memoObj, id);
-      console.log("1");
-    } else if (memoObj.content === "" || memoObj.title === "") {
-      console.log("2");
-      alert("제목과 내용을 입력해주세요.");
-      return;
-    } else if (existingMemo(dataManage.cwd, id)) {
-      console.log("3");
-      setMemoObjCreatedAt();
+    if(existingMemo(cwd, id)){
+      dataManage.setMemoObjCreatedAt();
       atModify(memoObj, id);
-    } else {
-      console.log("4");
-      atSave(memoObj);
+      console.log("3");
+      console.log(memoObj);
+    } 
+    else{
+      if(memoObj.content === "" && memoObj.title === ""){
+        alert("제목이나 내용을 입력해주세요.");
+        return;
+      } 
+      else
+        atSave(memoObj);
     }
     dataManage.setMemoList();
     dataManage.setDataList();
-    setMemoObjDefault();
   };
 
   const defaultTitle = () => {
-    let r = loadMemoTitle(dataManage.cwd, id);
+    let r = loadMemoTitle(cwd, id);
     return r;
   };
   const defaultContent = () => {
-    let r = loadMemoContent(dataManage.cwd, id);
+    let r = loadMemoContent(cwd, id);
     return r;
   };
 
@@ -128,31 +87,29 @@ const EditorPresenter = ({
 
   let editor;
   if (controlEditor.newEditor === true) {
-    // console.log('!')
     editor = (
       <div>
         <Input
           placeholder="Title"
           bordered={false}
-          onChange={setMemoObjTitle}
+          onChange={dataManage.setMemoObjTitle}
           style={memoTitleStyle}
         />
-        <EditorComponent value="" onChange={setMemoObjContent} />
+        <EditorComponent value="" onChange={dataManage.setMemoObjContent} />
       </div>
     );
   } else {
-    // console.log('!!')
     editor = (
       <div>
         <Input
           defaultValue={defaultTitle()}
           bordered={false}
-          onChange={setMemoObjTitle}
+          onChange={dataManage.setMemoObjTitle}
           style={memoTitleStyle}
         />
         <EditorComponent
           value={defaultContent()}
-          onChange={setMemoObjContent}
+          onChange={dataManage.setMemoObjContent}
         />
       </div>
     );

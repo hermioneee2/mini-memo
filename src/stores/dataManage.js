@@ -7,6 +7,7 @@ export default class DataManage {
   memoList;
   dirList;
   dataList;
+  memoObj
 
   constructor() {
     this.cwd = MStore.initMemoCwd();
@@ -14,6 +15,7 @@ export default class DataManage {
     this.memoList = MStore.loadMemoList(this.cwd);
     this.dirList = MStore.loadDirList(this.cwd);
     this.dataList = this.dirList.concat(this.memoList);
+    this.memoObj = {title: "", content: "", createdAt: ""};
 
     makeObservable(this, {
       cwd: observable,
@@ -21,6 +23,7 @@ export default class DataManage {
       memoList: observable,
       dirList: observable,
       dataList: observable,
+      memoObj: observable,
       reloadCwd:action,
       setCwd: action,
       setChangeDir: action,
@@ -29,6 +32,11 @@ export default class DataManage {
       setMemoList: action,
       setDirList: action,
       setDataList: action,
+      setMemoObjTitle: action,
+      setMemoObjContent: action,
+      setMemoObjCreatedAt: action,
+      setExistingMemoObj: action,
+      setNewMemoObj: action,
     })
   }
 
@@ -105,4 +113,32 @@ export default class DataManage {
     }
     this.dataList = this.dirList.concat(this.memoList);
   }
+
+  setMemoObjTitle = (e) => {
+    let newObj = this.memoObj;
+    newObj.title = e.target.value;
+    this.memoObj = newObj;
+  }
+  setMemoObjContent = (e) => {
+    let newObj = this.memoObj;
+    newObj.content = e;
+    this.memoObj = newObj;
+  }
+  setMemoObjCreatedAt = () => {
+    let newObj = this.memoObj;
+    newObj.createdAt = new Date();
+    this.memoObj = newObj;
+  }
+  setExistingMemoObj = (cwd, id) => {
+    let newObj = this.memoObj;
+    newObj.title = MStore.loadMemoTitle(cwd, id);
+    newObj.content = MStore.loadMemoContent(cwd, id);
+    newObj.createdAt = new Date();
+    this.memoObj = newObj;
+  }
+  setNewMemoObj = () => {
+    this.memoObj.title = "";
+    this.memoObj.content = "";
+  }
+
 }
