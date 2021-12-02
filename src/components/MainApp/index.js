@@ -19,10 +19,11 @@ import { getNextMemoUid } from "../../memo-storage/uid";
 import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
+import UrlStore from "../../stores/urlStore";
 
-const Fsp = require("@systemop/localstorage-fs/localstorage-fs");
 const controlEditor = new ControlEditor();
 const dataManage = new DataManage();
+const urlStore = new UrlStore();
 
 const MainApp = () => {
   const DISP = {
@@ -66,10 +67,7 @@ const MainApp = () => {
   const [display, setDisplay] = useState(DISP.LIST);
 
   const delMemo = () => {
-    let localStorageList = Fsp.load_fs();
     delItems.forEach((e) => {
-      console.log(localStorageList);
-      console.log(e);
       deleteDir(dataManage.cwd, e);
       deleteMemo(dataManage.cwd, e);
     });
@@ -190,8 +188,6 @@ const MainApp = () => {
           setShowDirInput(false);
           setDirName("");
           setCheckbox(false);
-          console.log(ref.current);
-          console.log(event.target);
           //console.log(!ref.current.contains(event.target));
         }
       }
@@ -211,7 +207,11 @@ const MainApp = () => {
 
   return (
     <Wrapper>
-      <Provider storeEditor={controlEditor} storeData={dataManage}>
+      <Provider
+        storeEditor={controlEditor}
+        storeData={dataManage}
+        storeUrl={urlStore}
+      >
         <Editor />
       </Provider>
       <Affix offsetTop={0}>

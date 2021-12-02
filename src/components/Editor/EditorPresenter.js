@@ -19,9 +19,7 @@ const EditorPresenter = ({
   atModifyTime,
   atCancel,
   setURLQuery,
-  setURLButton,
-  url,
-  shortenedURL,
+  urlStore,
 }) => {
   const controlEditor = storeEditor;
   const dataManage = storeData;
@@ -81,7 +79,7 @@ const EditorPresenter = ({
   };
 
   const setURLButtonWrapper = () => {
-    setURLButton(successMsg, failMsg);
+    urlStore.requestShortenedUrl(successMsg, failMsg);
   };
 
   const onSave = () => {
@@ -167,7 +165,7 @@ const EditorPresenter = ({
       <Modal
         isOpen={open}
         onRequestClose={atCancel}
-        style={{ overflow: "hidden", borderRadius: "10px", height: "440px" }}
+        style={modalStyle}
         footer={null}
       >
         {editor}
@@ -186,7 +184,7 @@ const EditorPresenter = ({
             }}
             bordered={false}
             placeholder="Shorten your URL here"
-            value={url}
+            value={urlStore.longUrl}
             onChange={setURLQuery}
             onPressEnter={setURLButtonWrapper}
           />
@@ -210,7 +208,7 @@ const EditorPresenter = ({
               color: "gray",
             }}
           >
-            {shortenedURL}
+            {urlStore.shortenedUrl}
           </div>
         </Input.Group>
         <Button
@@ -242,6 +240,20 @@ const EditorPresenter = ({
   );
 };
 
+const modalStyle = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    transform: "translate(-50%, -50%)",
+    width: "510px",
+    height: "450px",
+    overflow: "hidden",
+    borderRadius: "10px",
+  },
+};
+
 const memoTitleStyle = {
   fontFamily: "Open Sans",
   fontSize: 17,
@@ -250,4 +262,8 @@ const memoTitleStyle = {
   marginBottom: 7,
 };
 
-export default inject("storeEditor", "storeData")(observer(EditorPresenter));
+export default inject(
+  "storeEditor",
+  "storeData",
+  "storeUrl"
+)(observer(EditorPresenter));
