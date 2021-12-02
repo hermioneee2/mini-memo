@@ -8,7 +8,7 @@ import {
 import { Affix, Dropdown, Menu, Button, Cascader, Input } from "antd";
 import { React, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import List from "../List";
+import ListIt from "../ListIt";
 import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
 import Editor from "../Editor";
@@ -263,7 +263,7 @@ const MainApp = () => {
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <Provider storeEditor={controlEditor}>
+      <Provider storeEditor={controlEditor} storeData = {dataManage}>
         <div onClick={() => controlEditor.setId(-1)}>
           <AddMemo />
         </div>
@@ -271,7 +271,7 @@ const MainApp = () => {
       <BreadCrumb cwd={dataManage.cwd} />
       {display === DISP.LIST && (
         <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <List showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
+          <ListIt showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
         </Provider>
       )}
       {display === DISP.POSTIT && (

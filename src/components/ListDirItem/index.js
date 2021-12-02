@@ -1,6 +1,6 @@
 import ListDirItemPresenter from "./ListDirItemPresenter";
 import { React, useState } from "react";
-import dateFormat, { masks } from "dateformat";
+import dateFormat from "dateformat";
 import { observer, inject } from "mobx-react";
 
 const ListDirItem = ({

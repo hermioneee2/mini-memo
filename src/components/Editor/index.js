@@ -1,11 +1,8 @@
 import EditorPresenter from "./EditorPresenter";
-// import React, { useState } from "react";
 import {
   storeMemo,
   modifyMemo,
-  modifyTime,
 } from "../../memo-storage/memo-localstorage";
-// import axios from "axios";
 import { observer, inject } from "mobx-react";
 
 const Editor = ({ storeEditor, storeData, storeUrl }) => {
@@ -35,15 +32,6 @@ const Editor = ({ storeEditor, storeData, storeUrl }) => {
     urlStore.setLongUrl("");
   };
 
-  const atModifyTime = (memoObj, id) => {
-    modifyTime(dataManage.cwd, memoObj, id);
-    dataManage.reloadCwd();
-    controlEditor.setEditorFalse();
-    controlEditor.setNewEditorFalse();
-    urlStore.setShortenedUrl("");
-    urlStore.setLongUrl("");
-  };
-
   const atCancel = () => {
     controlEditor.setEditorFalse();
     controlEditor.setNewEditorFalse();
@@ -54,7 +42,6 @@ const Editor = ({ storeEditor, storeData, storeUrl }) => {
     <EditorPresenter
       atSave={atSave}
       atModify={atModify}
-      atModifyTime={atModifyTime}
       atCancel={atCancel}
       setURLQuery={setURLQuery}
       urlStore={urlStore}

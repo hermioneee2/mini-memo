@@ -4,6 +4,7 @@ import { observer, inject } from "mobx-react"
 
 const PostItItem = ({
   storeEditor,
+  storeData,
   title,
   content,
   uid,
@@ -12,6 +13,7 @@ const PostItItem = ({
 }) => {
   const [bChecked, setChecked] = useState(false);
   const controlEditor = storeEditor;
+  const dataManage = storeData;
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
@@ -19,7 +21,7 @@ const PostItItem = ({
   };
 
   return (
-    <div onClick = {() => controlEditor.setId(uid)}>
+    <div onClick = {() => {controlEditor.setId(uid); dataManage.setExistingMemoObj(dataManage.cwd, uid);}}>
       <PostItItemPresenter
         title={title}
         content={content}
@@ -31,4 +33,4 @@ const PostItItem = ({
   );
 };
 
-export default inject("storeEditor")(observer(PostItItem));
+export default inject("storeEditor", "storeData")(observer(PostItItem));

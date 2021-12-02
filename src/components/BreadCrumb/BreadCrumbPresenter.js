@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Breadcrumb } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 
@@ -24,7 +24,7 @@ const BreadCrumbPresenter = (cwd) => {
   } else {
     folder_title = real_cwd.name;
   }
-  //console.log(hierarchy)
+
   const hierarchy_render = hierarchy.map((pt) => (
     <Breadcrumb.Item>{pt}</Breadcrumb.Item>
   ));
