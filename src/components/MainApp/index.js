@@ -206,7 +206,7 @@ const MainApp = () => {
   }
 
   return (
-    <Wrapper>
+    <div>
       <Provider
         storeEditor={controlEditor}
         storeData={dataManage}
@@ -263,23 +263,31 @@ const MainApp = () => {
         </Header>
         <HeaderBottomOutline />
       </Affix>
-      <Provider storeEditor={controlEditor} storeData = {dataManage}>
-        <div onClick={() => controlEditor.setId(-1)}>
-          <AddMemo />
-        </div>
-      </Provider>
-      <BreadCrumb cwd={dataManage.cwd} />
-      {display === DISP.LIST && (
+      <Wrapper>
         <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <ListIt showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
+          <div onClick={() => controlEditor.setId(-1)}>
+            <AddMemo />
+          </div>
         </Provider>
-      )}
-      {display === DISP.POSTIT && (
-        <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <PostIt showCheckbox={checkbox} checkedItemHandler={setCheckedItem} />
-        </Provider>
-      )}
-    </Wrapper>
+        <BreadCrumb cwd={dataManage.cwd} />
+        {display === DISP.LIST && (
+          <Provider storeEditor={controlEditor} storeData={dataManage}>
+            <ListIt
+              showCheckbox={checkbox}
+              checkedItemHandler={setCheckedItem}
+            />
+          </Provider>
+        )}
+        {display === DISP.POSTIT && (
+          <Provider storeEditor={controlEditor} storeData={dataManage}>
+            <PostIt
+              showCheckbox={checkbox}
+              checkedItemHandler={setCheckedItem}
+            />
+          </Provider>
+        )}
+      </Wrapper>
+    </div>
   );
 };
 
@@ -312,12 +320,14 @@ const iconStyle = {
 
 const Wrapper = styled.div`
   background-color: #f0f0f0;
+  height: calc(100vh - 70px);
+  overflow: auto;
 `;
 
 const Header = styled.div`
   background-color: #f0f0f0;
   width: 100%;
-  height: 70px;
+  height: 68px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

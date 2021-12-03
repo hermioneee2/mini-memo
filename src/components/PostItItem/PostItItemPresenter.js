@@ -19,7 +19,10 @@ const PostItItemPresenter = ({
         style={cardStyle}
         onClick={controlEditor.setEditorTrue}
       >
-        <div dangerouslySetInnerHTML={{ __html: content }}></div>
+        <div
+          style={contentStyle}
+          dangerouslySetInnerHTML={{ __html: content }}
+        ></div>
       </Card>
       {showCheckbox && (
         <input
@@ -38,6 +41,10 @@ const cardStyle = {
   width: "280px",
   cursor: "pointer",
   borderRadius: "7px",
+};
+
+const contentStyle = {
+  wordWrap: "break-word",
 };
 
 const checkboxStyle = {
