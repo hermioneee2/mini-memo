@@ -99,13 +99,13 @@ const EditorPresenter = ({
     editor = (
       <div>
         <Input
-          defaultValue={defaultTitle()}
+          defaultValue={dataManage.memoObj.title}
           bordered={false}
           onChange={dataManage.setMemoObjTitle}
           style={memoTitleStyle}
         />
         <EditorComponent
-          value={defaultContent()}
+          value={dataManage.memoObj.content}
           onChange={dataManage.setMemoObjContent}
         />
       </div>

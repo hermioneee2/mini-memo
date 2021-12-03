@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
+import Quill from "quill";
 const CustomToolbar = () => (
   <div>
     <div
@@ -36,6 +36,17 @@ const CustomToolbar = () => (
     </div>
   </div>
 );
+var Link = Quill.import("formats/link");
+var builtInFunc = Link.sanitize;
+Link.sanitize = function customSanitizeLinkInput(linkValueInput) {
+  var val = linkValueInput;
+
+  // do nothing, since this implies user's already using a custom protocol
+  if (/^\w+:/.test(val));
+  else if (!/^https?:/.test(val)) val = "https:" + val;
+
+  return builtInFunc.call(this, val); // retain the built-in logic
+};
 
 class EditorComponent extends Component {
   constructor(props) {
