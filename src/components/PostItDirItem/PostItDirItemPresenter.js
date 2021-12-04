@@ -1,6 +1,7 @@
 import React from "react";
 import { FolderFilled, ArrowLeftOutlined } from "@ant-design/icons";
 import { Card } from "antd";
+import styled from "styled-components";
 
 const PostItDirItemPresenter = ({
   name,
@@ -11,10 +12,10 @@ const PostItDirItemPresenter = ({
 }) => {
   return name != ".." ? (
     <div>
-      <div style={folderStyle} onClick={() => changeHandler(name)}>
-        <FolderFilled style={folderIconStyle} />
-        <div style={folderNameStyle}>{name}</div>
-      </div>
+      <FolderStyle onClick={() => changeHandler(name)}>
+        <FolderIconStyle />
+        <FolderNameStyle>{name}</FolderNameStyle>
+      </FolderStyle>
       {showCheckbox && (
         <input
           type="checkbox"
@@ -32,30 +33,35 @@ const PostItDirItemPresenter = ({
   );
 };
 
-const folderStyle = {
-  width: "280px",
-  height: "45px",
-  cursor: "pointer",
-  borderRadius: "7px",
-  fontFamily: "Open Sans",
-  fontSize: "16px",
-  backgroundColor: "white",
-  paddingLeft: "20px",
-  paddingTop: "10px",
-  display: "flex",
-};
+const FolderStyle = styled.div`
+  word-wrap: break-word;
+  height: 45px;
+  cursor: pointer;
+  border-radius: 7px;
+  font-family: Open Sans;
+  font-size: 17px;
+  background-color: ${({ theme }) => theme.colors.items};
+  padding-left: 20px;
+  padding-top: 10px;
+  display: flex;
+`;
 
-const folderIconStyle = {
-  marginRight: "12px",
-  fontSize: "23px",
-  position: "relative",
-  top: "2px",
-};
+const FolderIconStyle = styled(FolderFilled)`
+  margin-right: 12px;
+  font-size: 23px;
+  position: relative;
+  top: 2px;
+  color: ${({ theme }) => theme.colors.text};
+`;
 
-const folderNameStyle = {
-  fontFamily: "Open Sans",
-  fontWeight: "600",
-};
+const FolderNameStyle = styled.div`
+  font-family: Open Sans;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text};
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow: auto;
+`;
 
 const gobackiconStyle = {
   marginRight: "8px",

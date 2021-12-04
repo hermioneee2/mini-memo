@@ -1,6 +1,6 @@
 import PostItItemPresenter from "./PostItItemPresenter";
 import { useState } from "react";
-import { observer, inject } from "mobx-react"
+import { observer, inject } from "mobx-react";
 
 const PostItItem = ({
   storeEditor,
@@ -21,7 +21,12 @@ const PostItItem = ({
   };
 
   return (
-    <div onClick = {() => {controlEditor.setId(uid); dataManage.setExistingMemoObj(dataManage.cwd, uid);}}>
+    <div
+      onClick={() => {
+        controlEditor.setId(uid);
+        dataManage.setExistingMemoObj(dataManage.cwd, uid);
+      }}
+    >
       <PostItItemPresenter
         title={title}
         content={content}

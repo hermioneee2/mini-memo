@@ -1,7 +1,7 @@
 import React from "react";
 import { FileOutlined } from "@ant-design/icons";
 import { observer, inject } from "mobx-react";
-
+import styled from "styled-components";
 const ListItemPresenter = ({
   storeEditor,
   title,
@@ -14,13 +14,13 @@ const ListItemPresenter = ({
   const controlEditor = storeEditor;
   return (
     <div style={listItemWrapperStyle}>
-      <div style={listItemStyle} onClick={controlEditor.setEditorTrue}>
+      <ListItemStyle onClick={controlEditor.setEditorTrue}>
         <div style={titleStyle}>
-          <FileOutlined style={iconStyle} />
-          {title}
+          <FileIconStyle />
+          <FileNameStyle>{title}</FileNameStyle>
         </div>
         <div style={timeStyle}>{time()} </div>
-      </div>
+      </ListItemStyle>
       {showCheckbox && (
         <input
           type="checkbox"
@@ -38,22 +38,26 @@ const listItemWrapperStyle = {
   alignContent: "center",
 };
 
-const listItemStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignContent: "center",
-  height: "30px",
-  width: "80vw",
-  fontSize: "16px",
-  cursor: "pointer",
-  fontFamily: "Open Sans",
-  borderBottom: "1px solid #DFDFDF",
-};
+const ListItemStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  height: 30px;
+  width: 80vw;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: Open Sans;
+  border-bottom: 1px solid #dfdfdf;
+  color: ${({ theme }) => theme.colors.text};
+`;
 
-const iconStyle = {
-  marginLeft: "20px",
-  marginRight: "8px",
-};
+const FileIconStyle = styled(FileOutlined)`
+  margin-left: 20px;
+  margin-right: 8px;
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.text};
+  position: relative;
+`;
 
 const titleStyle = {
   position: "relative",
@@ -74,4 +78,9 @@ const checkboxStyle = {
   height: "15px",
 };
 
+const FileNameStyle = styled.span`
+  font-family: Open Sans;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text};
+`;
 export default inject("storeEditor")(observer(ListItemPresenter));

@@ -1,9 +1,11 @@
 import React from "react";
 import { Card } from "antd";
 import { observer, inject } from "mobx-react";
+import styled from "styled-components";
 
 const PostItItemPresenter = ({
   storeEditor,
+  storeData,
   title,
   content,
   showCheckbox,
@@ -11,19 +13,18 @@ const PostItItemPresenter = ({
   checkHandler,
 }) => {
   const controlEditor = storeEditor;
-
+  const TitleStyleWrapper = <TitleStyle>{title}</TitleStyle>;
   return (
     <div>
-      <Card
-        title={title}
-        style={cardStyle}
+      <CardStyle
+        title={TitleStyleWrapper}
         onClick={controlEditor.setEditorTrue}
       >
         <div
           style={contentStyle}
           dangerouslySetInnerHTML={{ __html: content }}
         ></div>
-      </Card>
+      </CardStyle>
       {showCheckbox && (
         <input
           type="checkbox"
@@ -37,15 +38,21 @@ const PostItItemPresenter = ({
   );
 };
 
-const cardStyle = {
-  width: "280px",
-  cursor: "pointer",
-  borderRadius: "7px",
-};
+const CardStyle = styled(Card)`
+  cursor: pointer
+  border-radius: 7px;
+  color: ${({ theme }) => theme.colors.text};
+  background-color: ${({ theme }) => theme.colors.items};
+  border-color: ${({ theme }) => theme.colors.items};
+`;
 
 const contentStyle = {
   wordWrap: "break-word",
 };
+
+const TitleStyle = styled.div`
+  color: ${({ theme }) => theme.colors.text};
+`;
 
 const checkboxStyle = {
   position: "relative",
@@ -55,4 +62,7 @@ const checkboxStyle = {
   height: "17px",
 };
 
-export default inject("storeEditor")(observer(PostItItemPresenter));
+export default inject(
+  "storeEditor",
+  "storeData"
+)(observer(PostItItemPresenter));
