@@ -3,7 +3,7 @@ import ListItem from "../ListItem";
 import ListDirItem from "../ListDirItem";
 import { List } from "antd";
 import { observer, inject } from "mobx-react";
-
+import styled from "styled-components";
 const ListIt = ({ storeData, showCheckbox, checkedItemHandler }) => {
   const dataManage = storeData;
   let parent = "parent";
@@ -18,16 +18,16 @@ const ListIt = ({ storeData, showCheckbox, checkedItemHandler }) => {
           </List.Item>
         )}
       />
-      <div style={titleBoxStyle}>
+      <TitleBoxStyle>
         <div>Title</div>
         <div style={timeStyle}>Last Edited Time</div>
-      </div>
+      </TitleBoxStyle>
       <List
         dataSource={dataManage.dataList}
         style={listWrapperStyle}
         renderItem={(item) =>
           item.type === "directory" ? (
-            <List.Item>
+            <List.Item style={{ borderBottom: 0 }}>
               <ListDirItem
                 name={item.title}
                 uid={item.uid}
@@ -38,7 +38,7 @@ const ListIt = ({ storeData, showCheckbox, checkedItemHandler }) => {
               />
             </List.Item>
           ) : (
-            <List.Item>
+            <List.Item style={{ borderBottom: 0 }}>
               <ListItem
                 title={item.title}
                 content={item.content}
@@ -63,17 +63,18 @@ const overallListStyle = {
   margin: "auto",
 };
 
-const titleBoxStyle = {
-  fontFamily: "Open Sans",
-  display: "flex",
-  justifyContent: "space-between",
-  padding: "15px 24px",
-  margin: "50px 0px 0px 0px",
-  position: "relative",
-  width: "100%",
-  height: "50px",
-  backgroundColor: "#FAFAFA",
-};
+const TitleBoxStyle = styled.div`
+  font-family: Open Sans;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 24px;
+  margin: 50px 0px 0px 0px;
+  position: relative;
+  width: 100%;
+  height: 50px;
+  background-color: ${({ theme }) => theme.colors.items};
+  color: ${({ theme }) => theme.colors.text};
+`;
 
 const listWrapperStyle = {
   fontFamily: "Open Sans",

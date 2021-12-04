@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Affix, Dropdown, Menu, Button, Cascader, Input } from "antd";
 import { React, useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import ListIt from "../ListIt";
 import PostIt from "../PostIt";
 import AddMemo from "../AddMemo";
@@ -20,6 +20,7 @@ import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
 import UrlStore from "../../stores/urlStore";
+import { lightTheme, darkTheme } from "../../styles/theme";
 
 const controlEditor = new ControlEditor();
 const dataManage = new DataManage();
@@ -61,6 +62,7 @@ const MainApp = () => {
       ],
     },
   ];
+
   const [checkbox, setCheckbox] = useState(false);
   const [delItems, setDelItems] = useState(new Set());
 
@@ -96,7 +98,7 @@ const MainApp = () => {
   };
 
   const deleteDropdown = (
-    <Menu>
+    <Menu theme={dataManage.themeString}>
       <Menu.Item
         key="0"
         style={{ color: "red" }}
@@ -148,11 +150,10 @@ const MainApp = () => {
     dataManage.setDataList();
   };
   const dirAddDropdown = (
-    <Menu>
+    <Menu theme={dataManage.themeString}>
       <Menu.Item>
         <Input.Group compact>
-          <Input
-            style={{ width: "calc(100% - 55px)" }}
+          <ThemedInput
             placeholder="New Folder Name"
             value={dirName}
             enterButton="Add"
@@ -183,12 +184,15 @@ const MainApp = () => {
           ref.current &&
           !ref.current.contains(event.target) &&
           !(event.target.tagName == "INPUT") &&
-          !(event.target.innerText == "Delete Selections")
+          !(event.target.innerText == "Delete Selections") &&
+          !(event.target.innerText == "Light Theme") &&
+          !(event.target.innerText == "Dark Theme")
         ) {
           setShowDirInput(false);
           setDirName("");
           setCheckbox(false);
-          //console.log(!ref.current.contains(event.target));
+          setShowSettings(false);
+          //console.log(event.target.innerText);
         }
       }
       document.addEventListener("mousedown", handleClickOutside);
@@ -205,88 +209,132 @@ const MainApp = () => {
     return <div ref={wrapperRef}>{props.children}</div>;
   }
 
+  const [showSettings, setShowSettings] = useState(false);
+
+  const settingsIconClick = () => {
+    setShowSettings(!showSettings);
+  };
+
+  const settingsDropdown = (
+    <Menu>
+      <Menu.Item
+        onClick={() => {
+          dataManage.setLightTheme();
+
+          settingsIconClick();
+        }}
+        key="0"
+      >
+        Light Theme
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          dataManage.setDarkTheme();
+
+          settingsIconClick();
+        }}
+        key="1"
+      >
+        Dark Theme
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div>
-      <Provider
-        storeEditor={controlEditor}
-        storeData={dataManage}
-        storeUrl={urlStore}
-      >
-        <Editor />
-      </Provider>
-      <Affix offsetTop={0}>
-        <Header>
-          <span style={headerStyle}>Mini Memo</span>
-          <HeaderButtonWrapper>
-            <div>
-              <span style={sortStyle}>Sort By</span>
-              <Cascader
-                options={options}
-                onChange={(value) => sorting(value)}
-                expandTrigger="hover"
-                placeholder="Please select"
-                style={cascaderStyle}
-              />
-            </div>
-            {display === DISP.POSTIT && (
-              <BarsOutlined onClick={dispIconClick} style={iconStyle} />
-            )}
-            {display === DISP.LIST && (
-              <AppstoreOutlined onClick={dispIconClick} style={iconStyle} />
-            )}
+      <ThemeProvider theme={dataManage.theme}>
+        <Provider
+          storeEditor={controlEditor}
+          storeData={dataManage}
+          storeUrl={urlStore}
+        >
+          <Editor />
+        </Provider>
+        <Affix offsetTop={0}>
+          <Header>
+            <span style={headerStyle}>Mini Memo</span>
+            <HeaderButtonWrapper>
+              <div>
+                <span style={sortStyle}>Sort By </span>
+                <CascaderStyle
+                  options={options}
+                  onChange={(value) => sorting(value)}
+                  expandTrigger="hover"
+                  placeholder="Please select"
+                  //dropdownRender={CascaderDropdown}
+                  //displayRender={CascaderDisplay}
+                />
+              </div>
+              {display === DISP.POSTIT && (
+                <BarsOutlined onClick={dispIconClick} style={iconStyle} />
+              )}
+              {display === DISP.LIST && (
+                <AppstoreOutlined onClick={dispIconClick} style={iconStyle} />
+              )}
 
-            <Dropdown
-              overlay={dirAddDropdown}
-              trigger={["click"]}
-              placement="bottomCenter"
-              arrow
-              onClick={dirAddIconClick}
-              visible={showDirInput}
-            >
-              <FolderAddOutlined style={iconStyle} />
-            </Dropdown>
-
-            <OutsideAlerter>
               <Dropdown
-                overlay={deleteDropdown}
+                overlay={dirAddDropdown}
                 trigger={["click"]}
                 placement="bottomCenter"
                 arrow
-                onClick={DeleteIconClick}
-                visible={checkbox}
+                onClick={dirAddIconClick}
+                visible={showDirInput}
               >
-                <DeleteOutlined style={iconStyle} />
+                <FolderAddOutlined style={iconStyle} />
               </Dropdown>
-            </OutsideAlerter>
-            <SettingOutlined style={iconStyle} />
-          </HeaderButtonWrapper>
-        </Header>
-        <HeaderBottomOutline />
-      </Affix>
-      <Wrapper>
-        <Provider storeEditor={controlEditor} storeData={dataManage}>
-          <div onClick={() => controlEditor.setId(-1)}>
-            <AddMemo />
-          </div>
-        </Provider>
-        <BreadCrumb cwd={dataManage.cwd} />
-        {display === DISP.LIST && (
+
+              <OutsideAlerter>
+                <Dropdown
+                  overlay={deleteDropdown}
+                  trigger={["click"]}
+                  placement="bottomCenter"
+                  arrow
+                  onClick={DeleteIconClick}
+                  visible={checkbox}
+                >
+                  <DeleteOutlined style={iconStyle} />
+                </Dropdown>
+              </OutsideAlerter>
+
+              <Dropdown
+                overlay={settingsDropdown}
+                trigger={["click"]}
+                placement="bottomCenter"
+                arrow
+                onClick={settingsIconClick}
+                visible={showSettings}
+              >
+                <SettingOutlined style={iconStyle} />
+              </Dropdown>
+            </HeaderButtonWrapper>
+          </Header>
+          <HeaderBottomOutline />
+        </Affix>
+        <Wrapper>
           <Provider storeEditor={controlEditor} storeData={dataManage}>
-            <ListIt
-              showCheckbox={checkbox}
-              checkedItemHandler={setCheckedItem}
-            />
+            <div onClick={() => controlEditor.setId(-1)}>
+              <AddMemo />
+            </div>
           </Provider>
-        )}
-        {display === DISP.POSTIT && (
-          <Provider storeEditor={controlEditor} storeData={dataManage}>
-            <PostIt
-              showCheckbox={checkbox}
-              checkedItemHandler={setCheckedItem}
-            />
-          </Provider>
-        )}
-      </Wrapper>
+          <BreadCrumb cwd={dataManage.cwd} />
+          {display === DISP.LIST && (
+            <Provider storeEditor={controlEditor} storeData={dataManage}>
+              <ListIt
+                showCheckbox={checkbox}
+                checkedItemHandler={setCheckedItem}
+              />
+            </Provider>
+          )}
+          {display === DISP.POSTIT && (
+            <Provider storeEditor={controlEditor} storeData={dataManage}>
+              <PostIt
+                showCheckbox={checkbox}
+                checkedItemHandler={setCheckedItem}
+              />
+            </Provider>
+          )}
+        </Wrapper>
+      </ThemeProvider>
     </div>
   );
 };
@@ -306,11 +354,30 @@ const sortStyle = {
   fontWeight: 600,
 };
 
-const cascaderStyle = {
-  width: "120px",
-  marginLeft: 8,
-};
+const CascaderStyle = styled(Cascader)`
+  width: 120px;
+  marginleft: 8;
+`;
 
+function CascaderDropdown(menus) {
+  return <CascaderDropdownStyle>{menus}</CascaderDropdownStyle>;
+}
+
+const CascaderDropdownStyle = styled.div`
+  background-color: ${({ theme }) => theme.colors.items};
+  color: ${({ theme }) => theme.colors.text};
+  padding: 0;
+`;
+/*
+const CascaderDisplay = (labels, selectedOptions) => (
+  <CascaderDisplayStyle>Please Select</CascaderDisplayStyle>
+);
+const CascaderDisplayStyle = styled.div`
+  background-color: ${({ theme }) => theme.colors.items};
+  color: ${({ theme }) => theme.colors.text};
+  padding: 0;
+`;
+*/
 const iconStyle = {
   fontSize: 28,
   color: "#F0BF39",
@@ -319,13 +386,14 @@ const iconStyle = {
 };
 
 const Wrapper = styled.div`
-  background-color: #f0f0f0;
+  background-color: ${({ theme }) => theme.colors.background};
+
   height: calc(100vh - 70px);
   overflow: auto;
 `;
 
 const Header = styled.div`
-  background-color: #f0f0f0;
+  background-color: ${({ theme }) => theme.colors.background};
   width: 100%;
   height: 68px;
   display: flex;
@@ -344,10 +412,15 @@ const HeaderButtonWrapper = styled.div`
 `;
 
 const HeaderBottomOutline = styled.div`
-  background-color: #d9d9d9;
+  background-color: ${({ theme }) => theme.colors.headerBottom};
   width: 100%;
   height: 2px;
   display: flex;
 `;
 
+const ThemedInput = styled.input`
+  width: calc(100% - 55px);
+  background-color: ${({ theme }) => theme.colors.items};
+  border-color: ${({ theme }) => theme.colors.items};
+`;
 export default observer(MainApp);

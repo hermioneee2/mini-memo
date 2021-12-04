@@ -1,6 +1,6 @@
 import React from "react";
 import { FolderFilled, ArrowLeftOutlined } from "@ant-design/icons";
-
+import styled from "styled-components";
 const ListDirItemPresenter = ({
   name,
   time,
@@ -11,13 +11,13 @@ const ListDirItemPresenter = ({
 }) => {
   return time != null ? (
     <div style={listItemWrapperStyle}>
-      <div style={listItemStyle} onClick={() => changeHandler(name)}>
+      <ListItemStyle onClick={() => changeHandler(name)}>
         <div style={titleStyle}>
-          <FolderFilled style={iconStyle} />
-          {name}
+          <FolderIconStyle />
+          <FolderNameStyle>{name}</FolderNameStyle>
         </div>
         <div style={timeStyle}>{time}</div>
-      </div>
+      </ListItemStyle>
       {showCheckbox && (
         <input
           type="checkbox"
@@ -40,22 +40,26 @@ const listItemWrapperStyle = {
   alignContent: "center",
 };
 
-const listItemStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignContent: "center",
-  height: "30px",
-  width: "80vw",
-  fontSize: "16px",
-  cursor: "pointer",
-  fontFamily: "Open Sans",
-  borderBottom: "1px solid #DFDFDF",
-};
+const ListItemStyle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  height: 30px;
+  width: 80vw;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: Open Sans;
+  border-bottom: 1px solid #dfdfdf;
+  color: ${({ theme }) => theme.colors.text};
+`;
 
-const iconStyle = {
-  marginLeft: "20px",
-  marginRight: "8px",
-};
+const FolderIconStyle = styled(FolderFilled)`
+  margin-left: 20px;
+  margin-right: 8px;
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.text};
+  position: relative;
+`;
 
 const titleStyle = {
   position: "relative",
@@ -87,5 +91,10 @@ const checkboxStyle = {
   width: "15px",
   height: "15px",
 };
+
+const FolderNameStyle = styled.span`
+  font-family: Open Sans;
+  font-weight: 600;
+`;
 
 export default ListDirItemPresenter;

@@ -1,7 +1,6 @@
 import React from "react";
 import { Breadcrumb } from "antd";
-import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
-
+import styled from "styled-components";
 const BreadCrumbPresenter = (cwd) => {
   let hierarchy = [];
   let folder_title = "";
@@ -26,46 +25,49 @@ const BreadCrumbPresenter = (cwd) => {
   }
 
   const hierarchy_render = hierarchy.map((pt) => (
-    <Breadcrumb.Item>{pt}</Breadcrumb.Item>
+    <WrapperBreadcrumbItem>{pt}</WrapperBreadcrumbItem>
   ));
   return (
-    <div style={BreadcrumbBox_style}>
-      <Breadcrumb style={Breadcrumb_style}>{hierarchy_render}</Breadcrumb>
-      <div
-        style={{
-          padding: "6px 0px 6px",
-          fontSize: 18,
-          fontFamily: "Open Sans",
-          fontWeight: "700",
-        }}
-      >
-        {folder_title}
-      </div>
-    </div>
+    <BreadcrumbBox>
+      <WrapperBreadcrumb>{hierarchy_render}</WrapperBreadcrumb>
+      <WrapperFolderTitle>{folder_title}</WrapperFolderTitle>
+    </BreadcrumbBox>
   );
 };
 
-const BreadcrumbBox_style = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  padding: "16px 24px",
-  margin: "auto",
-  position: "relative",
-  width: "80vw",
-  height: "90px",
-  top: "30px",
-  bottom: "30px",
-  backgroundColor: "#FAFAFA",
-  borderRadius: "10px",
-};
-const Breadcrumb_style = {
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  padding: "0px",
-  fontFamily: "Open Sans",
-  fontSize: "13px",
-};
+const BreadcrumbBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px 24px;
+  margin: auto;
+  position: relative;
+  width: 80vw;
+  height: 90px;
+  top: 30px;
+  bottom: 30px;
+  background-color: ${({ theme }) => theme.colors.items};
+  border-radius: 10px;
+`;
+const WrapperBreadcrumb = styled(Breadcrumb)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  font-family: Open Sans;
+  font-size: 13px;
+`;
+
+const WrapperBreadcrumbItem = styled(Breadcrumb.Item)`
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const WrapperFolderTitle = styled.div`
+  color: ${({ theme }) => theme.colors.text};
+  padding: 6px 0px 6px;
+  font-size: 18;
+  font-family: Open Sans;
+  font-weight: 700;
+`;
 
 export default BreadCrumbPresenter;
