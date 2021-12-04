@@ -65,7 +65,7 @@ const WrapperBreadcrumbItem = styled(Breadcrumb.Item)`
 const WrapperFolderTitle = styled.div`
   color: ${({ theme }) => theme.colors.text};
   padding: 6px 0px 6px;
-  font-size: 18;
+  font-size: 18px;
   font-family: Open Sans;
   font-weight: 700;
 `;

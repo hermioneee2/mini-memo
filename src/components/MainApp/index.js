@@ -5,7 +5,15 @@ import {
   SettingOutlined,
   FolderAddOutlined,
 } from "@ant-design/icons";
-import { Affix, Dropdown, Menu, Button, Cascader, Input } from "antd";
+import {
+  Affix,
+  Dropdown,
+  Menu,
+  Button,
+  Cascader,
+  Input,
+  ConfigProvider,
+} from "antd";
 import { React, useState, useRef, useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import ListIt from "../ListIt";
@@ -98,7 +106,7 @@ const MainApp = () => {
   };
 
   const deleteDropdown = (
-    <Menu theme={dataManage.themeString}>
+    <Menu style={{ backgroundColor: dataManage.theme.colors.items }}>
       <Menu.Item
         key="0"
         style={{ color: "red" }}
@@ -150,8 +158,8 @@ const MainApp = () => {
     dataManage.setDataList();
   };
   const dirAddDropdown = (
-    <Menu theme={dataManage.themeString}>
-      <Menu.Item>
+    <Menu style={{ padding: 0 }}>
+      <Menu.Item style={{ padding: 0 }}>
         <Input.Group compact>
           <ThemedInput
             placeholder="New Folder Name"
@@ -162,6 +170,8 @@ const MainApp = () => {
           <Button
             type="primary"
             style={{
+              border: 0,
+              right: "-1px",
               backgroundColor: "#F0BF39",
               borderColor: "#F0BF39",
               fontFamily: "Open Sans",
@@ -216,8 +226,16 @@ const MainApp = () => {
   };
 
   const settingsDropdown = (
-    <Menu>
+    <Menu
+      style={{
+        backgroundColor: dataManage.theme.colors.items,
+        //color: dataManage.theme.colors.text,
+      }}
+    >
       <Menu.Item
+        style={{
+          color: dataManage.theme.colors.text,
+        }}
         onClick={() => {
           dataManage.setLightTheme();
 
@@ -256,12 +274,13 @@ const MainApp = () => {
             <HeaderButtonWrapper>
               <div>
                 <span style={sortStyle}>Sort By </span>
+
                 <CascaderStyle
                   options={options}
                   onChange={(value) => sorting(value)}
                   expandTrigger="hover"
                   placeholder="Please select"
-                  //dropdownRender={CascaderDropdown}
+                  dropdownRender={CascaderDropdown}
                   //displayRender={CascaderDisplay}
                 />
               </div>
@@ -366,8 +385,11 @@ function CascaderDropdown(menus) {
 const CascaderDropdownStyle = styled.div`
   background-color: ${({ theme }) => theme.colors.items};
   color: ${({ theme }) => theme.colors.text};
-  padding: 0;
+  padding: 0px 0px 0px 0px;
+  height: 70px;
+  margin: -4px;
 `;
+
 /*
 const CascaderDisplay = (labels, selectedOptions) => (
   <CascaderDisplayStyle>Please Select</CascaderDisplayStyle>
@@ -419,7 +441,10 @@ const HeaderBottomOutline = styled.div`
 `;
 
 const ThemedInput = styled.input`
+  border: 0;
+  height: 32px;
   width: calc(100% - 55px);
+
   background-color: ${({ theme }) => theme.colors.items};
   border-color: ${({ theme }) => theme.colors.items};
 `;
