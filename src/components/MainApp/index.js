@@ -5,15 +5,7 @@ import {
   SettingOutlined,
   FolderAddOutlined,
 } from "@ant-design/icons";
-import {
-  Affix,
-  Dropdown,
-  Menu,
-  Button,
-  Cascader,
-  Input,
-  ConfigProvider,
-} from "antd";
+import { Affix, Dropdown, Menu, Button, Cascader, Input } from "antd";
 import { React, useState, useRef, useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import ListIt from "../ListIt";
@@ -28,7 +20,6 @@ import { Provider, observer } from "mobx-react";
 import ControlEditor from "../../stores/controlEditor";
 import DataManage from "../../stores/dataManage";
 import UrlStore from "../../stores/urlStore";
-import { lightTheme, darkTheme } from "../../styles/theme";
 
 const controlEditor = new ControlEditor();
 const dataManage = new DataManage();
@@ -374,6 +365,13 @@ const sortStyle = {
 };
 
 const CascaderStyle = styled(Cascader)`
+  .ant-select-selector {
+    background-color: ${({ theme }) => theme.colors.items} !important;
+    border: 1px solid ${({ theme }) => theme.colors.headerBottom} !important;
+  }
+  .ant-select-arrow {
+    color: #bfbfbf;
+  }
   width: 120px;
   marginleft: 8;
 `;
