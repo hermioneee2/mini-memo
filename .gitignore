@@ -1,18 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules/*
-!/node_modules/quill
-/node_modules/quill/*
-!node_modules/quill/dist
-/node_modules/quill/dist/*
-/node_modules/quill/dist/quill.bubble.css
-/node_modules/quill/dist/quill.core.css
-/node_modules/quill/dist/quill.core.js
-/node_modules/quill/dist/quill.min.js
-/node_modules/quill/dist/quill.min.js.map
-/node_modules/quill/dist/quill.snow.css
-!/node_modules/quill/dist/quill.js
+/node_modules
 
 
 /.pnp
