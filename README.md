@@ -5,6 +5,8 @@
 
 ## 기능 소개
 
+![image](https://user-images.githubusercontent.com/78776430/144853832-c9692dec-0a9a-47c7-ad05-86d235d0167b.png)
+
 - 필수 기능
   - 메모 생성 / 수정 / 삭제
   - 메모 편집 및 텍스트 속성 변경(볼드, 밑줄, 색상 등)
