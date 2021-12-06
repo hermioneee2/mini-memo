@@ -5,7 +5,6 @@ import styled from "styled-components";
 const ListItemPresenter = ({
   storeEditor,
   title,
-  content,
   time,
   showCheckbox,
   bchecked,

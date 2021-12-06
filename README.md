@@ -66,29 +66,32 @@
 
 ![image](https://user-images.githubusercontent.com/78776430/144843120-6c31ee25-5c46-4966-8417-6b98e325427d.png)
 
-# 메모 정렬(시간순 / 제목순)
+## 메모 정렬(시간순 / 제목순)
 
 - 헤더바에서 Sort By의 캐스케이드 방식을 통해 메모를 정렬
 - 시간순과 제목순에서 각각 오름차순과 내림차순을 선택
 - 메모의 경우 최종 수정 시간, 폴더의 경우 생성 시간을 기준으로 함
   ![image](https://user-images.githubusercontent.com/78776430/144840395-9a68d7d3-2ae6-4bed-b0b8-c5b69a8626fa.png)
 
-# 폴더를 이용한 메모 분류
+## 폴더를 이용한 메모 분류
 
 - 헤더바 상단의 두번째 아이콘을 클릭하여 폴더의 이름을 입력하고 현 위치에 폴더를 생성
 - 메모 삭제 방식과 동일하게 휴지통 아이콘으로 폴더를 선택하여 삭제할 수 있음
 - 현재 폴더명과 위치는 브레드크럼 방식으로 헤더바 아래쪽에 보여짐
 
-# 스킨설정(Dark / Light)
+## 스킨설정(Dark / Light)
 
 - 헤더바 상단의 마지막 아이콘인 설정 버튼을 클릭하여 Dark theme과 Light theme을 선택
   ![image](https://user-images.githubusercontent.com/78776430/144841070-ef18b49c-8cd6-4fc5-a3d4-08a1eb365530.PNG)
 
-# Authors
+## Authors
 
 심유성(Yusung Sim): https://github.com/yusungsim
+
 이동규(Donggyu Lee): https://github.com/qwqw3535
+
 이혜림(Hyerim Lee): https://github.com/hermioneee2
+
 김윤(Yun Kim): https://github.com/YunKim-kaist
 
 # Dependency
