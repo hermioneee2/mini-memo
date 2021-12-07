@@ -111,9 +111,9 @@
 자세한 내용은 package.json을 참조
 
 ## @systemop/localstorage-fs
-
 - 프로젝트의 데이터 관리를 위해 직접 만든 library(by Yusung Sim)
-- npm에 올라가 있어 npm install @systemop/localstorage-fs로 바로 설치 가능
+- npm 주소: https://www.npmjs.com/package/@systemop/localstorage-fs
+- 라이브러리 인터페이스 설계 문서 https://drive.google.com/file/d/1t1MPm0PTJocIzfeCcEP03TpXj2aEKe7c/view
 
 # License
 
