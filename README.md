@@ -3,19 +3,10 @@
 - Mini Memo는 편리하고 예쁜 웹 기반 메모장입니다.
 - KAIST 2021 Fall CS420 수업의 과제로 제작되었습니다.
 
-## 기능 소개
 
-![image](https://user-images.githubusercontent.com/78776430/144853832-c9692dec-0a9a-47c7-ad05-86d235d0167b.png)
 
-- 필수 기능
-  - 메모 생성 / 수정 / 삭제
-  - 메모 편집 및 텍스트 속성 변경(볼드, 밑줄, 색상 등)
-  - 메모 나열(목록형 / 포스트잇형)
-  - API 연동: URL 단축
-- 추가 기능
-  - 메모 정렬(시간순 / 제목순)
-  - 폴더를 이용한 메모 분류
-  - 스킨설정(Dark / Light)
+![image](https://user-images.githubusercontent.com/78776430/144987885-7efc61cf-b193-4f9b-8bfa-35737217d940.png)
+
 
 # Getting Started
 
@@ -34,6 +25,19 @@
 - npm start 후 에러가 뜬다면 F12(개발자 도구) - Application - localStorage를 삭제해보세요!
 
 # Usage
+## 기능 소개
+
+![image](https://user-images.githubusercontent.com/78776430/144853832-c9692dec-0a9a-47c7-ad05-86d235d0167b.png)
+
+- 필수 기능
+  - 메모 생성 / 수정 / 삭제
+  - 메모 편집 및 텍스트 속성 변경(볼드, 밑줄, 색상 등)
+  - 메모 나열(목록형 / 포스트잇형)
+  - API 연동: URL 단축
+- 추가 기능
+  - 메모 정렬(시간순 / 제목순)
+  - 폴더를 이용한 메모 분류
+  - 스킨설정(Dark / Light)
 
 - 상세한 사용 방법 및 각 component에 대한 설명은 다음을 참조.
   (https://github.com/hermioneee2/mini-memo/wiki)
